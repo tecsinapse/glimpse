@@ -1,7 +1,21 @@
 package br.com.tecsinapse.glimpse.server;
 
-public class Server {
+import java.util.List;
+import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
+
+public class Server {
+	
+	private ScriptRunner scriptRunner;
+	
+	private ConcurrentMap<String, Job> jobs = new ConcurrentHashMap<String, Job>();
+	
+	public Server(ScriptRunner scriptRunner) {
+		this.scriptRunner = scriptRunner;
+	}
+	
 	/**
 	 * Starts a conversation between a client and the server.
 	 * 
@@ -10,7 +24,11 @@ public class Server {
 	 * @return the id assigned for the new conversation
 	 */
 	public String start(String script) {
-		throw new UnsupportedOperationException();
+		String id = UUID.randomUUID().toString();
+		Job job = new Job(script, scriptRunner);
+		jobs.putIfAbsent(id, job);
+		job.start();
+		return id;
 	}
 
 	/**
@@ -22,7 +40,8 @@ public class Server {
 	 *            the id of the conversation
 	 */
 	public void cancel(String id) {
-		throw new UnsupportedOperationException();
+		Job job = jobs.get(id);
+		job.cancel();
 	}
 
 	/**
@@ -32,8 +51,9 @@ public class Server {
 	 *            the id assigned for the conversation
 	 * @return output produced by the server since latest poll
 	 */
-	public String poll(String id) {
-		throw new UnsupportedOperationException();
+	public List<ServerPoll> poll(String id) {
+		Job job = jobs.get(id);
+		return job.poll();
 	}
 
 }

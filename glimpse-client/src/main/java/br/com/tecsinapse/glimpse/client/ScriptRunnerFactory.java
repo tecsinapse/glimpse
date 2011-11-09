@@ -1,5 +1,6 @@
 package br.com.tecsinapse.glimpse.client;
 
+
 public class ScriptRunnerFactory {
 
 	private ScriptRunnerFactory() {
