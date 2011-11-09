@@ -1,14 +1,17 @@
 package br.com.tecsinapse.glimpse.server;
 
 import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 
 public class DefaultMonitor implements Monitor {
 
 	private BlockingQueue<ServerPoll> queue;
+	private AtomicBoolean canceled;
 	
-	public DefaultMonitor(BlockingQueue<ServerPoll> queue) {
+	public DefaultMonitor(BlockingQueue<ServerPoll> queue, AtomicBoolean canceled) {
 		this.queue = queue;
+		this.canceled = canceled;
 	}
 
 	public void begin(int steps) {
@@ -28,7 +31,7 @@ public class DefaultMonitor implements Monitor {
 	}
 
 	public boolean isCanceled() {
-		throw new UnsupportedOperationException();
+		return canceled.get();
 	}
 
 	public void print(String output) {

@@ -5,17 +5,16 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
-
 public class Server {
-	
+
 	private ScriptRunner scriptRunner;
-	
+
 	private ConcurrentMap<String, Job> jobs = new ConcurrentHashMap<String, Job>();
-	
+
 	public Server(ScriptRunner scriptRunner) {
 		this.scriptRunner = scriptRunner;
 	}
-	
+
 	/**
 	 * Starts a conversation between a client and the server.
 	 * 
@@ -53,7 +52,12 @@ public class Server {
 	 */
 	public List<ServerPoll> poll(String id) {
 		Job job = jobs.get(id);
-		return job.poll();
+		if (!job.isRunning()) {
+			jobs.remove(id);
+			return job.pollEverything();
+		} else {
+			return job.poll();
+		}
 	}
 
 }

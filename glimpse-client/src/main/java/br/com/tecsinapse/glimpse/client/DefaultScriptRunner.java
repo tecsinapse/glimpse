@@ -19,23 +19,22 @@ public class DefaultScriptRunner implements ScriptRunner {
 				while (connector.isOpen()) {
 					if (monitor.isCanceled()) {
 						connector.cancel(id);
+					}
+					List<ClientPoll> polls = connector.poll(id);
+					if (polls.isEmpty()) {
+						try {
+							Thread.sleep(1000);
+						} catch (InterruptedException e) {
+							throw new IllegalStateException(e);
+						}
 					} else {
-						List<ClientPoll> polls = connector.poll(id);
-						if (polls.isEmpty()) {
-							try {
-								Thread.sleep(1000);
-							} catch (InterruptedException e) {
-								throw new IllegalStateException(e);
-							}
-						} else {
-							for (ClientPoll clientPoll : polls) {
-								clientPoll.apply(monitor);
-							}
+						for (ClientPoll clientPoll : polls) {
+							clientPoll.apply(monitor);
 						}
 					}
 				}
 			}
-		});
+		}, "Client");
 		thread.start();
 	}
 
