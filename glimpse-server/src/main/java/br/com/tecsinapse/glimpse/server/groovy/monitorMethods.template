@@ -1,0 +1,19 @@
+def begin(int steps) {
+	monitor.begin(steps)
+}
+
+def worked(int workedSteps) {
+	monitor.worked(workedSteps)
+}
+
+def isCanceled() {
+    monitor.isCanceled()
+}
+
+void print(Object output) {
+	monitor.print(output)
+}
+
+void println(Object output) {
+   monitor.println(output)
+}

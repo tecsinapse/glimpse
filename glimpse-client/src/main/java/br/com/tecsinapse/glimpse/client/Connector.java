@@ -6,7 +6,7 @@ public interface Connector {
 
 	String start(String script);
 
-	boolean isOpen();
+	boolean isOpen(String id);
 	
 	List<ClientPoll> poll(String id);
 

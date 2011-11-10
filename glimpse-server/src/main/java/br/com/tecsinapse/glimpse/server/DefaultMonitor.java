@@ -34,12 +34,22 @@ public class DefaultMonitor implements Monitor {
 		return canceled.get();
 	}
 
-	public void print(String output) {
+	public void print(Object output) {
 		try {
-			queue.put(new StreamUpdatePoll(output));
+			String text = nullSafeToString(output);
+			queue.put(new StreamUpdatePoll(text));
 		} catch (InterruptedException e) {
 			throw new IllegalStateException(e);
 		}
+	}
+
+	private String nullSafeToString(Object output) {
+		return output == null ? "null" : output.toString();
+	}
+	
+	public void println(Object output) {
+		String text = nullSafeToString(output);
+		print(text + "\n");
 	}
 
 }

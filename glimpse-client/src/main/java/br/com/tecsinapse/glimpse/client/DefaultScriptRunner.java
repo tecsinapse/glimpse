@@ -16,7 +16,7 @@ public class DefaultScriptRunner implements ScriptRunner {
 			public void run() {
 				String id = connector.start(script);
 
-				while (connector.isOpen()) {
+				while (connector.isOpen(id)) {
 					if (monitor.isCanceled()) {
 						connector.cancel(id);
 					}
