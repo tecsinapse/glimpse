@@ -10,10 +10,6 @@ def isCanceled() {
     monitor.isCanceled()
 }
 
-void print(Object output) {
-	monitor.print(output)
-}
-
 void println(Object output) {
    monitor.println(output)
 }

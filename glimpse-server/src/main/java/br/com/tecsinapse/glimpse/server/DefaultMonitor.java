@@ -34,7 +34,7 @@ public class DefaultMonitor implements Monitor {
 		return canceled.get();
 	}
 
-	public void print(Object output) {
+	public void println(Object output) {
 		try {
 			String text = nullSafeToString(output);
 			queue.put(new StreamUpdatePoll(text));
@@ -45,11 +45,6 @@ public class DefaultMonitor implements Monitor {
 
 	private String nullSafeToString(Object output) {
 		return output == null ? "null" : output.toString();
-	}
-	
-	public void println(Object output) {
-		String text = nullSafeToString(output);
-		print(text + "\n");
 	}
 
 }

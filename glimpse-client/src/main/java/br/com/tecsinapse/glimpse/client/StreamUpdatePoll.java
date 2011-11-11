@@ -9,7 +9,7 @@ public class StreamUpdatePoll implements ClientPoll {
 	}
 	
 	public void apply(Monitor monitor) {
-		monitor.getStream().print(update);
+		monitor.getStream().println(update);
 	}
 
 }

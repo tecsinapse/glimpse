@@ -1,6 +1,5 @@
 package br.com.tecsinapse.glimpse.server.groovy;
 
-import groovy.lang.GroovyRuntimeException;
 import groovy.lang.GroovyShell;
 import groovy.lang.Script;
 
@@ -8,8 +7,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
-
-import org.codehaus.groovy.ast.ASTNode;
 
 import br.com.tecsinapse.glimpse.server.Monitor;
 import br.com.tecsinapse.glimpse.server.ScriptRunner;
@@ -25,6 +22,10 @@ public class GroovyScriptRunner implements ScriptRunner {
 	private GroovyShell shell = new GroovyShell();
 
 	private String monitorMethodsScript = null;
+	
+	public void setVarProducer(VarProducer varProducer) {
+		this.varProducer = varProducer;
+	}
 
 	public GroovyScriptRunner() {
 		try {
