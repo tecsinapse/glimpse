@@ -1,15 +1,14 @@
 package br.com.tecsinapse.glimpse.client;
 
-import java.io.PrintStream;
 
 public interface Monitor {
 
 	/**
-	 * Provides a PrintStream for the server output.
+	 * Prints an object to the output.
 	 * 
-	 * @return the PrintStream
+	 * o the object to be printed
 	 */
-	PrintStream getStream();
+	void println(Object o);
 
 	/**
 	 * Indicates that a long process is going to take place. It must tell the

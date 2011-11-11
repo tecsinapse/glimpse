@@ -1,5 +1,7 @@
 package br.com.tecsinapse.glimpse.client;
 
+import br.com.tecsinapse.glimpse.client.http.HttpConnector;
+
 
 public class ScriptRunnerFactory {
 
@@ -15,7 +17,7 @@ public class ScriptRunnerFactory {
 	 * @return a new ScriptRunner
 	 */
 	public static ScriptRunner create(String url, String username, String password) {
-		throw new UnsupportedOperationException();
+		return new DefaultScriptRunner(new HttpConnector(url));
 	}
 	
 }
