@@ -17,7 +17,7 @@ public class ScriptRunnerFactory {
 	 * @return a new ScriptRunner
 	 */
 	public static ScriptRunner create(String url, String username, String password) {
-		return new DefaultScriptRunner(new HttpConnector(url));
+		return new DefaultScriptRunner(new HttpConnector(url, username, password));
 	}
 	
 }

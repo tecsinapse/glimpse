@@ -1,16 +1,8 @@
 package br.com.tecsinapse.glimpse.client.http;
 
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
-import org.apache.commons.httpclient.HttpClient;
-import org.apache.commons.httpclient.HttpException;
-import org.apache.commons.httpclient.HttpStatus;
-import org.apache.commons.httpclient.methods.PostMethod;
-import org.apache.commons.httpclient.methods.StringRequestEntity;
 
 import br.com.tecsinapse.glimpse.client.CancelPoll;
 import br.com.tecsinapse.glimpse.client.ClientPoll;
@@ -23,8 +15,8 @@ public class HttpConnector implements Connector {
 
 	private Set<String> ids = new HashSet<String>();
 
-	public HttpConnector(String url) {
-		this.invoker = new HttpInvoker(url);
+	public HttpConnector(String url, String username, String password) {
+		this.invoker = new HttpInvoker(url, username, password);
 	}
 
 	public String start(String script) {

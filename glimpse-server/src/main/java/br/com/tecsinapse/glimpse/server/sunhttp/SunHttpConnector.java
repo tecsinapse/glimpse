@@ -3,8 +3,11 @@ package br.com.tecsinapse.glimpse.server.sunhttp;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 
+import br.com.tecsinapse.glimpse.server.Authenticator;
+import br.com.tecsinapse.glimpse.server.ByPassAuthenticator;
 import br.com.tecsinapse.glimpse.server.Server;
 
+import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
 
 public class SunHttpConnector {
@@ -13,10 +16,18 @@ public class SunHttpConnector {
 	
 	private HttpServer httpServer;
 	
-	private int port = 8080;
+	private int port;
 	
-	public SunHttpConnector(Server server) {
+	private Authenticator authenticator;
+	
+	public SunHttpConnector(Server server, int port) {
+		this(server, port, new ByPassAuthenticator());
+	}
+	
+	public SunHttpConnector(Server server, int port, Authenticator authenticator) {
 		this.server = server;
+		this.port = port;
+		this.authenticator = authenticator;
 	}
 	
 	public boolean isStarted() {
@@ -26,13 +37,14 @@ public class SunHttpConnector {
 	public void start() {
 		try {
 			InetSocketAddress address = new InetSocketAddress(port);
+			SunHttpAuthenticator sha = new SunHttpAuthenticator(authenticator);
 			httpServer = httpServer.create(address, -1);
-			StartHandler startHandler = new StartHandler(server);
-			CancelHandler cancelHandler = new CancelHandler(server);
-			PollHandler pollHandler = new PollHandler(server);
-			httpServer.createContext("/start", startHandler);
-		    httpServer.createContext("/cancel", cancelHandler);
-		    httpServer.createContext("/poll", pollHandler);
+			HttpHandler startHandler = new AuthenticationHandler(new StartHandler(server));
+			HttpHandler cancelHandler = new AuthenticationHandler(new CancelHandler(server));
+			HttpHandler pollHandler = new AuthenticationHandler(new PollHandler(server));
+			httpServer.createContext("/start", startHandler).setAuthenticator(sha);
+		    httpServer.createContext("/cancel", cancelHandler).setAuthenticator(sha);
+		    httpServer.createContext("/poll", pollHandler).setAuthenticator(sha);
 			httpServer.start();
 		} catch (IOException e) {
 			throw new IllegalStateException(e);
