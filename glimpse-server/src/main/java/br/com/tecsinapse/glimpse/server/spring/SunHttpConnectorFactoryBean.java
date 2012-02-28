@@ -6,6 +6,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 
 import br.com.tecsinapse.glimpse.server.Authenticator;
+import br.com.tecsinapse.glimpse.server.ByPassAuthenticator;
 import br.com.tecsinapse.glimpse.server.Server;
 import br.com.tecsinapse.glimpse.server.groovy.GroovyScriptRunner;
 import br.com.tecsinapse.glimpse.server.sunhttp.SunHttpConnector;
@@ -15,7 +16,7 @@ public class SunHttpConnectorFactoryBean extends
 		ApplicationContextAware {
 
 	private int port;
-	private Authenticator authenticator;
+	private Authenticator authenticator = new ByPassAuthenticator();
 	private ApplicationContext applicationContext;
 	
 	public void setPort(int port) {
