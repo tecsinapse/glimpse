@@ -67,9 +67,15 @@ public class SunHttpConnector {
 			HttpHandler startHandler = new AuthenticationHandler(new StartHandler(server));
 			HttpHandler cancelHandler = new AuthenticationHandler(new CancelHandler(server));
 			HttpHandler pollHandler = new AuthenticationHandler(new PollHandler(server));
+			HttpHandler createReplHandler = new AuthenticationHandler(new CreateReplHandler(server));
+			HttpHandler evalHandler = new AuthenticationHandler(new EvalHandler(server));
+			HttpHandler closeReplHandler = new AuthenticationHandler(new CloseReplHandler(server));
 			httpServer.createContext("/start", startHandler).setAuthenticator(sha);
 		    httpServer.createContext("/cancel", cancelHandler).setAuthenticator(sha);
 		    httpServer.createContext("/poll", pollHandler).setAuthenticator(sha);
+		    httpServer.createContext("/createRepl", createReplHandler).setAuthenticator(sha);
+		    httpServer.createContext("/eval", evalHandler).setAuthenticator(sha);
+		    httpServer.createContext("/closeRepl", closeReplHandler).setAuthenticator(sha);
 		    if (this.logger.isInfoEnabled()) {
 				this.logger.info("Starting Glimpse HttpServer at address " + address);
 			}

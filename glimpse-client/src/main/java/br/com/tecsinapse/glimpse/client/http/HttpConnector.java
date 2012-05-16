@@ -61,15 +61,15 @@ public class HttpConnector implements Connector {
 	}
 
 	public String createRepl() {
-		throw new UnsupportedOperationException();
+		return invoker.invoke("/createRepl", "");
 	}
 
 	public String eval(String replId, String script) {
-		throw new UnsupportedOperationException();
+		return invoker.invoke("/eval", replId + "\n" + script);
 	}
 
 	public void closeRepl(String replId) {
-		throw new UnsupportedOperationException();
+		invoker.invoke("/closeRepl", replId);
 	}
 
 }
