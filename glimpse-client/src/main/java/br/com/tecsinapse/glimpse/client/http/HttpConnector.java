@@ -60,4 +60,16 @@ public class HttpConnector implements Connector {
 		invoker.invoke("/cancel", id);
 	}
 
+	public String createRepl() {
+		throw new UnsupportedOperationException();
+	}
+
+	public String eval(String replId, String script) {
+		throw new UnsupportedOperationException();
+	}
+
+	public void closeRepl(String replId) {
+		throw new UnsupportedOperationException();
+	}
+
 }

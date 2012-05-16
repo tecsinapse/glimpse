@@ -16,10 +16,10 @@
 
 package br.com.tecsinapse.glimpse.server.groovy;
 
-import groovy.lang.Script;
+import groovy.lang.GroovyObject;
 
 public interface VarProducer {
 
-	void fill(Script groovyScript);
+	void fill(GroovyObject groovyScript);
 
 }

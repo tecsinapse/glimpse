@@ -25,10 +25,15 @@ public class Server {
 
 	private ScriptRunner scriptRunner;
 
+	private ReplManager replManager;
+
 	private ConcurrentMap<String, Job> jobs = new ConcurrentHashMap<String, Job>();
 
-	public Server(ScriptRunner scriptRunner) {
+	private ConcurrentMap<String, Repl> repls = new ConcurrentHashMap<String, Repl>();
+
+	public Server(ScriptRunner scriptRunner, ReplManager replManager) {
 		this.scriptRunner = scriptRunner;
+		this.replManager = replManager;
 	}
 
 	/**
@@ -74,6 +79,24 @@ public class Server {
 		} else {
 			return job.poll();
 		}
+	}
+
+	public String createRepl() {
+		String id = UUID.randomUUID().toString();
+		Repl repl = replManager.createRepl();
+		repls.put(id, repl);
+		return id;
+	}
+
+	public String eval(String replId, String expression) {
+		Repl repl = repls.get(replId);
+		return repl.eval(expression);
+	}
+
+	public void closeRepl(String replId) {
+		Repl repl = repls.get(replId);
+		repl.close();
+		repls.remove(replId);
 	}
 
 }

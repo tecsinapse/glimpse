@@ -16,7 +16,7 @@
 
 package br.com.tecsinapse.glimpse.server.spring;
 
-import groovy.lang.Script;
+import groovy.lang.GroovyObject;
 
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanDefinition;
@@ -31,7 +31,7 @@ public class SpringVarProducer implements VarProducer, ApplicationContextAware {
 
 	private ConfigurableApplicationContext applicationContext;
 	
-	public void fill(Script groovyScript) {
+	public void fill(GroovyObject groovyScript) {
 		ConfigurableBeanFactory beanFactory = applicationContext.getBeanFactory();
 		groovyScript.setProperty("applicationContext", applicationContext);
 		String[] beanNames = applicationContext.getBeanDefinitionNames();
