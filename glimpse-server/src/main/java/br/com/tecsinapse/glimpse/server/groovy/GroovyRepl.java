@@ -14,7 +14,10 @@ public class GroovyRepl implements Repl {
 	public String eval(String expression) {
 		try {
 			Object result = groovyShell.evaluate(expression);
-			return result.toString();
+			if (result == null)
+				return "null";
+			else
+				return result.toString();
 		} catch (RuntimeException e) {
 			return e.getMessage();
 		}
