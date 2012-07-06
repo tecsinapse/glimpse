@@ -23,6 +23,8 @@ import java.util.concurrent.TimeUnit;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
+import com.google.common.cache.RemovalListener;
+import com.google.common.cache.RemovalNotification;
 
 public class Server {
 
@@ -41,7 +43,13 @@ public class Server {
 				.expireAfterAccess(30, TimeUnit.MINUTES).build();
 		jobs = jobCache.asMap();
 		Cache<String, Repl> replCache = CacheBuilder.newBuilder()
-				.expireAfterAccess(30, TimeUnit.MINUTES).build();
+				.expireAfterAccess(30, TimeUnit.MINUTES)
+				.removalListener(new RemovalListener<String, Repl>() {
+
+					public void onRemoval(RemovalNotification<String, Repl> not) {
+						not.getValue().close();
+					}
+				}).build();
 		repls = replCache.asMap();
 	}
 
