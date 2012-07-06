@@ -18,8 +18,11 @@ package br.com.tecsinapse.glimpse.server;
 
 import java.util.List;
 import java.util.UUID;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
+import java.util.concurrent.TimeUnit;
+
+import com.google.common.cache.Cache;
+import com.google.common.cache.CacheBuilder;
 
 public class Server {
 
@@ -27,13 +30,19 @@ public class Server {
 
 	private ReplManager replManager;
 
-	private ConcurrentMap<String, Job> jobs = new ConcurrentHashMap<String, Job>();
+	private ConcurrentMap<String, Job> jobs;
 
-	private ConcurrentMap<String, Repl> repls = new ConcurrentHashMap<String, Repl>();
+	private ConcurrentMap<String, Repl> repls;
 
 	public Server(ScriptRunner scriptRunner, ReplManager replManager) {
 		this.scriptRunner = scriptRunner;
 		this.replManager = replManager;
+		Cache<String, Job> jobCache = CacheBuilder.newBuilder()
+				.expireAfterAccess(30, TimeUnit.MINUTES).build();
+		jobs = jobCache.asMap();
+		Cache<String, Repl> replCache = CacheBuilder.newBuilder()
+				.expireAfterAccess(30, TimeUnit.MINUTES).build();
+		repls = replCache.asMap();
 	}
 
 	/**
@@ -90,7 +99,10 @@ public class Server {
 
 	public String eval(String replId, String expression) {
 		Repl repl = repls.get(replId);
-		return repl.eval(expression);
+		if (repl == null)
+			return "This repl has expired. Start a new repl to get back to work!";
+		else
+			return repl.eval(expression);
 	}
 
 	public void closeRepl(String replId) {

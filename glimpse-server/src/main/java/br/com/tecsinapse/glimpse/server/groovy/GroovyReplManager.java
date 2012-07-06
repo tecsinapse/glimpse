@@ -1,7 +1,6 @@
 package br.com.tecsinapse.glimpse.server.groovy;
 
 import groovy.lang.GroovyObject;
-import groovy.lang.Script;
 import br.com.tecsinapse.glimpse.server.Repl;
 import br.com.tecsinapse.glimpse.server.ReplManager;
 
