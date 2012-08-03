@@ -23,9 +23,15 @@ public interface Connector {
 	String start(String script);
 
 	boolean isOpen(String id);
-	
+
 	List<ClientPoll> poll(String id);
 
 	void cancel(String id);
-	
+
+	String createRepl();
+
+	String eval(String replId, String script);
+
+	void closeRepl(String replId);
+
 }

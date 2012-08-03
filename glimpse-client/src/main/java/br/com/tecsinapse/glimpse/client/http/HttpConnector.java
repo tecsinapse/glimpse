@@ -60,4 +60,16 @@ public class HttpConnector implements Connector {
 		invoker.invoke("/cancel", id);
 	}
 
+	public String createRepl() {
+		return invoker.invoke("/createRepl", "");
+	}
+
+	public String eval(String replId, String script) {
+		return invoker.invoke("/eval", replId + "\n" + script);
+	}
+
+	public void closeRepl(String replId) {
+		invoker.invoke("/closeRepl", replId);
+	}
+
 }
