@@ -14,12 +14,10 @@
  * limitations under the License.
  */
 
-package br.com.tecsinapse.glimpse.server.groovy;
+package br.com.tecsinapse.glimpse.client;
 
-import groovy.lang.GroovyObject;
+public interface ReplManager {
 
-public interface VarProducer {
-
-	void fill(GroovyObject groovyScript);
+	Repl createRepl();
 
 }

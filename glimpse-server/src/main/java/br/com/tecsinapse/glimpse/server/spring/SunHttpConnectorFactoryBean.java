@@ -24,6 +24,7 @@ import org.springframework.context.ApplicationContextAware;
 import br.com.tecsinapse.glimpse.server.Authenticator;
 import br.com.tecsinapse.glimpse.server.ByPassAuthenticator;
 import br.com.tecsinapse.glimpse.server.Server;
+import br.com.tecsinapse.glimpse.server.groovy.GroovyReplManager;
 import br.com.tecsinapse.glimpse.server.groovy.GroovyScriptRunner;
 import br.com.tecsinapse.glimpse.server.sunhttp.SunHttpConnector;
 
@@ -49,7 +50,9 @@ public class SunHttpConnectorFactoryBean extends
 		SpringVarProducer springVarProducer = new SpringVarProducer();
 		springVarProducer.setApplicationContext(applicationContext);
 		scriptRunner.setVarProducer(springVarProducer);
-		Server server = new Server(scriptRunner);
+		GroovyReplManager replManager = new GroovyReplManager();
+		replManager.setVarProducer(springVarProducer);
+		Server server = new Server(scriptRunner, replManager);
 		SunHttpConnector httpConnector = new SunHttpConnector(server, port, authenticator);
 		return httpConnector;
 	}

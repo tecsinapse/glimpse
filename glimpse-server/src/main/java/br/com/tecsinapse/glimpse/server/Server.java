@@ -18,17 +18,39 @@ package br.com.tecsinapse.glimpse.server;
 
 import java.util.List;
 import java.util.UUID;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
+import java.util.concurrent.TimeUnit;
+
+import com.google.common.cache.Cache;
+import com.google.common.cache.CacheBuilder;
+import com.google.common.cache.RemovalListener;
+import com.google.common.cache.RemovalNotification;
 
 public class Server {
 
 	private ScriptRunner scriptRunner;
 
-	private ConcurrentMap<String, Job> jobs = new ConcurrentHashMap<String, Job>();
+	private ReplManager replManager;
 
-	public Server(ScriptRunner scriptRunner) {
+	private ConcurrentMap<String, Job> jobs;
+
+	private ConcurrentMap<String, Repl> repls;
+
+	public Server(ScriptRunner scriptRunner, ReplManager replManager) {
 		this.scriptRunner = scriptRunner;
+		this.replManager = replManager;
+		Cache<String, Job> jobCache = CacheBuilder.newBuilder()
+				.expireAfterAccess(30, TimeUnit.MINUTES).build();
+		jobs = jobCache.asMap();
+		Cache<String, Repl> replCache = CacheBuilder.newBuilder()
+				.expireAfterAccess(30, TimeUnit.MINUTES)
+				.removalListener(new RemovalListener<String, Repl>() {
+
+					public void onRemoval(RemovalNotification<String, Repl> not) {
+						not.getValue().close();
+					}
+				}).build();
+		repls = replCache.asMap();
 	}
 
 	/**
@@ -74,6 +96,27 @@ public class Server {
 		} else {
 			return job.poll();
 		}
+	}
+
+	public String createRepl() {
+		String id = UUID.randomUUID().toString();
+		Repl repl = replManager.createRepl();
+		repls.put(id, repl);
+		return id;
+	}
+
+	public String eval(String replId, String expression) {
+		Repl repl = repls.get(replId);
+		if (repl == null)
+			return "This repl has expired. Start a new repl to get back to work!";
+		else
+			return repl.eval(expression);
+	}
+
+	public void closeRepl(String replId) {
+		Repl repl = repls.get(replId);
+		repl.close();
+		repls.remove(replId);
 	}
 
 }

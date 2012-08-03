@@ -16,6 +16,7 @@
 
 package br.com.tecsinapse.glimpse.server.groovy;
 
+import groovy.lang.GroovyObject;
 import groovy.lang.GroovyShell;
 import groovy.lang.Script;
 
@@ -31,7 +32,7 @@ public class GroovyScriptRunner implements ScriptRunner {
 
 	private VarProducer varProducer = new VarProducer() {
 
-		public void fill(Script groovyScript) {
+		public void fill(GroovyObject groovyScript) {
 		}
 	};
 

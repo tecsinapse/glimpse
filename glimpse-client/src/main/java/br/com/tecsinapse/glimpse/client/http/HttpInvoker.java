@@ -55,9 +55,11 @@ public class HttpInvoker {
 			int statusCode = client.executeMethod(post);
 			StringBuilder builder = new StringBuilder();
 			InputStream in = post.getResponseBodyAsStream();
-			int c = 0;
-			while ((c = in.read()) != -1) {
-				builder.append((char) c);
+			if (in != null) {
+				int c = 0;
+				while ((c = in.read()) != -1) {
+					builder.append((char) c);
+				}
 			}
 			post.releaseConnection();
 			if (statusCode == HttpStatus.SC_OK) {

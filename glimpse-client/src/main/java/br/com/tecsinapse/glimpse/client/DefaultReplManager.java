@@ -14,12 +14,18 @@
  * limitations under the License.
  */
 
-package br.com.tecsinapse.glimpse.server.groovy;
+package br.com.tecsinapse.glimpse.client;
 
-import groovy.lang.GroovyObject;
+public class DefaultReplManager implements ReplManager {
 
-public interface VarProducer {
+	private Connector connector;
 
-	void fill(GroovyObject groovyScript);
+	public DefaultReplManager(Connector connector) {
+		this.connector = connector;
+	}
+
+	public Repl createRepl() {
+		return new DefaultRepl(connector);
+	}
 
 }
