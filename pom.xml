@@ -24,7 +24,7 @@
 		</pluginRepository>
 	</pluginRepositories>
 	<scm>
-		<developerConnection>scm:git:ssh://git@bitbucket.org/rui_hayashi/glimpse.git</developerConnection>
+		<developerConnection>scm:git:ssh://git@github.com/tecsinapse/glimpse.git</developerConnection>
 	</scm>
 	<distributionManagement>
 		<repository>
