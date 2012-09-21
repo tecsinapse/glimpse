@@ -36,8 +36,8 @@ for script variables (that will be the way to allow Glimpse to be run on CDI, fo
 
 Glimpse was created to be used in Java applications, and we find that Groovy is the easiest dynamic language
 for a Java developer to learn. They basically already know it as almost any Java code is Groovy code also.
-If you don't know anything about Groovy, we advise you to take a look at its website: (http://groovy.codehaus.org/).
-Even if you just learn the most basic features of Groovy, it will help to take the most out of Glimpse.
+If you don't know anything about Groovy, we advise you to take a look at its website: http://groovy.codehaus.org/.
+Even if you just learn the most basic features of Groovy, it will help you to take the most out of Glimpse.
 
 ## How to use
 
