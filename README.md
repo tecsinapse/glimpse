@@ -31,7 +31,7 @@ one can write a script to generate random data to be used in tests.
 * Overwritten println: println's in scripts run by Glimpse are redirected to Glimpse's output (there is
 an open issue to allow redirection of the entire application output to Glimpse).
 * Extensibility: one can plug things like an authenticator for security purposes or a new source
-for script variables (that will be the way to allow Glimpse to be run on CDI, for example).
+for script variables (this will be the way to allow Glimpse to be run on CDI, for example).
 
 ## Why Groovy
 
