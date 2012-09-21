@@ -20,7 +20,8 @@ the hassle of changing cron expressions just for the sake of testing.
 * Loading/Extracting _ad hoc_ data: need to get data from that unexpected file your customer sent you, 
 no need to write code in the application, just write a Groovy script.
 * Generate test data: by using a general purpose language (Groovy), 
-one can write a script to generate random data to be used in tests.  
+one can write a script to generate random data to be used in tests.
+* Your imagination: Glimpse lets you do basically anything you could do using a Groovy script.  
 
 ## Features
 
