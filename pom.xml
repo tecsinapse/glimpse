@@ -1,41 +1,86 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>br.com.tecsinapse</groupId>
 	<artifactId>glimpse</artifactId>
 	<version>1.1.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<name>Glimpse</name>
+	<description>Glimpse is a client/server tool that allows one to execute Groovy scripts inside a Spring Application</description>
+	<url>https://github.com/tecsinapse/glimpse</url>
+	<licenses>
+		<license>
+			<name>The Apache Software License, Version 2.0</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
 	<modules>
 		<module>glimpse-client</module>
 		<module>glimpse-server</module>
 	</modules>
-	<repositories>
-		<repository>
-			<id>tecsinapse</id>
-			<name>Tecsinapse</name>
-			<url>http://nexus.tecsinapse.com.br/content/groups/public</url>
-		</repository>
-	</repositories>
-	<pluginRepositories>
-		<pluginRepository>
-			<id>tecsinapse</id>
-			<name>Tecsinapse</name>
-			<url>http://nexus.tecsinapse.com.br/content/groups/public</url>
-		</pluginRepository>
-	</pluginRepositories>
 	<scm>
+		<url>https://github.com/tecsinapse/glimpse</url>
+		<connection>scm:git:https://github.com/tecsinapse/glimpse.git</connection>
 		<developerConnection>scm:git:ssh://git@github.com/tecsinapse/glimpse.git</developerConnection>
 	</scm>
+	<developers>
+		<developer>
+			<id>rfhayashi</id>
+			<name>Rui Fernando Hayashi</name>
+			<email>rfhayashi@gmail.com</email>
+			<organization>Tecsinapse</organization>
+			<organizationUrl>http://www.tecsinapse.com.br</organizationUrl>
+		</developer>
+	</developers>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>2.3.2</version>
+				<configuration>
+					<source>1.6</source>
+					<target>1.6</target>
+					<encoding>UTF-8</encoding>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+				<version>2.1.2</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>2.9</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
 	<distributionManagement>
 		<repository>
-			<id>tecsinapse-releases</id>
-			<name>Internal Releases</name>
-			<url>http://nexus.tecsinapse.com.br/content/repositories/releases</url>
+			<id>sonatype-staging</id>
+			<name>OSS Sonatype Staging</name>
+			<url>https://oss.sonatype.org/service/local/staging/deploy/maven2</url>
 		</repository>
 		<snapshotRepository>
-			<id>tecsinapse-snapshots</id>
-			<name>Internal Snapshots</name>
-			<url>http://nexus.tecsinapse.com.br/content/repositories/snapshots</url>
+			<id>sonatype-snapshots</id>
+			<name>OSS Sonatype Snapshots</name>
+			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
 		</snapshotRepository>
 	</distributionManagement>
 </project>
