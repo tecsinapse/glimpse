@@ -3,7 +3,7 @@
   <parent>
     <artifactId>glimpse</artifactId>
     <groupId>br.com.tecsinapse</groupId>
-    <version>1.1.1-SNAPSHOT</version>
+    <version>1.1.1</version>
   </parent>
   <artifactId>glimpse-client</artifactId>
   <name>Glimpse Client</name>
