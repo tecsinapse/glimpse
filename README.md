@@ -45,6 +45,10 @@ Even if you just learn the most basic features of Groovy, it will help you to ta
 Please, refer to the [wiki] (https://github.com/tecsinapse/glimpse/wiki) for instructions on how 
 to use Glimpse.
 
+## Ask Questions
+
+Join the discussion group (https://groups.google.com/d/forum/tecsinapse-glimpse).
+
 ## License
 
 Copyright (C) 2012 Tecsinapse
