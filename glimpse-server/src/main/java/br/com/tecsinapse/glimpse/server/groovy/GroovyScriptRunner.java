@@ -36,8 +36,6 @@ public class GroovyScriptRunner implements ScriptRunner {
 		}
 	};
 
-	private GroovyShell shell = new GroovyShell();
-
 	private String monitorMethodsScript = null;
 	
 	public void setVarProducer(VarProducer varProducer) {
@@ -64,6 +62,8 @@ public class GroovyScriptRunner implements ScriptRunner {
 		try {
 			String eventualScript = script + "\n" + monitorMethodsScript;
 
+			GroovyShell shell = new GroovyShell();
+			
 			Script groovyScript = shell.parse(eventualScript);
 
 			varProducer.fill(groovyScript);
