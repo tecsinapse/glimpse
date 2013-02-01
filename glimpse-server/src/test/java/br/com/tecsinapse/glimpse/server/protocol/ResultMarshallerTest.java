@@ -20,6 +20,7 @@ import static org.testng.Assert.assertEquals;
 
 import java.util.Arrays;
 
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import br.com.tecsinapse.glimpse.server.BeginPoll;
@@ -41,16 +42,17 @@ public class ResultMarshallerTest {
 		assertEquals(marshaller.marshall(startResult), expected);
 	}
 
-	@Test
-	public void pollResult_Begin() {
+	@DataProvider(name = "poll-result")
+	public Object[][] createPollResultData() {
 		int steps = 10;
-		BeginPoll beginPoll = new BeginPoll(10);
-		PollResult pollResult = new PollResult(
-				Arrays.asList((ServerPoll) beginPoll));
+		return new Object[][] { { new BeginPoll(steps),
+				String.format("%s<poll-result><begin><steps>%d</steps></begin></poll-result>", Utils.XML_HEADER, steps) } };
+	}
 
-		String expected = String.format(
-				"%s<poll-result><begin><steps>%d</steps></begin></poll-result>",
-				Utils.XML_HEADER, steps);
+	@Test(dataProvider = "poll-result")
+	public void pollResult(ServerPoll poll, String expected) {
+		PollResult pollResult = new PollResult(
+				Arrays.asList(poll));
 
 		assertEquals(marshaller.marshall(pollResult), expected);
 	}
