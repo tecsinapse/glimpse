@@ -44,6 +44,10 @@ public class ExchangeTemplate {
 		exchange.sendResponseHeaders(200, 0);
 	}
 	
+	public void setResponseInternalServerError() throws IOException {
+		exchange.sendResponseHeaders(500, 0);
+	}
+	
 	public void writeReponse(String response) throws IOException {
 		OutputStream out = exchange.getResponseBody();
 		out.write(response.getBytes());

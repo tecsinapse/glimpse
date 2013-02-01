@@ -16,24 +16,23 @@
 
 package br.com.tecsinapse.glimpse.server.protocol;
 
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
+import static org.testng.Assert.assertEquals;
 
-@XmlRootElement(name="start-result")
-public class StartResult implements Result {
+import org.testng.annotations.Test;
 
-	@XmlElement(name="job-id")
-	private String jobId;
-	
-	public StartResult() {
+public class ResultMarshallerTest {
+
+	private ResultMarshaller marshaller = new ResultMarshaller();
+
+	@Test
+	public void startResult() {
+		String jobId = "myJobId";
+		StartResult startResult = new StartResult(jobId);
+
+		String expected = String
+				.format("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><start-result><job-id>%s</job-id></start-result>",
+						jobId);
+		assertEquals(marshaller.marshall(startResult), expected);
 	}
-	
-	public StartResult(String jobId) {
-		this.jobId = jobId;
-	}
-	
-	public String getJobId() {
-		return jobId;
-	}
-	
+
 }

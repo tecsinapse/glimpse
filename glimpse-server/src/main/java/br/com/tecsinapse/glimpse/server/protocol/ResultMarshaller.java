@@ -16,24 +16,22 @@
 
 package br.com.tecsinapse.glimpse.server.protocol;
 
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
+import java.io.StringWriter;
 
-@XmlRootElement(name="start-result")
-public class StartResult implements Result {
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
 
-	@XmlElement(name="job-id")
-	private String jobId;
-	
-	public StartResult() {
-	}
-	
-	public StartResult(String jobId) {
-		this.jobId = jobId;
-	}
-	
-	public String getJobId() {
-		return jobId;
+public class ResultMarshaller {
+
+	public String marshall(Result result) {
+		try {
+			JAXBContext context = JAXBContext.newInstance(StartResult.class);
+			StringWriter writer = new StringWriter();
+			context.createMarshaller().marshal(result, writer);
+			return writer.toString();
+		} catch (JAXBException e) {
+			throw new IllegalStateException(e);
+		}
 	}
 	
 }
