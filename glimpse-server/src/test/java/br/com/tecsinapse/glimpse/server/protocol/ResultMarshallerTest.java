@@ -27,6 +27,7 @@ import br.com.tecsinapse.glimpse.server.BeginPoll;
 import br.com.tecsinapse.glimpse.server.CancelPoll;
 import br.com.tecsinapse.glimpse.server.ClosePoll;
 import br.com.tecsinapse.glimpse.server.ServerPoll;
+import br.com.tecsinapse.glimpse.server.StreamUpdatePoll;
 import br.com.tecsinapse.glimpse.server.Utils;
 
 public class ResultMarshallerTest {
@@ -47,10 +48,15 @@ public class ResultMarshallerTest {
 	@DataProvider(name = "poll-result")
 	public Object[][] createPollResultData() {
 		int steps = 10;
+		String simpleUpdate = "update";
+		String updateWithXmlText = "<tag>\n\t<inner-tag/>\n\t</tag>";
+		String normalizedUpdateWithXmlText = "&lt;tag&gt;\n\t&lt;inner-tag/&gt;\n\t&lt;/tag&gt;";
 		return new Object[][] { 
 				{ new BeginPoll(steps), String.format("%s<poll-result><begin><steps>%d</steps></begin></poll-result>", Utils.XML_HEADER, steps) },
 				{ new CancelPoll(), String.format("%s<poll-result><cancel/></poll-result>", Utils.XML_HEADER) },
-				{ new ClosePoll(), String.format("%s<poll-result><close/></poll-result>", Utils.XML_HEADER) }
+				{ new ClosePoll(), String.format("%s<poll-result><close/></poll-result>", Utils.XML_HEADER) },
+				{ new StreamUpdatePoll(simpleUpdate), String.format("%s<poll-result><stream-update>%s</stream-update></poll-result>", Utils.XML_HEADER, simpleUpdate) },
+				{ new StreamUpdatePoll(updateWithXmlText), String.format("%s<poll-result><stream-update>%s</stream-update></poll-result>", Utils.XML_HEADER, normalizedUpdateWithXmlText) }
 		};
 	}
 

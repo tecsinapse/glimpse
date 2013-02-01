@@ -16,10 +16,19 @@
 
 package br.com.tecsinapse.glimpse.server;
 
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlValue;
+
+@XmlRootElement(name="stream-update")
 public class StreamUpdatePoll implements ServerPoll {
 
+	@XmlValue
 	private String update;
 
+	// for jaxb use
+	StreamUpdatePoll() {
+	}
+	
 	public StreamUpdatePoll(String update) {
 		this.update = update;
 	}
