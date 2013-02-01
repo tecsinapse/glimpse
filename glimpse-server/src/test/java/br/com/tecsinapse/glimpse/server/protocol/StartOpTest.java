@@ -26,15 +26,6 @@ import org.testng.annotations.Test;
 import br.com.tecsinapse.glimpse.server.Server;
 
 public class StartOpTest {
-	
-  @Test
-  public void parse() {
-	  String script = "myscript";
-	  String xml = String.format("<start><script>%s</script></start>", script);
-	  
-	  StartOp startOp = StartOp.parse(xml);
-	  assertEquals(startOp.getScript(), script);
-  }
   
   @Test
   public void execute() {

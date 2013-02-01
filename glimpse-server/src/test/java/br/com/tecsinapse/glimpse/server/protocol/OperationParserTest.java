@@ -16,38 +16,31 @@
 
 package br.com.tecsinapse.glimpse.server.protocol;
 
-import java.io.ByteArrayInputStream;
+import static org.testng.Assert.assertEquals;
 
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
+import org.testng.annotations.Test;
 
-import br.com.tecsinapse.glimpse.server.Server;
+public class OperationParserTest {
 
-/**
- * Represents the start operation in Java.
- */
-@XmlRootElement(name="start")
-public class StartOp implements Operation {
-
-	@XmlElement
-	private String script;
+	private OperationParser operationParser = new OperationParser();
 	
-	public StartOp() {
+	@Test
+	public void start() {
+		String script = "myscript";
+		String xml = String
+				.format("<start><script>%s</script></start>", script);
+
+		StartOp startOp = (StartOp) operationParser.parse(xml);
+		assertEquals(startOp.getScript(), script);
 	}
 	
-	public StartOp(String script) {
-		this.script = script;
-	}
-	
-	public String getScript() {
-		return script;
+	@Test
+	public void poll() {
+		String jobId = "myJobId";
+		String xml = String.format("<poll><jobId>%s</jobId></poll>", jobId);
+		
+		PollOp pollOp = (PollOp) operationParser.parse(xml);
+		assertEquals(pollOp.getJobId(), jobId);
 	}
 
-	public StartResult execute(Server server) {
-		String jobId = server.start(script);
-		return new StartResult(jobId);
-	}
-	
 }

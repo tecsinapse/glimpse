@@ -44,16 +44,6 @@ public class PollOp implements Operation {
 		throw new UnsupportedOperationException();
 	}
 
-	public static PollOp parse(String xml) {
-		try {
-			JAXBContext context = JAXBContext.newInstance(PollOp.class);
-			return (PollOp) context.createUnmarshaller().unmarshal(
-					new ByteArrayInputStream(xml.getBytes()));
-		} catch (JAXBException e) {
-			throw new IllegalStateException(e);
-		}
-	}
-
 	public String getJobId() {
 		return jobId;
 	}
