@@ -16,6 +16,9 @@
 
 package br.com.tecsinapse.glimpse.server;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement(name="cancel")
 public class CancelPoll implements ServerPoll {
 
 	public boolean isInterrupt() {
