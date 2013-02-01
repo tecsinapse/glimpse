@@ -16,35 +16,6 @@
 
 package br.com.tecsinapse.glimpse.server.protocol;
 
-import java.util.List;
-
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-
-import br.com.tecsinapse.glimpse.server.Server;
-import br.com.tecsinapse.glimpse.server.ServerPoll;
-
-@XmlRootElement(name="poll")
-public class PollOp implements Operation {
-
-	@XmlElement
-	private String jobId;
-
-	public PollOp() {
-	}
-
-	public PollOp(String jobId) {
-		this.jobId = jobId;
-	}
-
-	@Override
-	public Result execute(Server server) {
-		List<ServerPoll> polls = server.poll(jobId);
-		return new PollResult();
-	}
-
-	public String getJobId() {
-		return jobId;
-	}
+public class PollResult implements Result {
 
 }
