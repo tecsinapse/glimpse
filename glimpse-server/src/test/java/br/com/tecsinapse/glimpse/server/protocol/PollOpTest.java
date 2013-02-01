@@ -19,11 +19,11 @@ package br.com.tecsinapse.glimpse.server.protocol;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.testng.Assert.assertEquals;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
-import org.mockito.Mockito;
 import org.testng.annotations.Test;
 
 import br.com.tecsinapse.glimpse.server.Server;
@@ -35,15 +35,16 @@ public class PollOpTest {
 	public void execute() {
 		String jobId = "myJobId";
 		PollOp pollOp = new PollOp(jobId);
-		
-		List<ServerPoll> polls = new ArrayList<ServerPoll>();
-		
+
+		ServerPoll poll = mock(ServerPoll.class);
+		List<ServerPoll> polls = Arrays.asList(poll);
+
 		Server server = mock(Server.class);
 		when(server.poll(jobId)).thenReturn(polls);
-		
-		pollOp.execute(server);
-		
-		verify(server);
+
+		PollResult result = (PollResult) pollOp.execute(server);
+
+		assertEquals(result.getPolls(), polls);
 	}
-	
+
 }

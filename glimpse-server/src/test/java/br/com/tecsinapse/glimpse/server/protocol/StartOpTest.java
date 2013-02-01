@@ -39,7 +39,6 @@ public class StartOpTest {
 	  StartResult result = startOp.execute(server);
 	  
 	  assertEquals(result.getJobId(), id);
-	  verify(server);
   }
   
 }

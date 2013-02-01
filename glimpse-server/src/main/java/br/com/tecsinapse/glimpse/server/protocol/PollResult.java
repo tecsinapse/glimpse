@@ -16,6 +16,24 @@
 
 package br.com.tecsinapse.glimpse.server.protocol;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import br.com.tecsinapse.glimpse.server.ServerPoll;
+
 public class PollResult implements Result {
 
+	private List<ServerPoll> polls = new ArrayList<ServerPoll>();
+	
+	public PollResult() {
+	}
+	
+	public PollResult(List<ServerPoll> polls) {
+		this.polls = new ArrayList<ServerPoll>(polls);
+	}
+	
+	public List<ServerPoll> getPolls() {
+		return polls;
+	}
+	
 }

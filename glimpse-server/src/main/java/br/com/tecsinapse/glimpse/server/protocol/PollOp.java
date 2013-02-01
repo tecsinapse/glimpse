@@ -40,7 +40,7 @@ public class PollOp implements Operation {
 	@Override
 	public Result execute(Server server) {
 		List<ServerPoll> polls = server.poll(jobId);
-		return new PollResult();
+		return new PollResult(polls);
 	}
 
 	public String getJobId() {
