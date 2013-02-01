@@ -16,10 +16,19 @@
 
 package br.com.tecsinapse.glimpse.server;
 
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement(name="worked")
 public class WorkedPoll implements ServerPoll {
 
+	@XmlElement(name="steps")
 	private int workedSteps;
 
+	// for jaxb use
+	WorkedPoll() {
+	}
+	
 	public WorkedPoll(int workedSteps) {
 		this.workedSteps = workedSteps;
 	}

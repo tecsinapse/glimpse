@@ -25,6 +25,7 @@ import br.com.tecsinapse.glimpse.server.BeginPoll;
 import br.com.tecsinapse.glimpse.server.CancelPoll;
 import br.com.tecsinapse.glimpse.server.ClosePoll;
 import br.com.tecsinapse.glimpse.server.StreamUpdatePoll;
+import br.com.tecsinapse.glimpse.server.WorkedPoll;
 
 public class ResultMarshaller {
 
@@ -32,7 +33,7 @@ public class ResultMarshaller {
 		try {
 			JAXBContext context = JAXBContext.newInstance(StartResult.class,
 					PollResult.class, BeginPoll.class, CancelPoll.class,
-					ClosePoll.class, StreamUpdatePoll.class);
+					ClosePoll.class, StreamUpdatePoll.class, WorkedPoll.class);
 			StringWriter writer = new StringWriter();
 			context.createMarshaller().marshal(result, writer);
 			return writer.toString();
