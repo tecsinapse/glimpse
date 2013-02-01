@@ -16,19 +16,6 @@
 
 package br.com.tecsinapse.glimpse.server.protocol;
 
-public class StartResult implements Result {
+public interface Result {
 
-	private String jobId;
-	
-	public StartResult() {
-	}
-	
-	public StartResult(String jobId) {
-		this.jobId = jobId;
-	}
-	
-	public String getJobId() {
-		return jobId;
-	}
-	
 }

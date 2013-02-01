@@ -29,7 +29,7 @@ import br.com.tecsinapse.glimpse.server.Server;
  * Represents the start operation in Java.
  */
 @XmlRootElement(name="start")
-public class StartOp {
+public class StartOp implements Operation {
 
 	@XmlElement
 	private String script;

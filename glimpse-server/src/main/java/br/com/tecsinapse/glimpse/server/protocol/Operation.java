@@ -16,19 +16,10 @@
 
 package br.com.tecsinapse.glimpse.server.protocol;
 
-public class StartResult implements Result {
+import br.com.tecsinapse.glimpse.server.Server;
 
-	private String jobId;
-	
-	public StartResult() {
-	}
-	
-	public StartResult(String jobId) {
-		this.jobId = jobId;
-	}
-	
-	public String getJobId() {
-		return jobId;
-	}
+public interface Operation {
+
+	Result execute(Server server);
 	
 }
