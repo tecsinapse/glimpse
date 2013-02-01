@@ -23,6 +23,8 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import br.com.tecsinapse.glimpse.server.Server;
+
 /**
  * Represents the start operation in Java.
  */
@@ -50,6 +52,11 @@ public class StartOp {
 		} catch (JAXBException e) {
 			throw new IllegalStateException(e);
 		}
+	}
+
+	public StartResult execute(Server server) {
+		String jobId = server.start(script);
+		return new StartResult(jobId);
 	}
 	
 }

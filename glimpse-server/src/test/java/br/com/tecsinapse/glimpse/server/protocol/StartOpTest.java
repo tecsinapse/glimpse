@@ -16,8 +16,14 @@
 
 package br.com.tecsinapse.glimpse.server.protocol;
 
-import org.testng.Assert;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+import static org.testng.Assert.assertEquals;
+
 import org.testng.annotations.Test;
+
+import br.com.tecsinapse.glimpse.server.Server;
 
 public class StartOpTest {
 	
@@ -27,7 +33,22 @@ public class StartOpTest {
 	  String xml = String.format("<start><script>%s</script></start>", script);
 	  
 	  StartOp startOp = StartOp.parse(xml);
-	  Assert.assertEquals(startOp.getScript(), script);
+	  assertEquals(startOp.getScript(), script);
+  }
+  
+  @Test
+  public void execute() {
+	  String id = "myId";
+	  String script = "myscript";
+	  StartOp startOp = new StartOp(script);
+	  
+	  Server server = mock(Server.class);
+	  when(server.start(script)).thenReturn(id);
+	  
+	  StartResult result = startOp.execute(server);
+	  
+	  assertEquals(result.getJobId(), id);
+	  verify(server);
   }
   
 }
