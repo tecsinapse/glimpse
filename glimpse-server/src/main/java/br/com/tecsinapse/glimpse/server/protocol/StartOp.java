@@ -16,10 +16,6 @@
 
 package br.com.tecsinapse.glimpse.server.protocol;
 
-import java.io.ByteArrayInputStream;
-
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 

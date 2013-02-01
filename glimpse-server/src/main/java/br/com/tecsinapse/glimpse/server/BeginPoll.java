@@ -16,10 +16,19 @@
 
 package br.com.tecsinapse.glimpse.server;
 
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement(name="begin")
 public class BeginPoll implements ServerPoll {
 
+	@XmlElement
 	private int steps;
 
+	// for jaxb use
+	BeginPoll() {
+	}
+	
 	public BeginPoll(int steps) {
 		this.steps = steps;
 	}

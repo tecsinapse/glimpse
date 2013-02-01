@@ -19,10 +19,15 @@ package br.com.tecsinapse.glimpse.server.protocol;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.xml.bind.annotation.XmlAnyElement;
+import javax.xml.bind.annotation.XmlRootElement;
+
 import br.com.tecsinapse.glimpse.server.ServerPoll;
 
+@XmlRootElement(name="poll-result")
 public class PollResult implements Result {
 
+	@XmlAnyElement
 	private List<ServerPoll> polls = new ArrayList<ServerPoll>();
 	
 	public PollResult() {

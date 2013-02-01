@@ -17,8 +17,7 @@
 package br.com.tecsinapse.glimpse.server.protocol;
 
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.when;	
 import static org.testng.Assert.assertEquals;
 
 import java.util.Arrays;

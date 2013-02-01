@@ -18,7 +18,13 @@ package br.com.tecsinapse.glimpse.server.protocol;
 
 import static org.testng.Assert.assertEquals;
 
+import java.util.Arrays;
+
 import org.testng.annotations.Test;
+
+import br.com.tecsinapse.glimpse.server.BeginPoll;
+import br.com.tecsinapse.glimpse.server.ServerPoll;
+import br.com.tecsinapse.glimpse.server.Utils;
 
 public class ResultMarshallerTest {
 
@@ -29,10 +35,24 @@ public class ResultMarshallerTest {
 		String jobId = "myJobId";
 		StartResult startResult = new StartResult(jobId);
 
-		String expected = String
-				.format("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><start-result><job-id>%s</job-id></start-result>",
-						jobId);
+		String expected = String.format(
+				"%s<start-result><job-id>%s</job-id></start-result>",
+				Utils.XML_HEADER, jobId);
 		assertEquals(marshaller.marshall(startResult), expected);
+	}
+
+	@Test
+	public void pollResult_Begin() {
+		int steps = 10;
+		BeginPoll beginPoll = new BeginPoll(10);
+		PollResult pollResult = new PollResult(
+				Arrays.asList((ServerPoll) beginPoll));
+
+		String expected = String.format(
+				"%s<poll-result><begin><steps>%d</steps></begin></poll-result>",
+				Utils.XML_HEADER, steps);
+
+		assertEquals(marshaller.marshall(pollResult), expected);
 	}
 
 }

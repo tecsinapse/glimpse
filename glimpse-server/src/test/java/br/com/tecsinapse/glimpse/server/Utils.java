@@ -14,26 +14,10 @@
  * limitations under the License.
  */
 
-package br.com.tecsinapse.glimpse.server.protocol;
+package br.com.tecsinapse.glimpse.server;
 
-import java.io.StringWriter;
+public class Utils {
 
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-
-import br.com.tecsinapse.glimpse.server.BeginPoll;
-
-public class ResultMarshaller {
-
-	public String marshall(Result result) {
-		try {
-			JAXBContext context = JAXBContext.newInstance(StartResult.class, PollResult.class, BeginPoll.class);
-			StringWriter writer = new StringWriter();
-			context.createMarshaller().marshal(result, writer);
-			return writer.toString();
-		} catch (JAXBException e) {
-			throw new IllegalStateException(e);
-		}
-	}
+	public final static String XML_HEADER = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>";
 	
 }
