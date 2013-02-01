@@ -25,6 +25,7 @@ import org.testng.annotations.Test;
 
 import br.com.tecsinapse.glimpse.server.BeginPoll;
 import br.com.tecsinapse.glimpse.server.CancelPoll;
+import br.com.tecsinapse.glimpse.server.ClosePoll;
 import br.com.tecsinapse.glimpse.server.ServerPoll;
 import br.com.tecsinapse.glimpse.server.Utils;
 
@@ -48,7 +49,8 @@ public class ResultMarshallerTest {
 		int steps = 10;
 		return new Object[][] { 
 				{ new BeginPoll(steps), String.format("%s<poll-result><begin><steps>%d</steps></begin></poll-result>", Utils.XML_HEADER, steps) },
-				{ new CancelPoll(), String.format("%s<poll-result><cancel/></poll-result>", Utils.XML_HEADER) }
+				{ new CancelPoll(), String.format("%s<poll-result><cancel/></poll-result>", Utils.XML_HEADER) },
+				{ new ClosePoll(), String.format("%s<poll-result><close/></poll-result>", Utils.XML_HEADER) }
 		};
 	}
 

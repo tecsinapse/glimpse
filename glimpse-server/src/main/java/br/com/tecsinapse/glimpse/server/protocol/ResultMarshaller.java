@@ -23,12 +23,15 @@ import javax.xml.bind.JAXBException;
 
 import br.com.tecsinapse.glimpse.server.BeginPoll;
 import br.com.tecsinapse.glimpse.server.CancelPoll;
+import br.com.tecsinapse.glimpse.server.ClosePoll;
 
 public class ResultMarshaller {
 
 	public String marshall(Result result) {
 		try {
-			JAXBContext context = JAXBContext.newInstance(StartResult.class, PollResult.class, BeginPoll.class, CancelPoll.class);
+			JAXBContext context = JAXBContext.newInstance(StartResult.class,
+					PollResult.class, BeginPoll.class, CancelPoll.class,
+					ClosePoll.class);
 			StringWriter writer = new StringWriter();
 			context.createMarshaller().marshal(result, writer);
 			return writer.toString();
@@ -36,5 +39,5 @@ public class ResultMarshaller {
 			throw new IllegalStateException(e);
 		}
 	}
-	
+
 }

@@ -16,6 +16,9 @@
 
 package br.com.tecsinapse.glimpse.server;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement(name="close")
 public class ClosePoll implements ServerPoll {
 
 	public boolean isInterrupt() {
