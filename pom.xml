@@ -96,4 +96,12 @@
 			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
 		</snapshotRepository>
 	</distributionManagement>
+	<dependencies>
+		<dependency>
+			<groupId>org.testng</groupId>
+			<artifactId>testng</artifactId>
+			<version>6.5.2</version>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
 </project>
