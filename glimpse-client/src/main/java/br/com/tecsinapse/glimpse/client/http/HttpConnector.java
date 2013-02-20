@@ -20,10 +20,10 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import br.com.tecsinapse.glimpse.client.CancelPoll;
-import br.com.tecsinapse.glimpse.client.ClientPoll;
-import br.com.tecsinapse.glimpse.client.ClosePoll;
 import br.com.tecsinapse.glimpse.client.Connector;
+import br.com.tecsinapse.glimpse.protocol.CancelPollResultItem;
+import br.com.tecsinapse.glimpse.protocol.ClosePollResultItem;
+import br.com.tecsinapse.glimpse.protocol.PollResultItem;
 
 public class HttpConnector implements Connector {
 
@@ -45,11 +45,11 @@ public class HttpConnector implements Connector {
 		return ids.contains(id);
 	}
 
-	public List<ClientPoll> poll(String id) {
+	public List<PollResultItem> poll(String id) {
 		String body = invoker.invoke("/poll", id);
-		List<ClientPoll> result = ClientPollConverter.convert(body);
-		for (ClientPoll clientPoll : result) {
-			if (clientPoll instanceof CancelPoll || clientPoll instanceof ClosePoll) {
+		List<PollResultItem> result = ClientPollConverter.convert(body);
+		for (PollResultItem clientPoll : result) {
+			if (clientPoll instanceof CancelPollResultItem || clientPoll instanceof ClosePollResultItem) {
 				ids.remove(id);
 			}
 		}

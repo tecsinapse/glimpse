@@ -24,6 +24,10 @@ import java.util.Arrays;
 import org.mockito.Mockito;
 import org.testng.annotations.Test;
 
+import br.com.tecsinapse.glimpse.protocol.ClosePollResultItem;
+import br.com.tecsinapse.glimpse.protocol.PollResultItem;
+import br.com.tecsinapse.glimpse.protocol.StreamUpdatePollResultItem;
+
 public class DefaultScriptRunnerTest {
 
 	@Test
@@ -32,13 +36,13 @@ public class DefaultScriptRunnerTest {
 		String script = "myScript";
 		
 		String update = "update";
-		StreamUpdatePoll poll1 = new StreamUpdatePoll(update);
-		ClosePoll poll2 = new ClosePoll();
+		StreamUpdatePollResultItem poll1 = new StreamUpdatePollResultItem(update);
+		ClosePollResultItem poll2 = new ClosePollResultItem();
 		
 		Connector connector = mock(Connector.class);
 		when(connector.start(script)).thenReturn(jobId);
 		when(connector.isOpen(jobId)).thenReturn(true, true, false);
-		when(connector.poll(jobId)).thenReturn(Arrays.asList((ClientPoll) poll1), Arrays.asList((ClientPoll) poll2));
+		when(connector.poll(jobId)).thenReturn(Arrays.asList((PollResultItem) poll1), Arrays.asList((PollResultItem) poll2));
 		Monitor monitor = mock(Monitor.class);
 		when(monitor.isCanceled()).thenReturn(false);
 		

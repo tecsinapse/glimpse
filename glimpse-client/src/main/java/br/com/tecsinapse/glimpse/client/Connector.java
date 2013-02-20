@@ -18,13 +18,15 @@ package br.com.tecsinapse.glimpse.client;
 
 import java.util.List;
 
+import br.com.tecsinapse.glimpse.protocol.PollResultItem;
+
 public interface Connector {
 
 	String start(String script);
 
 	boolean isOpen(String id);
 
-	List<ClientPoll> poll(String id);
+	List<PollResultItem> poll(String id);
 
 	void cancel(String id);
 

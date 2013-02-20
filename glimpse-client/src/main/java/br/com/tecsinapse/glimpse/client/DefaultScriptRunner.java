@@ -18,9 +18,13 @@ package br.com.tecsinapse.glimpse.client;
 
 import java.util.List;
 
+import br.com.tecsinapse.glimpse.protocol.PollResultItem;
+
 public class DefaultScriptRunner implements ScriptRunner {
 
 	private Connector connector;
+	
+	private DefaultPollResultItemApplier pollResultApplier = new DefaultPollResultItemApplier();
 
 	public DefaultScriptRunner(Connector connector) {
 		this.connector = connector;
@@ -33,7 +37,7 @@ public class DefaultScriptRunner implements ScriptRunner {
 			if (monitor.isCanceled()) {
 				connector.cancel(id);
 			}
-			List<ClientPoll> polls = connector.poll(id);
+			List<PollResultItem> polls = connector.poll(id);
 			if (polls.isEmpty()) {
 				try {
 					Thread.sleep(1000);
@@ -41,8 +45,8 @@ public class DefaultScriptRunner implements ScriptRunner {
 					throw new IllegalStateException(e);
 				}
 			} else {
-				for (ClientPoll clientPoll : polls) {
-					clientPoll.apply(monitor);
+				for (PollResultItem item : polls) {
+					pollResultApplier.apply(item, monitor);
 				}
 			}
 		}
