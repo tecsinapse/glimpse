@@ -14,39 +14,21 @@
  * limitations under the License.
  */
 
-package br.com.tecsinapse.glimpse.server.protocol;
+package br.com.tecsinapse.glimpse.protocol;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import br.com.tecsinapse.glimpse.server.ServerPoll;
 
-@XmlRootElement(name="poll-result")
-public class PollResult implements Result {
-
-	@XmlAnyElement
-	private List<ServerPoll> polls = new ArrayList<ServerPoll>();
+@XmlRootElement(name="cancel")
+public class CancelPoll implements ServerPoll {
 	
-	public PollResult() {
-	}
-	
-	public PollResult(List<ServerPoll> polls) {
-		this.polls = new ArrayList<ServerPoll>(polls);
-	}
-	
-	public List<ServerPoll> getPolls() {
-		return polls;
+	public boolean isInterrupt() {
+		return true;
 	}
 
 	@Override
 	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((polls == null) ? 0 : polls.hashCode());
-		return result;
+		return 1;
 	}
 
 	@Override
@@ -57,13 +39,7 @@ public class PollResult implements Result {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		PollResult other = (PollResult) obj;
-		if (polls == null) {
-			if (other.polls != null)
-				return false;
-		} else if (!polls.equals(other.polls))
-			return false;
 		return true;
 	}
-	
+
 }

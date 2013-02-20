@@ -24,12 +24,13 @@ import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
-import br.com.tecsinapse.glimpse.server.protocol.Operation;
-import br.com.tecsinapse.glimpse.server.protocol.PollOp;
-import br.com.tecsinapse.glimpse.server.protocol.PollResult;
-import br.com.tecsinapse.glimpse.server.protocol.Result;
-import br.com.tecsinapse.glimpse.server.protocol.StartOp;
-import br.com.tecsinapse.glimpse.server.protocol.StartResult;
+import br.com.tecsinapse.glimpse.protocol.Operation;
+import br.com.tecsinapse.glimpse.protocol.PollOp;
+import br.com.tecsinapse.glimpse.protocol.PollResult;
+import br.com.tecsinapse.glimpse.protocol.Result;
+import br.com.tecsinapse.glimpse.protocol.ServerPoll;
+import br.com.tecsinapse.glimpse.protocol.StartOp;
+import br.com.tecsinapse.glimpse.protocol.StartResult;
 
 public class ServerInvokerTest {
 

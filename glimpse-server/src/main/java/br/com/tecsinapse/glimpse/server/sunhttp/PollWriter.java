@@ -16,12 +16,12 @@
 
 package br.com.tecsinapse.glimpse.server.sunhttp;
 
-import br.com.tecsinapse.glimpse.server.BeginPoll;
-import br.com.tecsinapse.glimpse.server.CancelPoll;
-import br.com.tecsinapse.glimpse.server.ClosePoll;
-import br.com.tecsinapse.glimpse.server.ServerPoll;
-import br.com.tecsinapse.glimpse.server.StreamUpdatePoll;
-import br.com.tecsinapse.glimpse.server.WorkedPoll;
+import br.com.tecsinapse.glimpse.protocol.BeginPoll;
+import br.com.tecsinapse.glimpse.protocol.CancelPoll;
+import br.com.tecsinapse.glimpse.protocol.ClosePoll;
+import br.com.tecsinapse.glimpse.protocol.ServerPoll;
+import br.com.tecsinapse.glimpse.protocol.StreamUpdatePoll;
+import br.com.tecsinapse.glimpse.protocol.WorkedPoll;
 
 public class PollWriter {
 

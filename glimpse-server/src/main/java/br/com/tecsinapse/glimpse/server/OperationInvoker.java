@@ -16,8 +16,8 @@
 
 package br.com.tecsinapse.glimpse.server;
 
-import br.com.tecsinapse.glimpse.server.protocol.Operation;
-import br.com.tecsinapse.glimpse.server.protocol.Result;
+import br.com.tecsinapse.glimpse.protocol.Operation;
+import br.com.tecsinapse.glimpse.protocol.Result;
 
 public interface OperationInvoker<O extends Operation, R extends Result> {
 

@@ -22,6 +22,10 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingDeque;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import br.com.tecsinapse.glimpse.protocol.CancelPoll;
+import br.com.tecsinapse.glimpse.protocol.ClosePoll;
+import br.com.tecsinapse.glimpse.protocol.ServerPoll;
+
 public class Job {
 
 	private String script;

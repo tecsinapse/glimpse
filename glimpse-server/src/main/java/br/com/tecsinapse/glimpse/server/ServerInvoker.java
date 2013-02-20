@@ -20,10 +20,10 @@ import java.util.Map;
 
 import org.testng.collections.Maps;
 
-import br.com.tecsinapse.glimpse.server.protocol.Operation;
-import br.com.tecsinapse.glimpse.server.protocol.PollOp;
-import br.com.tecsinapse.glimpse.server.protocol.Result;
-import br.com.tecsinapse.glimpse.server.protocol.StartOp;
+import br.com.tecsinapse.glimpse.protocol.Operation;
+import br.com.tecsinapse.glimpse.protocol.PollOp;
+import br.com.tecsinapse.glimpse.protocol.Result;
+import br.com.tecsinapse.glimpse.protocol.StartOp;
 
 public class ServerInvoker {
 

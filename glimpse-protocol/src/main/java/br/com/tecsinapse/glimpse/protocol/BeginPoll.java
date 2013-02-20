@@ -14,10 +14,11 @@
  * limitations under the License.
  */
 
-package br.com.tecsinapse.glimpse.server;
+package br.com.tecsinapse.glimpse.protocol;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+
 
 @XmlRootElement(name = "begin")
 public class BeginPoll implements ServerPoll {

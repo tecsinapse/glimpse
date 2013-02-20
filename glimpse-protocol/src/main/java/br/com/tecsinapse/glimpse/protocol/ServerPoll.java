@@ -14,23 +14,10 @@
  * limitations under the License.
  */
 
-package br.com.tecsinapse.glimpse.server.protocol;
+package br.com.tecsinapse.glimpse.protocol;
 
-import java.io.ByteArrayInputStream;
+public interface ServerPoll {
 
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-
-public class OperationParser {
-
-	public Operation parse(String xml) {
-		try {
-			JAXBContext context = JAXBContext.newInstance(StartOp.class, PollOp.class);
-			return (Operation) context.createUnmarshaller().unmarshal(
-					new ByteArrayInputStream(xml.getBytes()));
-		} catch (JAXBException e) {
-			throw new IllegalStateException(e);
-		}
-	}
+	boolean isInterrupt();
 
 }

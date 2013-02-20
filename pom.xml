@@ -18,6 +18,7 @@
 	<modules>
 		<module>glimpse-client</module>
 		<module>glimpse-server</module>
+		<module>glimpse-protocol</module>
 	</modules>
 	<scm>
 		<url>https://github.com/tecsinapse/glimpse</url>
@@ -99,6 +100,11 @@
 	</distributionManagement>
 	<dependencyManagement>
 		<dependencies>
+			<dependency>
+				<groupId>br.com.tecsinapse</groupId>
+				<artifactId>glimpse-protocol</artifactId>
+				<version>${project.version}</version>
+			</dependency>
 			<dependency>
 				<groupId>commons-httpclient</groupId>
 				<artifactId>commons-httpclient</artifactId>

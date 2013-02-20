@@ -14,38 +14,36 @@
  * limitations under the License.
  */
 
-package br.com.tecsinapse.glimpse.server.protocol;
-
-import java.util.List;
+package br.com.tecsinapse.glimpse.protocol;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import br.com.tecsinapse.glimpse.server.Server;
-import br.com.tecsinapse.glimpse.server.ServerPoll;
-
-@XmlRootElement(name="poll")
-public class PollOp implements Operation {
+/**
+ * Represents the start operation in Java.
+ */
+@XmlRootElement(name="start")
+public class StartOp implements Operation {
 
 	@XmlElement
-	private String jobId;
-
-	public PollOp() {
+	private String script;
+	
+	public StartOp() {
 	}
-
-	public PollOp(String jobId) {
-		this.jobId = jobId;
+	
+	public StartOp(String script) {
+		this.script = script;
 	}
-
-	public String getJobId() {
-		return jobId;
+	
+	public String getScript() {
+		return script;
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((jobId == null) ? 0 : jobId.hashCode());
+		result = prime * result + ((script == null) ? 0 : script.hashCode());
 		return result;
 	}
 
@@ -57,13 +55,13 @@ public class PollOp implements Operation {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		PollOp other = (PollOp) obj;
-		if (jobId == null) {
-			if (other.jobId != null)
+		StartOp other = (StartOp) obj;
+		if (script == null) {
+			if (other.script != null)
 				return false;
-		} else if (!jobId.equals(other.jobId))
+		} else if (!script.equals(other.script))
 			return false;
 		return true;
 	}
-
+	
 }

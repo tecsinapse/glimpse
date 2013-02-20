@@ -14,31 +14,23 @@
  * limitations under the License.
  */
 
-package br.com.tecsinapse.glimpse.server;
+package br.com.tecsinapse.glimpse.protocol;
 
-import javax.xml.bind.annotation.XmlRootElement;
+import java.io.ByteArrayInputStream;
 
-@XmlRootElement(name="close")
-public class ClosePoll implements ServerPoll {
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
 
-	public boolean isInterrupt() {
-		return true;
-	}
-	
-	@Override
-	public int hashCode() {
-		return 1;
-	}
+public class OperationParser {
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		return true;
+	public Operation parse(String xml) {
+		try {
+			JAXBContext context = JAXBContext.newInstance(StartOp.class, PollOp.class);
+			return (Operation) context.createUnmarshaller().unmarshal(
+					new ByteArrayInputStream(xml.getBytes()));
+		} catch (JAXBException e) {
+			throw new IllegalStateException(e);
+		}
 	}
 
 }

@@ -14,38 +14,36 @@
  * limitations under the License.
  */
 
-package br.com.tecsinapse.glimpse.server;
+package br.com.tecsinapse.glimpse.protocol;
 
-import javax.xml.bind.annotation.XmlElement;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-@XmlRootElement(name="worked")
-public class WorkedPoll implements ServerPoll {
+@XmlRootElement(name="poll-result")
+public class PollResult implements Result {
 
-	@XmlElement(name="steps")
-	private int workedSteps;
-
-	// for jaxb use
-	WorkedPoll() {
+	@XmlAnyElement
+	private List<ServerPoll> polls = new ArrayList<ServerPoll>();
+	
+	public PollResult() {
 	}
 	
-	public WorkedPoll(int workedSteps) {
-		this.workedSteps = workedSteps;
-	}
-
-	public int getWorkedSteps() {
-		return workedSteps;
+	public PollResult(List<ServerPoll> polls) {
+		this.polls = new ArrayList<ServerPoll>(polls);
 	}
 	
-	public boolean isInterrupt() {
-		return false;
+	public List<ServerPoll> getPolls() {
+		return polls;
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + workedSteps;
+		result = prime * result + ((polls == null) ? 0 : polls.hashCode());
 		return result;
 	}
 
@@ -57,10 +55,13 @@ public class WorkedPoll implements ServerPoll {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		WorkedPoll other = (WorkedPoll) obj;
-		if (workedSteps != other.workedSteps)
+		PollResult other = (PollResult) obj;
+		if (polls == null) {
+			if (other.polls != null)
+				return false;
+		} else if (!polls.equals(other.polls))
 			return false;
 		return true;
 	}
-
+	
 }

@@ -19,6 +19,11 @@ package br.com.tecsinapse.glimpse.server;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import br.com.tecsinapse.glimpse.protocol.BeginPoll;
+import br.com.tecsinapse.glimpse.protocol.ServerPoll;
+import br.com.tecsinapse.glimpse.protocol.StreamUpdatePoll;
+import br.com.tecsinapse.glimpse.protocol.WorkedPoll;
+
 
 public class DefaultMonitor implements Monitor {
 

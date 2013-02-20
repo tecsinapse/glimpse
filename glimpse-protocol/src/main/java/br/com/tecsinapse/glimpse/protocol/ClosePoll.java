@@ -14,17 +14,18 @@
  * limitations under the License.
  */
 
-package br.com.tecsinapse.glimpse.server;
+package br.com.tecsinapse.glimpse.protocol;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
-@XmlRootElement(name="cancel")
-public class CancelPoll implements ServerPoll {
-	
+
+@XmlRootElement(name="close")
+public class ClosePoll implements ServerPoll {
+
 	public boolean isInterrupt() {
 		return true;
 	}
-
+	
 	@Override
 	public int hashCode() {
 		return 1;

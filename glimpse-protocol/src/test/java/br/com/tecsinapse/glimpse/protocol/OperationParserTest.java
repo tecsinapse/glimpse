@@ -14,11 +14,15 @@
  * limitations under the License.
  */
 
-package br.com.tecsinapse.glimpse.server.protocol;
+package br.com.tecsinapse.glimpse.protocol;
 
 import static org.testng.Assert.assertEquals;
 
 import org.testng.annotations.Test;
+
+import br.com.tecsinapse.glimpse.protocol.OperationParser;
+import br.com.tecsinapse.glimpse.protocol.PollOp;
+import br.com.tecsinapse.glimpse.protocol.StartOp;
 
 public class OperationParserTest {
 

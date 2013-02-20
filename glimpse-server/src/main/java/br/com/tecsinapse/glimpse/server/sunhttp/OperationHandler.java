@@ -20,13 +20,13 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
+import br.com.tecsinapse.glimpse.protocol.Operation;
+import br.com.tecsinapse.glimpse.protocol.OperationParser;
+import br.com.tecsinapse.glimpse.protocol.Result;
+import br.com.tecsinapse.glimpse.protocol.ResultMarshaller;
 import br.com.tecsinapse.glimpse.server.Server;
 import br.com.tecsinapse.glimpse.server.ServerInvoker;
 import br.com.tecsinapse.glimpse.server.ServerInvokerTest;
-import br.com.tecsinapse.glimpse.server.protocol.Operation;
-import br.com.tecsinapse.glimpse.server.protocol.OperationParser;
-import br.com.tecsinapse.glimpse.server.protocol.Result;
-import br.com.tecsinapse.glimpse.server.protocol.ResultMarshaller;
 
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;

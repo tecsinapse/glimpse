@@ -14,38 +14,33 @@
  * limitations under the License.
  */
 
-package br.com.tecsinapse.glimpse.server;
+package br.com.tecsinapse.glimpse.protocol;
 
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlValue;
 
-@XmlRootElement(name = "stream-update")
-public class StreamUpdatePoll implements ServerPoll {
+@XmlRootElement(name = "start-result")
+public class StartResult implements Result {
 
-	@XmlValue
-	private String update;
+	@XmlElement(name = "job-id")
+	private String jobId;
 
-	// for jaxb use
-	StreamUpdatePoll() {
+	public StartResult() {
 	}
 
-	public StreamUpdatePoll(String update) {
-		this.update = update;
+	public StartResult(String jobId) {
+		this.jobId = jobId;
 	}
 
-	public String getUpdate() {
-		return update;
-	}
-
-	public boolean isInterrupt() {
-		return false;
+	public String getJobId() {
+		return jobId;
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((update == null) ? 0 : update.hashCode());
+		result = prime * result + ((jobId == null) ? 0 : jobId.hashCode());
 		return result;
 	}
 
@@ -57,11 +52,11 @@ public class StreamUpdatePoll implements ServerPoll {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		StreamUpdatePoll other = (StreamUpdatePoll) obj;
-		if (update == null) {
-			if (other.update != null)
+		StartResult other = (StartResult) obj;
+		if (jobId == null) {
+			if (other.jobId != null)
 				return false;
-		} else if (!update.equals(other.update))
+		} else if (!jobId.equals(other.jobId))
 			return false;
 		return true;
 	}

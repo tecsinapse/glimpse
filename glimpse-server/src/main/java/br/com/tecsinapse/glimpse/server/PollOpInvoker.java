@@ -18,8 +18,9 @@ package br.com.tecsinapse.glimpse.server;
 
 import java.util.List;
 
-import br.com.tecsinapse.glimpse.server.protocol.PollOp;
-import br.com.tecsinapse.glimpse.server.protocol.PollResult;
+import br.com.tecsinapse.glimpse.protocol.PollOp;
+import br.com.tecsinapse.glimpse.protocol.PollResult;
+import br.com.tecsinapse.glimpse.protocol.ServerPoll;
 
 public class PollOpInvoker implements OperationInvoker<PollOp, PollResult> {
 

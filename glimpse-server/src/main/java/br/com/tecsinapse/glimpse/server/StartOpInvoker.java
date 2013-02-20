@@ -16,8 +16,8 @@
 
 package br.com.tecsinapse.glimpse.server;
 
-import br.com.tecsinapse.glimpse.server.protocol.StartOp;
-import br.com.tecsinapse.glimpse.server.protocol.StartResult;
+import br.com.tecsinapse.glimpse.protocol.StartOp;
+import br.com.tecsinapse.glimpse.protocol.StartResult;
 
 public class StartOpInvoker implements
 		OperationInvoker<StartOp, StartResult> {

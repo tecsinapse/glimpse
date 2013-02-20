@@ -14,10 +14,8 @@
  * limitations under the License.
  */
 
-package br.com.tecsinapse.glimpse.server;
+package br.com.tecsinapse.glimpse.protocol;
 
-public interface ServerPoll {
-
-	boolean isInterrupt();
+public interface Result {
 
 }

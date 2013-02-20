@@ -14,18 +14,12 @@
  * limitations under the License.
  */
 
-package br.com.tecsinapse.glimpse.server.protocol;
+package br.com.tecsinapse.glimpse.protocol;
 
 import java.io.StringWriter;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
-
-import br.com.tecsinapse.glimpse.server.BeginPoll;
-import br.com.tecsinapse.glimpse.server.CancelPoll;
-import br.com.tecsinapse.glimpse.server.ClosePoll;
-import br.com.tecsinapse.glimpse.server.StreamUpdatePoll;
-import br.com.tecsinapse.glimpse.server.WorkedPoll;
 
 public class ResultMarshaller {
 

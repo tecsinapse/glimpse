@@ -21,8 +21,8 @@ import static org.testng.Assert.assertEquals;
 import org.mockito.Mockito;
 import org.testng.annotations.Test;
 
-import br.com.tecsinapse.glimpse.server.protocol.StartOp;
-import br.com.tecsinapse.glimpse.server.protocol.StartResult;
+import br.com.tecsinapse.glimpse.protocol.StartOp;
+import br.com.tecsinapse.glimpse.protocol.StartResult;
 
 public class StartOpInvokerTest {
 

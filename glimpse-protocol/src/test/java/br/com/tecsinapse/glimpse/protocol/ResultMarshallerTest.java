@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package br.com.tecsinapse.glimpse.server.protocol;
+package br.com.tecsinapse.glimpse.protocol;
 
 import static org.testng.Assert.assertEquals;
 
@@ -22,14 +22,6 @@ import java.util.Arrays;
 
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
-
-import br.com.tecsinapse.glimpse.server.BeginPoll;
-import br.com.tecsinapse.glimpse.server.CancelPoll;
-import br.com.tecsinapse.glimpse.server.ClosePoll;
-import br.com.tecsinapse.glimpse.server.ServerPoll;
-import br.com.tecsinapse.glimpse.server.StreamUpdatePoll;
-import br.com.tecsinapse.glimpse.server.Utils;
-import br.com.tecsinapse.glimpse.server.WorkedPoll;
 
 public class ResultMarshallerTest {
 

@@ -19,8 +19,8 @@ package br.com.tecsinapse.glimpse.server.sunhttp;
 import java.io.IOException;
 import java.util.List;
 
+import br.com.tecsinapse.glimpse.protocol.ServerPoll;
 import br.com.tecsinapse.glimpse.server.Server;
-import br.com.tecsinapse.glimpse.server.ServerPoll;
 
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
