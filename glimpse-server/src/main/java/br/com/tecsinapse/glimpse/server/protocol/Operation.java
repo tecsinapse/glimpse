@@ -16,10 +16,7 @@
 
 package br.com.tecsinapse.glimpse.server.protocol;
 
-import br.com.tecsinapse.glimpse.server.Server;
 
 public interface Operation {
-
-	Result execute(Server server);
 	
 }

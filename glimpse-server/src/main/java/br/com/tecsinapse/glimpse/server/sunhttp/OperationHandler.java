@@ -21,6 +21,8 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 
 import br.com.tecsinapse.glimpse.server.Server;
+import br.com.tecsinapse.glimpse.server.ServerInvoker;
+import br.com.tecsinapse.glimpse.server.ServerInvokerTest;
 import br.com.tecsinapse.glimpse.server.protocol.Operation;
 import br.com.tecsinapse.glimpse.server.protocol.OperationParser;
 import br.com.tecsinapse.glimpse.server.protocol.Result;
@@ -35,10 +37,10 @@ public class OperationHandler implements HttpHandler {
 	
 	private ResultMarshaller resultMarshaller = new ResultMarshaller();
 	
-	private Server server;
+	private ServerInvoker serverInvoker;
 	
 	public OperationHandler(Server server) {
-		this.server = server;
+		this.serverInvoker = new ServerInvoker(server);
 	}
 	
 	@Override
@@ -47,7 +49,7 @@ public class OperationHandler implements HttpHandler {
 		String xml = template.getRequestBody();
 		try {
 			Operation operation = operationParser.parse(xml);
-			Result result = operation.execute(server);
+			Result result = serverInvoker.invoke(operation);
 			template.setResponseOk();
 			template.writeReponse(resultMarshaller.marshall(result));
 		} catch (RuntimeException e) {
