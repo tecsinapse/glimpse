@@ -20,8 +20,24 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement(name="cancel")
 public class CancelPoll implements ServerPoll {
-
+	
 	public boolean isInterrupt() {
+		return true;
+	}
+
+	@Override
+	public int hashCode() {
+		return 1;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
 		return true;
 	}
 

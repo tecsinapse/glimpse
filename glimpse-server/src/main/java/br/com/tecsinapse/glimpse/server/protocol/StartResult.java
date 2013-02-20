@@ -19,21 +19,46 @@ package br.com.tecsinapse.glimpse.server.protocol;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-@XmlRootElement(name="start-result")
+@XmlRootElement(name = "start-result")
 public class StartResult implements Result {
 
-	@XmlElement(name="job-id")
+	@XmlElement(name = "job-id")
 	private String jobId;
-	
+
 	public StartResult() {
 	}
-	
+
 	public StartResult(String jobId) {
 		this.jobId = jobId;
 	}
-	
+
 	public String getJobId() {
 		return jobId;
 	}
-	
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((jobId == null) ? 0 : jobId.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		StartResult other = (StartResult) obj;
+		if (jobId == null) {
+			if (other.jobId != null)
+				return false;
+		} else if (!jobId.equals(other.jobId))
+			return false;
+		return true;
+	}
+
 }

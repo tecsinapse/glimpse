@@ -16,13 +16,27 @@
 
 package br.com.tecsinapse.glimpse.server;
 
+import java.util.Map;
+
+import org.testng.collections.Maps;
+
 import br.com.tecsinapse.glimpse.server.protocol.Operation;
+import br.com.tecsinapse.glimpse.server.protocol.PollOp;
 import br.com.tecsinapse.glimpse.server.protocol.Result;
+import br.com.tecsinapse.glimpse.server.protocol.StartOp;
 
 public class ServerInvoker {
 
+	private Map<Class<? extends Operation>, OperationInvoker<? extends Operation, ? extends Result>> invokersByClass = Maps.newHashMap();
+
+	public ServerInvoker(Server server) {
+		invokersByClass.put(StartOp.class, new StartOpInvoker(server));
+		invokersByClass.put(PollOp.class, new PollOpInvoker(server));
+	}
+
 	public Result invoke(Operation operation) {
-		throw new UnsupportedOperationException();
+		OperationInvoker invoker = invokersByClass.get(operation.getClass());
+		return invoker.invoke(operation);
 	}
 	
 }

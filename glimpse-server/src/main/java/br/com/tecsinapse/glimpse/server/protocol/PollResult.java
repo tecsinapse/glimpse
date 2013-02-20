@@ -40,5 +40,30 @@ public class PollResult implements Result {
 	public List<ServerPoll> getPolls() {
 		return polls;
 	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((polls == null) ? 0 : polls.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		PollResult other = (PollResult) obj;
+		if (polls == null) {
+			if (other.polls != null)
+				return false;
+		} else if (!polls.equals(other.polls))
+			return false;
+		return true;
+	}
 	
 }

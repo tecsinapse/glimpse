@@ -19,7 +19,7 @@ package br.com.tecsinapse.glimpse.server;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlValue;
 
-@XmlRootElement(name="stream-update")
+@XmlRootElement(name = "stream-update")
 public class StreamUpdatePoll implements ServerPoll {
 
 	@XmlValue
@@ -28,17 +28,42 @@ public class StreamUpdatePoll implements ServerPoll {
 	// for jaxb use
 	StreamUpdatePoll() {
 	}
-	
+
 	public StreamUpdatePoll(String update) {
 		this.update = update;
 	}
-	
+
 	public String getUpdate() {
 		return update;
 	}
 
 	public boolean isInterrupt() {
 		return false;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((update == null) ? 0 : update.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		StreamUpdatePoll other = (StreamUpdatePoll) obj;
+		if (update == null) {
+			if (other.update != null)
+				return false;
+		} else if (!update.equals(other.update))
+			return false;
+		return true;
 	}
 
 }

@@ -19,7 +19,7 @@ package br.com.tecsinapse.glimpse.server;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-@XmlRootElement(name="begin")
+@XmlRootElement(name = "begin")
 public class BeginPoll implements ServerPoll {
 
 	@XmlElement
@@ -28,17 +28,39 @@ public class BeginPoll implements ServerPoll {
 	// for jaxb use
 	BeginPoll() {
 	}
-	
+
 	public BeginPoll(int steps) {
 		this.steps = steps;
 	}
-	
+
 	public int getSteps() {
 		return steps;
 	}
 
 	public boolean isInterrupt() {
 		return false;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + steps;
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		BeginPoll other = (BeginPoll) obj;
+		if (steps != other.steps)
+			return false;
+		return true;
 	}
 
 }

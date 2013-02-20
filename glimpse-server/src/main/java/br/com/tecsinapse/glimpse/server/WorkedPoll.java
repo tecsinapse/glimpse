@@ -41,4 +41,26 @@ public class WorkedPoll implements ServerPoll {
 		return false;
 	}
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + workedSteps;
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		WorkedPoll other = (WorkedPoll) obj;
+		if (workedSteps != other.workedSteps)
+			return false;
+		return true;
+	}
+
 }
