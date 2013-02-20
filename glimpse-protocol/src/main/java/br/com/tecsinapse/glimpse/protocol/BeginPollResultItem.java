@@ -21,25 +21,21 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 
 @XmlRootElement(name = "begin")
-public class BeginPoll implements ServerPoll {
+public class BeginPollResultItem implements PollResultItem {
 
 	@XmlElement
 	private int steps;
 
 	// for jaxb use
-	BeginPoll() {
+	BeginPollResultItem() {
 	}
 
-	public BeginPoll(int steps) {
+	public BeginPollResultItem(int steps) {
 		this.steps = steps;
 	}
 
 	public int getSteps() {
 		return steps;
-	}
-
-	public boolean isInterrupt() {
-		return false;
 	}
 
 	@Override
@@ -58,7 +54,7 @@ public class BeginPoll implements ServerPoll {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		BeginPoll other = (BeginPoll) obj;
+		BeginPollResultItem other = (BeginPollResultItem) obj;
 		if (steps != other.steps)
 			return false;
 		return true;

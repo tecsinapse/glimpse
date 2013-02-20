@@ -19,25 +19,25 @@ package br.com.tecsinapse.glimpse.server;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import br.com.tecsinapse.glimpse.protocol.BeginPoll;
-import br.com.tecsinapse.glimpse.protocol.ServerPoll;
-import br.com.tecsinapse.glimpse.protocol.StreamUpdatePoll;
-import br.com.tecsinapse.glimpse.protocol.WorkedPoll;
+import br.com.tecsinapse.glimpse.protocol.BeginPollResultItem;
+import br.com.tecsinapse.glimpse.protocol.PollResultItem;
+import br.com.tecsinapse.glimpse.protocol.StreamUpdatePollResultItem;
+import br.com.tecsinapse.glimpse.protocol.WorkedPollResultItem;
 
 
 public class DefaultMonitor implements Monitor {
 
-	private BlockingQueue<ServerPoll> queue;
+	private BlockingQueue<PollResultItem> queue;
 	private AtomicBoolean canceled;
 	
-	public DefaultMonitor(BlockingQueue<ServerPoll> queue, AtomicBoolean canceled) {
+	public DefaultMonitor(BlockingQueue<PollResultItem> queue, AtomicBoolean canceled) {
 		this.queue = queue;
 		this.canceled = canceled;
 	}
 
 	public void begin(int steps) {
 		try {
-			queue.put(new BeginPoll(steps));
+			queue.put(new BeginPollResultItem(steps));
 		} catch (InterruptedException e) {
 			throw new IllegalStateException(e);
 		}
@@ -45,7 +45,7 @@ public class DefaultMonitor implements Monitor {
 
 	public void worked(int workedSteps) {
 		try {
-			queue.put(new WorkedPoll(workedSteps));
+			queue.put(new WorkedPollResultItem(workedSteps));
 		} catch (InterruptedException e) {
 			throw new IllegalStateException(e);
 		}
@@ -58,7 +58,7 @@ public class DefaultMonitor implements Monitor {
 	public void println(Object output) {
 		try {
 			String text = nullSafeToString(output);
-			queue.put(new StreamUpdatePoll(text));
+			queue.put(new StreamUpdatePollResultItem(text));
 		} catch (InterruptedException e) {
 			throw new IllegalStateException(e);
 		}

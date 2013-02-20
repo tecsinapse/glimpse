@@ -26,8 +26,8 @@ public class ResultMarshaller {
 	public String marshall(Result result) {
 		try {
 			JAXBContext context = JAXBContext.newInstance(StartResult.class,
-					PollResult.class, BeginPoll.class, CancelPoll.class,
-					ClosePoll.class, StreamUpdatePoll.class, WorkedPoll.class);
+					PollResult.class, BeginPollResultItem.class, CancelPollResultItem.class,
+					ClosePollResultItem.class, StreamUpdatePollResultItem.class, WorkedPollResultItem.class);
 			StringWriter writer = new StringWriter();
 			context.createMarshaller().marshal(result, writer);
 			return writer.toString();

@@ -16,37 +16,33 @@
 
 package br.com.tecsinapse.glimpse.protocol;
 
-import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlValue;
 
 
-@XmlRootElement(name="worked")
-public class WorkedPoll implements ServerPoll {
+@XmlRootElement(name = "stream-update")
+public class StreamUpdatePollResultItem implements PollResultItem {
 
-	@XmlElement(name="steps")
-	private int workedSteps;
+	@XmlValue
+	private String update;
 
 	// for jaxb use
-	WorkedPoll() {
-	}
-	
-	public WorkedPoll(int workedSteps) {
-		this.workedSteps = workedSteps;
+	StreamUpdatePollResultItem() {
 	}
 
-	public int getWorkedSteps() {
-		return workedSteps;
+	public StreamUpdatePollResultItem(String update) {
+		this.update = update;
 	}
-	
-	public boolean isInterrupt() {
-		return false;
+
+	public String getUpdate() {
+		return update;
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + workedSteps;
+		result = prime * result + ((update == null) ? 0 : update.hashCode());
 		return result;
 	}
 
@@ -58,8 +54,11 @@ public class WorkedPoll implements ServerPoll {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		WorkedPoll other = (WorkedPoll) obj;
-		if (workedSteps != other.workedSteps)
+		StreamUpdatePollResultItem other = (StreamUpdatePollResultItem) obj;
+		if (update == null) {
+			if (other.update != null)
+				return false;
+		} else if (!update.equals(other.update))
 			return false;
 		return true;
 	}

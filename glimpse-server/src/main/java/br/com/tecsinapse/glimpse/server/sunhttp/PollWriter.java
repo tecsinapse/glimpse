@@ -16,26 +16,26 @@
 
 package br.com.tecsinapse.glimpse.server.sunhttp;
 
-import br.com.tecsinapse.glimpse.protocol.BeginPoll;
-import br.com.tecsinapse.glimpse.protocol.CancelPoll;
-import br.com.tecsinapse.glimpse.protocol.ClosePoll;
-import br.com.tecsinapse.glimpse.protocol.ServerPoll;
-import br.com.tecsinapse.glimpse.protocol.StreamUpdatePoll;
-import br.com.tecsinapse.glimpse.protocol.WorkedPoll;
+import br.com.tecsinapse.glimpse.protocol.BeginPollResultItem;
+import br.com.tecsinapse.glimpse.protocol.CancelPollResultItem;
+import br.com.tecsinapse.glimpse.protocol.ClosePollResultItem;
+import br.com.tecsinapse.glimpse.protocol.PollResultItem;
+import br.com.tecsinapse.glimpse.protocol.StreamUpdatePollResultItem;
+import br.com.tecsinapse.glimpse.protocol.WorkedPollResultItem;
 
 public class PollWriter {
 
-	public static String write(ServerPoll serverPoll) {
-		if (serverPoll instanceof BeginPoll) {
-			return "begin\n" + ((BeginPoll) serverPoll).getSteps();
-		} else if (serverPoll instanceof CancelPoll) {
+	public static String write(PollResultItem serverPoll) {
+		if (serverPoll instanceof BeginPollResultItem) {
+			return "begin\n" + ((BeginPollResultItem) serverPoll).getSteps();
+		} else if (serverPoll instanceof CancelPollResultItem) {
 			return "cancel";
-		} else if (serverPoll instanceof ClosePoll) {
+		} else if (serverPoll instanceof ClosePollResultItem) {
 			return "close";
-		} else if (serverPoll instanceof WorkedPoll) {
-			return "worked\n" + ((WorkedPoll) serverPoll).getWorkedSteps();
-		} else if (serverPoll instanceof StreamUpdatePoll) {
-			return "update\n" + ((StreamUpdatePoll) serverPoll).getUpdate();
+		} else if (serverPoll instanceof WorkedPollResultItem) {
+			return "worked\n" + ((WorkedPollResultItem) serverPoll).getWorkedSteps();
+		} else if (serverPoll instanceof StreamUpdatePollResultItem) {
+			return "update\n" + ((StreamUpdatePollResultItem) serverPoll).getUpdate();
 		} else {
 			throw new UnsupportedOperationException();
 		}

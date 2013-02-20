@@ -14,26 +14,26 @@
  * limitations under the License.
  */
 
-package br.com.tecsinapse.glimpse.server;
+package br.com.tecsinapse.glimpse.client;
 
-import java.util.List;
+import org.mockito.Mockito;
+import org.testng.annotations.Test;
 
-import br.com.tecsinapse.glimpse.protocol.PollOp;
-import br.com.tecsinapse.glimpse.protocol.PollResult;
-import br.com.tecsinapse.glimpse.protocol.PollResultItem;
+import br.com.tecsinapse.glimpse.protocol.BeginPollResultItem;
 
-public class PollOpInvoker implements OperationInvoker<PollOp, PollResult> {
+public class BeginPollResultItemApplierTest {
 
-	private Server server;
-
-	public PollOpInvoker(Server server) {
-		this.server = server;
+	@Test
+	public void apply() {
+		int steps = 2;
+		BeginPollResultItem item = new BeginPollResultItem(steps);
+		
+		Monitor monitor = Mockito.mock(Monitor.class);
+		
+		BeginPollResultItemApplier applier = new BeginPollResultItemApplier();
+		applier.apply(item, monitor);
+		
+		Mockito.verify(monitor).begin(steps);
 	}
-
-	@Override
-	public PollResult invoke(PollOp operation) {
-		List<PollResultItem> polls = server.poll(operation.getJobId());
-		return new PollResult(polls);
-	}
-
+	
 }

@@ -27,7 +27,7 @@ import org.testng.annotations.Test;
 
 import br.com.tecsinapse.glimpse.protocol.PollOp;
 import br.com.tecsinapse.glimpse.protocol.PollResult;
-import br.com.tecsinapse.glimpse.protocol.ServerPoll;
+import br.com.tecsinapse.glimpse.protocol.PollResultItem;
 
 public class PollOpInvokerTest {
 
@@ -36,8 +36,8 @@ public class PollOpInvokerTest {
 		String jobId = "myJobId";
 		PollOp pollOp = new PollOp(jobId);
 
-		ServerPoll poll = mock(ServerPoll.class);
-		List<ServerPoll> polls = Arrays.asList(poll);
+		PollResultItem poll = mock(PollResultItem.class);
+		List<PollResultItem> polls = Arrays.asList(poll);
 
 		Server server = mock(Server.class);
 		when(server.poll(jobId)).thenReturn(polls);

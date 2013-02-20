@@ -16,19 +16,34 @@
 
 package br.com.tecsinapse.glimpse.protocol;
 
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 
-@XmlRootElement(name="close")
-public class ClosePoll implements ServerPoll {
+@XmlRootElement(name="worked")
+public class WorkedPollResultItem implements PollResultItem {
 
-	public boolean isInterrupt() {
-		return true;
+	@XmlElement(name="steps")
+	private int workedSteps;
+
+	// for jaxb use
+	WorkedPollResultItem() {
 	}
 	
+	public WorkedPollResultItem(int workedSteps) {
+		this.workedSteps = workedSteps;
+	}
+
+	public int getWorkedSteps() {
+		return workedSteps;
+	}
+
 	@Override
 	public int hashCode() {
-		return 1;
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + workedSteps;
+		return result;
 	}
 
 	@Override
@@ -38,6 +53,9 @@ public class ClosePoll implements ServerPoll {
 		if (obj == null)
 			return false;
 		if (getClass() != obj.getClass())
+			return false;
+		WorkedPollResultItem other = (WorkedPollResultItem) obj;
+		if (workedSteps != other.workedSteps)
 			return false;
 		return true;
 	}

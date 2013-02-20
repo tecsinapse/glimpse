@@ -46,17 +46,17 @@ public class ResultMarshallerTest {
 		String updateWithXmlText = "<tag>\n\t<inner-tag/>\n\t</tag>";
 		String normalizedUpdateWithXmlText = "&lt;tag&gt;\n\t&lt;inner-tag/&gt;\n\t&lt;/tag&gt;";
 		return new Object[][] { 
-				{ new BeginPoll(steps), String.format("%s<poll-result><begin><steps>%d</steps></begin></poll-result>", Utils.XML_HEADER, steps) },
-				{ new CancelPoll(), String.format("%s<poll-result><cancel/></poll-result>", Utils.XML_HEADER) },
-				{ new ClosePoll(), String.format("%s<poll-result><close/></poll-result>", Utils.XML_HEADER) },
-				{ new StreamUpdatePoll(simpleUpdate), String.format("%s<poll-result><stream-update>%s</stream-update></poll-result>", Utils.XML_HEADER, simpleUpdate) },
-				{ new StreamUpdatePoll(updateWithXmlText), String.format("%s<poll-result><stream-update>%s</stream-update></poll-result>", Utils.XML_HEADER, normalizedUpdateWithXmlText) },
-				{ new WorkedPoll(workedSteps),  String.format("%s<poll-result><worked><steps>%d</steps></worked></poll-result>", Utils.XML_HEADER, workedSteps)}
+				{ new BeginPollResultItem(steps), String.format("%s<poll-result><begin><steps>%d</steps></begin></poll-result>", Utils.XML_HEADER, steps) },
+				{ new CancelPollResultItem(), String.format("%s<poll-result><cancel/></poll-result>", Utils.XML_HEADER) },
+				{ new ClosePollResultItem(), String.format("%s<poll-result><close/></poll-result>", Utils.XML_HEADER) },
+				{ new StreamUpdatePollResultItem(simpleUpdate), String.format("%s<poll-result><stream-update>%s</stream-update></poll-result>", Utils.XML_HEADER, simpleUpdate) },
+				{ new StreamUpdatePollResultItem(updateWithXmlText), String.format("%s<poll-result><stream-update>%s</stream-update></poll-result>", Utils.XML_HEADER, normalizedUpdateWithXmlText) },
+				{ new WorkedPollResultItem(workedSteps),  String.format("%s<poll-result><worked><steps>%d</steps></worked></poll-result>", Utils.XML_HEADER, workedSteps)}
 		};
 	}
 
 	@Test(dataProvider = "poll-result")
-	public void pollResult(ServerPoll poll, String expected) {
+	public void pollResult(PollResultItem poll, String expected) {
 		PollResult pollResult = new PollResult(
 				Arrays.asList(poll));
 

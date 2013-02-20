@@ -19,7 +19,7 @@ package br.com.tecsinapse.glimpse.server.sunhttp;
 import java.io.IOException;
 import java.util.List;
 
-import br.com.tecsinapse.glimpse.protocol.ServerPoll;
+import br.com.tecsinapse.glimpse.protocol.PollResultItem;
 import br.com.tecsinapse.glimpse.server.Server;
 
 import com.sun.net.httpserver.HttpExchange;
@@ -36,9 +36,9 @@ public class PollHandler implements HttpHandler {
 	public void handle(HttpExchange exchange) throws IOException {
 		ExchangeTemplate template = new ExchangeTemplate(exchange);
 		String id = template.getRequestBody();
-		List<ServerPoll> polls = server.poll(id);
+		List<PollResultItem> polls = server.poll(id);
 		StringBuilder builder = new StringBuilder();
-		for (ServerPoll serverPoll : polls) {
+		for (PollResultItem serverPoll : polls) {
 			builder.append(PollWriter.write(serverPoll));
 			builder.append("\n");
 		}

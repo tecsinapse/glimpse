@@ -26,16 +26,16 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class PollResult implements Result {
 
 	@XmlAnyElement
-	private List<ServerPoll> polls = new ArrayList<ServerPoll>();
+	private List<PollResultItem> polls = new ArrayList<PollResultItem>();
 	
 	public PollResult() {
 	}
 	
-	public PollResult(List<ServerPoll> polls) {
-		this.polls = new ArrayList<ServerPoll>(polls);
+	public PollResult(List<PollResultItem> polls) {
+		this.polls = new ArrayList<PollResultItem>(polls);
 	}
 	
-	public List<ServerPoll> getPolls() {
+	public List<PollResultItem> getPolls() {
 		return polls;
 	}
 

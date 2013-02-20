@@ -28,7 +28,7 @@ import br.com.tecsinapse.glimpse.protocol.Operation;
 import br.com.tecsinapse.glimpse.protocol.PollOp;
 import br.com.tecsinapse.glimpse.protocol.PollResult;
 import br.com.tecsinapse.glimpse.protocol.Result;
-import br.com.tecsinapse.glimpse.protocol.ServerPoll;
+import br.com.tecsinapse.glimpse.protocol.PollResultItem;
 import br.com.tecsinapse.glimpse.protocol.StartOp;
 import br.com.tecsinapse.glimpse.protocol.StartResult;
 
@@ -40,7 +40,7 @@ public class ServerInvokerTest {
 	
 	private String jobId = "myJobId";
 	
-	private List<ServerPoll> polls = Arrays.asList(Mockito.mock(ServerPoll.class));
+	private List<PollResultItem> polls = Arrays.asList(Mockito.mock(PollResultItem.class));
 	
 	public ServerInvokerTest() {
 		Server server = Mockito.mock(Server.class);

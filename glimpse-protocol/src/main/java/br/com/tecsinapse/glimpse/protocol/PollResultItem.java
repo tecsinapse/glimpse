@@ -14,26 +14,8 @@
  * limitations under the License.
  */
 
-package br.com.tecsinapse.glimpse.server;
+package br.com.tecsinapse.glimpse.protocol;
 
-import java.util.List;
-
-import br.com.tecsinapse.glimpse.protocol.PollOp;
-import br.com.tecsinapse.glimpse.protocol.PollResult;
-import br.com.tecsinapse.glimpse.protocol.PollResultItem;
-
-public class PollOpInvoker implements OperationInvoker<PollOp, PollResult> {
-
-	private Server server;
-
-	public PollOpInvoker(Server server) {
-		this.server = server;
-	}
-
-	@Override
-	public PollResult invoke(PollOp operation) {
-		List<PollResultItem> polls = server.poll(operation.getJobId());
-		return new PollResult(polls);
-	}
+public interface PollResultItem {
 
 }

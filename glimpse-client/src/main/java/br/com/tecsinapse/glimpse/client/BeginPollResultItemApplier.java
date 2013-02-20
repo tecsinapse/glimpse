@@ -14,32 +14,15 @@
  * limitations under the License.
  */
 
-package br.com.tecsinapse.glimpse.protocol;
+package br.com.tecsinapse.glimpse.client;
 
-import javax.xml.bind.annotation.XmlRootElement;
+import br.com.tecsinapse.glimpse.protocol.BeginPollResultItem;
 
-
-@XmlRootElement(name="cancel")
-public class CancelPoll implements ServerPoll {
-	
-	public boolean isInterrupt() {
-		return true;
-	}
+public class BeginPollResultItemApplier implements PollResultItemApplier<BeginPollResultItem> {
 
 	@Override
-	public int hashCode() {
-		return 1;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		return true;
+	public void apply(BeginPollResultItem item, Monitor monitor) {
+		monitor.begin(item.getSteps());
 	}
 
 }

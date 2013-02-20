@@ -22,9 +22,9 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingDeque;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import br.com.tecsinapse.glimpse.protocol.CancelPoll;
-import br.com.tecsinapse.glimpse.protocol.ClosePoll;
-import br.com.tecsinapse.glimpse.protocol.ServerPoll;
+import br.com.tecsinapse.glimpse.protocol.CancelPollResultItem;
+import br.com.tecsinapse.glimpse.protocol.ClosePollResultItem;
+import br.com.tecsinapse.glimpse.protocol.PollResultItem;
 
 public class Job {
 
@@ -34,7 +34,7 @@ public class Job {
 
 	private final int MAX_ELEMENTS_PER_POLL = 20;
 
-	private BlockingQueue<ServerPoll> queue = new LinkedBlockingDeque<ServerPoll>();
+	private BlockingQueue<PollResultItem> queue = new LinkedBlockingDeque<PollResultItem>();
 
 	private AtomicBoolean canceled = new AtomicBoolean();
 	
@@ -51,7 +51,7 @@ public class Job {
 
 			public void run() {
 				scriptRunner.run(script, new DefaultMonitor(queue, canceled));
-				queue.add(new ClosePoll());
+				queue.add(new ClosePollResultItem());
 				Job.this.running.set(false);
 			}
 		}, "Job");
@@ -64,17 +64,17 @@ public class Job {
 
 	public void cancel() {
 		canceled.set(true);
-		queue.add(new CancelPoll());
+		queue.add(new CancelPollResultItem());
 	}
 
-	public List<ServerPoll> pollEverything() {
-		List<ServerPoll> result = new LinkedList<ServerPoll>();
+	public List<PollResultItem> pollEverything() {
+		List<PollResultItem> result = new LinkedList<PollResultItem>();
 		queue.drainTo(result);
 		return result;
 	}
 	
-	public List<ServerPoll> poll() {
-		List<ServerPoll> result = new LinkedList<ServerPoll>();
+	public List<PollResultItem> poll() {
+		List<PollResultItem> result = new LinkedList<PollResultItem>();
 		queue.drainTo(result, MAX_ELEMENTS_PER_POLL);
 		return result;
 	}

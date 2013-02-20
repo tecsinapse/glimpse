@@ -21,7 +21,7 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.TimeUnit;
 
-import br.com.tecsinapse.glimpse.protocol.ServerPoll;
+import br.com.tecsinapse.glimpse.protocol.PollResultItem;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
@@ -90,7 +90,7 @@ public class Server {
 	 *            the id assigned for the conversation
 	 * @return output produced by the server since latest poll
 	 */
-	public List<ServerPoll> poll(String id) {
+	public List<PollResultItem> poll(String id) {
 		Job job = jobs.get(id);
 		if (!job.isRunning()) {
 			jobs.remove(id);
