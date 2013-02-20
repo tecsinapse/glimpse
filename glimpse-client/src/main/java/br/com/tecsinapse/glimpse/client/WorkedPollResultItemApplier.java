@@ -22,8 +22,7 @@ public class WorkedPollResultItemApplier implements PollResultItemApplier<Worked
 
 	@Override
 	public void apply(WorkedPollResultItem item, Monitor monitor) {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException();
+		monitor.worked(item.getWorkedSteps());
 	}
 
 }

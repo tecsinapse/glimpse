@@ -16,12 +16,35 @@
 
 package br.com.tecsinapse.glimpse.client;
 
+import java.util.Map;
+
+import org.testng.collections.Maps;
+
+import br.com.tecsinapse.glimpse.protocol.BeginPollResultItem;
+import br.com.tecsinapse.glimpse.protocol.CancelPollResultItem;
+import br.com.tecsinapse.glimpse.protocol.ClosePollResultItem;
 import br.com.tecsinapse.glimpse.protocol.PollResult;
+import br.com.tecsinapse.glimpse.protocol.PollResultItem;
+import br.com.tecsinapse.glimpse.protocol.StreamUpdatePollResultItem;
+import br.com.tecsinapse.glimpse.protocol.WorkedPollResultItem;
 
 public class PollResultApplier {
 
+	private Map<Class<? extends PollResultItem>, PollResultItemApplier<? extends PollResultItem>> appliersByClass = Maps.newHashMap();
+	
+	public PollResultApplier() {
+		appliersByClass.put(BeginPollResultItem.class, new BeginPollResultItemApplier());
+		appliersByClass.put(CancelPollResultItem.class, new CancelPollResultItemApplier());
+		appliersByClass.put(ClosePollResultItem.class, new ClosePollResultItemApplier());
+		appliersByClass.put(StreamUpdatePollResultItem.class, new StreamUpdatePollResultItemApplier());
+		appliersByClass.put(WorkedPollResultItem.class, new WorkedPollResultItemApplier());
+	}
+	
 	public void apply(PollResult result, Monitor monitor) {
-		throw new UnsupportedOperationException();
+		for (PollResultItem item : result.getPolls()) {
+			PollResultItemApplier applier = appliersByClass.get(item.getClass());
+			applier.apply(item, monitor);
+		}
 	}
 	
 }
