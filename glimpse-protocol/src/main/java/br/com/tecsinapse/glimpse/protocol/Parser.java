@@ -21,12 +21,19 @@ import java.io.ByteArrayInputStream;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 
-public class OperationParser {
+public class Parser {
 
-	public Operation parse(String xml) {
+	private Parser() {
+	}
+
+	public static Object parse(String xml) {
 		try {
-			JAXBContext context = JAXBContext.newInstance(StartOp.class, PollOp.class);
-			return (Operation) context.createUnmarshaller().unmarshal(
+			JAXBContext context = JAXBContext.newInstance(StartOp.class,
+					StartResult.class, BeginPollResultItem.class,
+					CancelPollResultItem.class, ClosePollResultItem.class,
+					StreamUpdatePollResultItem.class,
+					WorkedPollResultItem.class, PollResult.class, PollOp.class);
+			return context.createUnmarshaller().unmarshal(
 					new ByteArrayInputStream(xml.getBytes()));
 		} catch (JAXBException e) {
 			throw new IllegalStateException(e);

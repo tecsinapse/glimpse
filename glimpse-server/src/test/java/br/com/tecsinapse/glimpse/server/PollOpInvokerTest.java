@@ -46,7 +46,7 @@ public class PollOpInvokerTest {
 		
 		PollResult result = pollOpInvoker.invoke(pollOp);
 
-		assertEquals(result.getPolls(), polls);
+		assertEquals(result.getItems(), polls);
 	}
 	
 }

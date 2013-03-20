@@ -22,7 +22,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement(name="poll")
 public class PollOp implements Operation {
 
-	@XmlElement
+	@XmlElement(name="job-id")
 	private String jobId;
 
 	public PollOp() {

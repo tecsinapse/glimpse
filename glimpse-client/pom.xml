@@ -20,5 +20,10 @@
   		<groupId>br.com.tecsinapse</groupId>
   		<artifactId>glimpse-protocol</artifactId>
   	</dependency>
+  	<dependency>
+  		<groupId>br.com.tecsinapse</groupId>
+  		<artifactId>glimpse-server</artifactId>
+  		<scope>test</scope>
+  	</dependency>
   </dependencies>
 </project>

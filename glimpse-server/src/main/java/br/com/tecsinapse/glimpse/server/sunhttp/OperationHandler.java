@@ -20,22 +20,17 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
+import br.com.tecsinapse.glimpse.protocol.Marshaller;
 import br.com.tecsinapse.glimpse.protocol.Operation;
-import br.com.tecsinapse.glimpse.protocol.OperationParser;
+import br.com.tecsinapse.glimpse.protocol.Parser;
 import br.com.tecsinapse.glimpse.protocol.Result;
-import br.com.tecsinapse.glimpse.protocol.ResultMarshaller;
 import br.com.tecsinapse.glimpse.server.Server;
 import br.com.tecsinapse.glimpse.server.ServerInvoker;
-import br.com.tecsinapse.glimpse.server.ServerInvokerTest;
 
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 
 public class OperationHandler implements HttpHandler {
-
-	private OperationParser operationParser = new OperationParser();
-	
-	private ResultMarshaller resultMarshaller = new ResultMarshaller();
 	
 	private ServerInvoker serverInvoker;
 	
@@ -48,10 +43,10 @@ public class OperationHandler implements HttpHandler {
 		ExchangeTemplate template = new ExchangeTemplate(exchange);
 		String xml = template.getRequestBody();
 		try {
-			Operation operation = operationParser.parse(xml);
+			Operation operation = (Operation) Parser.parse(xml);
 			Result result = serverInvoker.invoke(operation);
 			template.setResponseOk();
-			template.writeReponse(resultMarshaller.marshall(result));
+			template.writeReponse(Marshaller.marshall(result));
 		} catch (RuntimeException e) {
 			template.setResponseInternalServerError();
 			StringWriter writer = new StringWriter();

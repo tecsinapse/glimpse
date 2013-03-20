@@ -20,30 +20,31 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlAnyElement;
+import javax.xml.bind.annotation.XmlList;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement(name="poll-result")
 public class PollResult implements Result {
 
-	@XmlAnyElement
-	private List<PollResultItem> polls = new ArrayList<PollResultItem>();
+	@XmlAnyElement(lax=true)
+	private List<PollResultItem> items = new ArrayList<PollResultItem>();
 	
 	public PollResult() {
 	}
 	
 	public PollResult(List<PollResultItem> polls) {
-		this.polls = new ArrayList<PollResultItem>(polls);
+		this.items = new ArrayList<PollResultItem>(polls);
 	}
 	
-	public List<PollResultItem> getPolls() {
-		return polls;
+	public List<PollResultItem> getItems() {
+		return items;
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((polls == null) ? 0 : polls.hashCode());
+		result = prime * result + ((items == null) ? 0 : items.hashCode());
 		return result;
 	}
 
@@ -56,10 +57,10 @@ public class PollResult implements Result {
 		if (getClass() != obj.getClass())
 			return false;
 		PollResult other = (PollResult) obj;
-		if (polls == null) {
-			if (other.polls != null)
+		if (items == null) {
+			if (other.items != null)
 				return false;
-		} else if (!polls.equals(other.polls))
+		} else if (!items.equals(other.items))
 			return false;
 		return true;
 	}

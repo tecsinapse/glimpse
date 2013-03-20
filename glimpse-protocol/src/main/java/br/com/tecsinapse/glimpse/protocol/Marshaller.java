@@ -21,15 +21,21 @@ import java.io.StringWriter;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 
-public class ResultMarshaller {
+public class Marshaller {
 
-	public String marshall(Result result) {
+	private Marshaller() {
+	}
+
+	public static String marshall(Object obj) {
 		try {
-			JAXBContext context = JAXBContext.newInstance(StartResult.class,
-					PollResult.class, BeginPollResultItem.class, CancelPollResultItem.class,
-					ClosePollResultItem.class, StreamUpdatePollResultItem.class, WorkedPollResultItem.class);
+			JAXBContext context = JAXBContext.newInstance(StartOp.class,
+					PollOp.class, StartResult.class, PollResult.class,
+					BeginPollResultItem.class, CancelPollResultItem.class,
+					ClosePollResultItem.class,
+					StreamUpdatePollResultItem.class,
+					WorkedPollResultItem.class);
 			StringWriter writer = new StringWriter();
-			context.createMarshaller().marshal(result, writer);
+			context.createMarshaller().marshal(obj, writer);
 			return writer.toString();
 		} catch (JAXBException e) {
 			throw new IllegalStateException(e);

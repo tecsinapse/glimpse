@@ -18,7 +18,7 @@ package br.com.tecsinapse.glimpse.server;
 
 import java.util.Map;
 
-import org.testng.collections.Maps;
+import com.google.common.collect.Maps;
 
 import br.com.tecsinapse.glimpse.protocol.Operation;
 import br.com.tecsinapse.glimpse.protocol.PollOp;
