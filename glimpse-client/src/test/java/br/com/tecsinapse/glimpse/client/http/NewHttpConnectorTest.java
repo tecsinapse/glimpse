@@ -24,6 +24,7 @@ import java.util.List;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import br.com.tecsinapse.glimpse.protocol.CancelPollResultItem;
 import br.com.tecsinapse.glimpse.protocol.ClosePollResultItem;
 import br.com.tecsinapse.glimpse.protocol.PollResultItem;
 import br.com.tecsinapse.glimpse.protocol.StreamUpdatePollResultItem;
@@ -46,8 +47,26 @@ public class NewHttpConnectorTest {
 		while(connector.isOpen(id)) {
 			results.addAll(connector.poll(id));
 		}
+		serverConnector.stop();
 		assertEquals(results.get(0), new StreamUpdatePollResultItem("hello"));
 		assertEquals(results.get(1), new ClosePollResultItem());
+	}
+	
+	@Test
+	public void startAndCancel() {
+		Server server = new Server(new GroovyScriptRunner(), new GroovyReplManager());
+		SunHttpConnector serverConnector = new SunHttpConnector(server, 8081);
+		serverConnector.start();
+		
+		NewHttpConnector connector = new NewHttpConnector("http://localhost:8081", null, null);
+		String id = connector.start("while (!isCanceled()) { Thread.sleep(500) }");
+		connector.cancel(id);
+		List<PollResultItem> results = new ArrayList<PollResultItem>();
+		while (connector.isOpen(id)) {
+			results.addAll(connector.poll(id));
+		}
+		serverConnector.stop();
+		assertEquals(results.get(0), new CancelPollResultItem());
 	}
 	
 }

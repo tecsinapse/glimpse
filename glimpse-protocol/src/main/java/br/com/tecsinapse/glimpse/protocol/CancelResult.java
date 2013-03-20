@@ -18,24 +18,7 @@ package br.com.tecsinapse.glimpse.protocol;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
-
-@XmlRootElement(name="canceled")
-public class CancelPollResultItem implements PollResultItem {
-
-	@Override
-	public int hashCode() {
-		return 1;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		return true;
-	}
+@XmlRootElement(name="cancel-result")
+public class CancelResult implements Result {
 
 }

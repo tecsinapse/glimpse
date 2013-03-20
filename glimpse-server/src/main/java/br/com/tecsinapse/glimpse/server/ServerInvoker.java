@@ -20,6 +20,7 @@ import java.util.Map;
 
 import com.google.common.collect.Maps;
 
+import br.com.tecsinapse.glimpse.protocol.CancelOp;
 import br.com.tecsinapse.glimpse.protocol.Operation;
 import br.com.tecsinapse.glimpse.protocol.PollOp;
 import br.com.tecsinapse.glimpse.protocol.Result;
@@ -32,6 +33,7 @@ public class ServerInvoker {
 	public ServerInvoker(Server server) {
 		invokersByClass.put(StartOp.class, new StartOpInvoker(server));
 		invokersByClass.put(PollOp.class, new PollOpInvoker(server));
+		invokersByClass.put(CancelOp.class, new CancelOpInvoker(server));
 	}
 
 	public Result invoke(Operation operation) {

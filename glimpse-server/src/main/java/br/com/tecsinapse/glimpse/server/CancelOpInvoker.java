@@ -14,28 +14,23 @@
  * limitations under the License.
  */
 
-package br.com.tecsinapse.glimpse.protocol;
+package br.com.tecsinapse.glimpse.server;
 
-import javax.xml.bind.annotation.XmlRootElement;
+import br.com.tecsinapse.glimpse.protocol.CancelOp;
+import br.com.tecsinapse.glimpse.protocol.CancelResult;
 
+public class CancelOpInvoker implements OperationInvoker<CancelOp, CancelResult> {
 
-@XmlRootElement(name="canceled")
-public class CancelPollResultItem implements PollResultItem {
+	private Server server;
 
-	@Override
-	public int hashCode() {
-		return 1;
+	public CancelOpInvoker(Server server) {
+		this.server = server;
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		return true;
+	public CancelResult invoke(CancelOp operation) {
+		server.cancel(operation.getJobId());
+		return new CancelResult();
 	}
 
 }

@@ -29,11 +29,11 @@ public class Marshaller {
 	public static String marshall(Object obj) {
 		try {
 			JAXBContext context = JAXBContext.newInstance(StartOp.class,
-					PollOp.class, StartResult.class, PollResult.class,
-					BeginPollResultItem.class, CancelPollResultItem.class,
-					ClosePollResultItem.class,
+					PollOp.class, CancelOp.class, StartResult.class,
+					PollResult.class, BeginPollResultItem.class,
+					CancelPollResultItem.class, ClosePollResultItem.class,
 					StreamUpdatePollResultItem.class,
-					WorkedPollResultItem.class);
+					WorkedPollResultItem.class, CancelResult.class);
 			StringWriter writer = new StringWriter();
 			context.createMarshaller().marshal(obj, writer);
 			return writer.toString();

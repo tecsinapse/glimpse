@@ -16,15 +16,33 @@
 
 package br.com.tecsinapse.glimpse.protocol;
 
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+@XmlRootElement(name = "cancel")
+public class CancelOp implements Operation {
 
-@XmlRootElement(name="canceled")
-public class CancelPollResultItem implements PollResultItem {
+	@XmlElement(name = "job-id")
+	private String jobId;
+
+	// for jaxb use
+	CancelOp() {
+	}
+
+	public CancelOp(String jobId) {
+		this.jobId = jobId;
+	}
+
+	public String getJobId() {
+		return jobId;
+	}
 
 	@Override
 	public int hashCode() {
-		return 1;
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((jobId == null) ? 0 : jobId.hashCode());
+		return result;
 	}
 
 	@Override
@@ -34,6 +52,12 @@ public class CancelPollResultItem implements PollResultItem {
 		if (obj == null)
 			return false;
 		if (getClass() != obj.getClass())
+			return false;
+		CancelOp other = (CancelOp) obj;
+		if (jobId == null) {
+			if (other.jobId != null)
+				return false;
+		} else if (!jobId.equals(other.jobId))
 			return false;
 		return true;
 	}

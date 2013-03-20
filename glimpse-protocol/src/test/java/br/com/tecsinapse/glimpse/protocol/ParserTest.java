@@ -56,6 +56,15 @@ public class ParserTest {
 	}
 	
 	@Test
+	public void cancel() {
+		String jobId = "myJobId";
+		String xml = String.format("<cancel><job-id>%s</job-id></cancel>", jobId);
+		
+		CancelOp cancelOp = (CancelOp) Parser.parse(xml);
+		assertEquals(cancelOp.getJobId(), jobId);
+	}
+	
+	@Test
 	public void beginPollResultItem() {
 		int steps = 10;
 		String xml = String.format("<begin><steps>%d</steps></begin>", steps);
@@ -66,7 +75,7 @@ public class ParserTest {
 	
 	@Test
 	public void cancelPollResultItem() {
-		String xml = "<cancel/>";
+		String xml = "<canceled/>";
 		assertTrue(Parser.parse(xml) instanceof CancelPollResultItem);
 	}
 	

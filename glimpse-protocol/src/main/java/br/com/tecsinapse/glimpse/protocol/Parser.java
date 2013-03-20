@@ -32,7 +32,8 @@ public class Parser {
 					StartResult.class, BeginPollResultItem.class,
 					CancelPollResultItem.class, ClosePollResultItem.class,
 					StreamUpdatePollResultItem.class,
-					WorkedPollResultItem.class, PollResult.class, PollOp.class);
+					WorkedPollResultItem.class, PollResult.class, PollOp.class,
+					CancelOp.class, CancelResult.class);
 			return context.createUnmarshaller().unmarshal(
 					new ByteArrayInputStream(xml.getBytes()));
 		} catch (JAXBException e) {

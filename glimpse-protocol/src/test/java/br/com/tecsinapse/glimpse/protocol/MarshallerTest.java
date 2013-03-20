@@ -34,6 +34,15 @@ public class MarshallerTest {
 				Utils.XML_HEADER, script);
 		assertEquals(Marshaller.marshall(startOp), expected);
 	}
+	
+	@Test
+	public void cancelOp() {
+		String jobId = "myJobId";
+		CancelOp cancelOp = new CancelOp(jobId);
+		
+		String expected = String.format("%s<cancel><job-id>%s</job-id></cancel>", Utils.XML_HEADER, jobId);
+		assertEquals(Marshaller.marshall(cancelOp), expected);
+	}
 
 	@Test
 	public void startResult() {
@@ -72,7 +81,7 @@ public class MarshallerTest {
 								Utils.XML_HEADER, steps) },
 				{
 						new CancelPollResultItem(),
-						String.format("%s<poll-result><cancel/></poll-result>",
+						String.format("%s<poll-result><canceled/></poll-result>",
 								Utils.XML_HEADER) },
 				{
 						new ClosePollResultItem(),

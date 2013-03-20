@@ -21,6 +21,8 @@ import java.util.List;
 import java.util.Set;
 
 import br.com.tecsinapse.glimpse.client.Connector;
+import br.com.tecsinapse.glimpse.protocol.CancelOp;
+import br.com.tecsinapse.glimpse.protocol.CancelPollResultItem;
 import br.com.tecsinapse.glimpse.protocol.ClosePollResultItem;
 import br.com.tecsinapse.glimpse.protocol.Marshaller;
 import br.com.tecsinapse.glimpse.protocol.Operation;
@@ -65,7 +67,7 @@ public class NewHttpConnector implements Connector {
 		PollResult result = (PollResult) invoke(new PollOp(id));
 		List<PollResultItem> items = result.getItems();
 		for (PollResultItem pollResultItem : items) {
-			if (pollResultItem instanceof ClosePollResultItem) {
+			if (pollResultItem instanceof CancelPollResultItem || pollResultItem instanceof ClosePollResultItem) {
 				ids.remove(id);
 			}
 		}
@@ -74,8 +76,7 @@ public class NewHttpConnector implements Connector {
 
 	@Override
 	public void cancel(String id) {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException();
+		invoke(new CancelOp(id));
 	}
 
 	@Override
