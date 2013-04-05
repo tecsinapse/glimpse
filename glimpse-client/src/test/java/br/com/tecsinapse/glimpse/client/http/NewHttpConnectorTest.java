@@ -21,13 +21,14 @@ import static org.testng.Assert.assertEquals;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import br.com.tecsinapse.glimpse.client.ConnectorException;
 import br.com.tecsinapse.glimpse.protocol.CancelPollResultItem;
 import br.com.tecsinapse.glimpse.protocol.ClosePollResultItem;
 import br.com.tecsinapse.glimpse.protocol.PollResultItem;
 import br.com.tecsinapse.glimpse.protocol.StreamUpdatePollResultItem;
+import br.com.tecsinapse.glimpse.server.Authenticator;
 import br.com.tecsinapse.glimpse.server.Server;
 import br.com.tecsinapse.glimpse.server.groovy.GroovyReplManager;
 import br.com.tecsinapse.glimpse.server.groovy.GroovyScriptRunner;
@@ -36,37 +37,72 @@ import br.com.tecsinapse.glimpse.server.sunhttp.SunHttpConnector;
 public class NewHttpConnectorTest {
 
 	@Test
-	public void startAndPoll() {
-		Server server = new Server(new GroovyScriptRunner(), new GroovyReplManager());
+	public void startAndPoll() throws Exception {
+		Server server = new Server(new GroovyScriptRunner(),
+				new GroovyReplManager());
 		SunHttpConnector serverConnector = new SunHttpConnector(server, 8081);
-		serverConnector.start();
-		
-		NewHttpConnector connector = new NewHttpConnector("http://localhost:8081", null, null);
-		String id = connector.start("println 'hello'");
-		List<PollResultItem> results = new ArrayList<PollResultItem>();
-		while(connector.isOpen(id)) {
-			results.addAll(connector.poll(id));
+		try {
+			serverConnector.start();
+
+			NewHttpConnector connector = new NewHttpConnector(
+					"http://localhost:8081", null, null);
+			String id = connector.start("println 'hello'");
+			List<PollResultItem> results = new ArrayList<PollResultItem>();
+			while (connector.isOpen(id)) {
+				results.addAll(connector.poll(id));
+			}
+			assertEquals(results.get(0),
+					new StreamUpdatePollResultItem("hello"));
+			assertEquals(results.get(1), new ClosePollResultItem());
+		} finally {
+			serverConnector.stop();
 		}
-		serverConnector.stop();
-		assertEquals(results.get(0), new StreamUpdatePollResultItem("hello"));
-		assertEquals(results.get(1), new ClosePollResultItem());
 	}
-	
+
 	@Test
-	public void startAndCancel() {
-		Server server = new Server(new GroovyScriptRunner(), new GroovyReplManager());
+	public void startAndCancel() throws Exception {
+		Server server = new Server(new GroovyScriptRunner(),
+				new GroovyReplManager());
 		SunHttpConnector serverConnector = new SunHttpConnector(server, 8081);
-		serverConnector.start();
-		
-		NewHttpConnector connector = new NewHttpConnector("http://localhost:8081", null, null);
-		String id = connector.start("while (!isCanceled()) { Thread.sleep(500) }");
-		connector.cancel(id);
-		List<PollResultItem> results = new ArrayList<PollResultItem>();
-		while (connector.isOpen(id)) {
-			results.addAll(connector.poll(id));
+		try {
+			serverConnector.start();
+
+			NewHttpConnector connector = new NewHttpConnector(
+					"http://localhost:8081", null, null);
+			String id = connector
+					.start("while (!isCanceled()) { Thread.sleep(500) }");
+			connector.cancel(id);
+			List<PollResultItem> results = new ArrayList<PollResultItem>();
+			while (connector.isOpen(id)) {
+				results.addAll(connector.poll(id));
+			}
+			assertEquals(results.get(0), new CancelPollResultItem());
+		} finally {
+			serverConnector.stop();
 		}
-		serverConnector.stop();
-		assertEquals(results.get(0), new CancelPollResultItem());
 	}
-	
+
+	@Test(expectedExceptions = { ConnectorException.class }, expectedExceptionsMessageRegExp = "Unauthorized Access, check your username and password.")
+	public void authenticationError() throws Exception {
+		Server server = new Server(new GroovyScriptRunner(),
+				new GroovyReplManager());
+		SunHttpConnector serverConnector = new SunHttpConnector(server, 8081,
+				new Authenticator() {
+
+					@Override
+					public boolean authenticate(String username, String password) {
+						return false;
+					}
+				});
+		try {
+			serverConnector.start();
+
+			NewHttpConnector connector = new NewHttpConnector(
+					"http://localhost:8081", null, null);
+			connector.start("println 'hello'");
+		} finally {
+			serverConnector.stop();
+		}
+	}
+
 }

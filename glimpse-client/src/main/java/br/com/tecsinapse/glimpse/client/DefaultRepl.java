@@ -23,15 +23,25 @@ public class DefaultRepl implements Repl {
 
 	public DefaultRepl(Connector connector) {
 		this.connector = connector;
-		this.replId = connector.createRepl();
+		try {
+			this.replId = connector.createRepl();
+		} catch (ConnectorException e) {
+		}
 	}
 
 	public String eval(String script) {
-		return connector.eval(replId, script);
+		try {
+			return connector.eval(replId, script);
+		} catch (ConnectorException e) {
+			return e.getMessage();
+		}
 	}
 
 	public void close() {
-		connector.closeRepl(replId);
+		try {
+			connector.closeRepl(replId);
+		} catch (ConnectorException e) {
+		}
 	}
 
 }

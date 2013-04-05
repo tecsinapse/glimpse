@@ -31,24 +31,28 @@ public class DefaultScriptRunner implements ScriptRunner {
 	}
 
 	public void run(final String script, final Monitor monitor) {
-		String id = connector.start(script);
+		try {
+			String id = connector.start(script);
 
-		while (connector.isOpen(id)) {
-			if (monitor.isCanceled()) {
-				connector.cancel(id);
-			}
-			List<PollResultItem> polls = connector.poll(id);
-			if (polls.isEmpty()) {
-				try {
-					Thread.sleep(1000);
-				} catch (InterruptedException e) {
-					throw new IllegalStateException(e);
+			while (connector.isOpen(id)) {
+				if (monitor.isCanceled()) {
+					connector.cancel(id);
 				}
-			} else {
-				for (PollResultItem item : polls) {
-					pollResultApplier.apply(item, monitor);
+				List<PollResultItem> polls = connector.poll(id);
+				if (polls.isEmpty()) {
+					try {
+						Thread.sleep(1000);
+					} catch (InterruptedException e) {
+						throw new IllegalStateException(e);
+					}
+				} else {
+					for (PollResultItem item : polls) {
+						pollResultApplier.apply(item, monitor);
+					}
 				}
 			}
+		} catch (ConnectorException e) {
+			monitor.println(e.getMessage());
 		}
 	}
 

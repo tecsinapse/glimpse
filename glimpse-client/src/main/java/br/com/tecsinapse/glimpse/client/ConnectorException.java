@@ -16,24 +16,14 @@
 
 package br.com.tecsinapse.glimpse.client;
 
-import java.util.List;
+public class ConnectorException extends Exception {
 
-import br.com.tecsinapse.glimpse.protocol.PollResultItem;
-
-public interface Connector {
-
-	String start(String script) throws ConnectorException;
-
-	boolean isOpen(String id) throws ConnectorException;
-
-	List<PollResultItem> poll(String id) throws ConnectorException;
-
-	void cancel(String id) throws ConnectorException;
-
-	String createRepl() throws ConnectorException;
-
-	String eval(String replId, String script) throws ConnectorException;
-
-	void closeRepl(String replId) throws ConnectorException;
-
+	public ConnectorException(String message) {
+		super(message);
+	}
+	
+	public ConnectorException(Throwable cause) {
+		super(cause);
+	}
+	
 }

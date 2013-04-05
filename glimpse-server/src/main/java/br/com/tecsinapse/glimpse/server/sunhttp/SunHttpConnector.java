@@ -71,7 +71,7 @@ public class SunHttpConnector {
 			HttpHandler evalHandler = new AuthenticationHandler(new EvalHandler(server));
 			HttpHandler closeReplHandler = new AuthenticationHandler(new CloseReplHandler(server));
 			HttpHandler operationHandler = new OperationHandler(server);
-			httpServer.createContext("/", operationHandler);
+			httpServer.createContext("/", operationHandler).setAuthenticator(sha);
 			httpServer.createContext("/start", startHandler).setAuthenticator(sha);
 		    httpServer.createContext("/cancel", cancelHandler).setAuthenticator(sha);
 		    httpServer.createContext("/poll", pollHandler).setAuthenticator(sha);

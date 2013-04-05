@@ -18,8 +18,6 @@ package br.com.tecsinapse.glimpse.client.http;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.PrintWriter;
-import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
 
 import org.apache.commons.codec.binary.Base64;
@@ -28,6 +26,8 @@ import org.apache.commons.httpclient.HttpException;
 import org.apache.commons.httpclient.HttpStatus;
 import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.commons.httpclient.methods.StringRequestEntity;
+
+import br.com.tecsinapse.glimpse.client.ConnectorException;
 
 public class HttpInvoker {
 
@@ -41,7 +41,7 @@ public class HttpInvoker {
 		this.password = password;
 	}
 
-	public String invoke(String context, String body) {
+	public String invoke(String context, String body) throws ConnectorException {
 		try {
 			HttpClient client = new HttpClient();
 			PostMethod post = new PostMethod(url + context);
@@ -65,27 +65,19 @@ public class HttpInvoker {
 			if (statusCode == HttpStatus.SC_OK) {
 				return builder.toString();
 			} else if (statusCode == HttpStatus.SC_UNAUTHORIZED) {
-				return "update\nStatus: "
-						+ statusCode
-						+ "\nUnauthorized Access, check your username and password.\nclose\n";
+				throw new ConnectorException(
+						"Unauthorized Access, check your username and password.");
 			} else {
-				return "update\nStatus: " + statusCode + "\n"
-						+ builder.toString() + "\nclose\n";
+				throw new ConnectorException("Status: " + statusCode + " - "
+						+ builder.toString());
 			}
 		} catch (UnsupportedEncodingException e) {
-			return exceptionResult(e);
+			throw new ConnectorException(e);
 		} catch (HttpException e) {
-			return exceptionResult(e);
+			throw new ConnectorException(e);
 		} catch (IOException e) {
-			return exceptionResult(e);
+			throw new ConnectorException(e);
 		}
-	}
-
-	private String exceptionResult(Exception e) {
-		StringWriter stringWriter = new StringWriter();
-		PrintWriter printWriter = new PrintWriter(stringWriter);
-		e.printStackTrace(printWriter);
-		return "update\n" + stringWriter.toString() + "\nclose\n";
 	}
 
 }

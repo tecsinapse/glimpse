@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Set;
 
 import br.com.tecsinapse.glimpse.client.Connector;
+import br.com.tecsinapse.glimpse.client.ConnectorException;
 import br.com.tecsinapse.glimpse.protocol.CancelOp;
 import br.com.tecsinapse.glimpse.protocol.CancelPollResultItem;
 import br.com.tecsinapse.glimpse.protocol.ClosePollResultItem;
@@ -44,13 +45,13 @@ public class NewHttpConnector implements Connector {
 		invoker = new HttpInvoker(url, username, password);
 	}
 	
-	private Result invoke(Operation startOp) {
+	private Result invoke(Operation startOp) throws ConnectorException {
 		String result = invoker.invoke("/", Marshaller.marshall(startOp));
 		return (Result) Parser.parse(result);
 	}
 	
 	@Override
-	public String start(String script) {
+	public String start(String script) throws ConnectorException {
 		StartOp startOp = new StartOp(script);
 		StartResult result = (StartResult) invoke(startOp);
 		ids.add(result.getJobId());
@@ -63,7 +64,7 @@ public class NewHttpConnector implements Connector {
 	}
 
 	@Override
-	public List<PollResultItem> poll(String id) {
+	public List<PollResultItem> poll(String id) throws ConnectorException {
 		PollResult result = (PollResult) invoke(new PollOp(id));
 		List<PollResultItem> items = result.getItems();
 		for (PollResultItem pollResultItem : items) {
@@ -75,24 +76,24 @@ public class NewHttpConnector implements Connector {
 	}
 
 	@Override
-	public void cancel(String id) {
+	public void cancel(String id) throws ConnectorException {
 		invoke(new CancelOp(id));
 	}
 
 	@Override
-	public String createRepl() {
+	public String createRepl() throws ConnectorException {
 		// TODO Auto-generated method stub
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public String eval(String replId, String script) {
+	public String eval(String replId, String script) throws ConnectorException {
 		// TODO Auto-generated method stub
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public void closeRepl(String replId) {
+	public void closeRepl(String replId) throws ConnectorException {
 		// TODO Auto-generated method stub
 		throw new UnsupportedOperationException();
 	}

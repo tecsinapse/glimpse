@@ -31,7 +31,7 @@ import br.com.tecsinapse.glimpse.protocol.StreamUpdatePollResultItem;
 public class DefaultScriptRunnerTest {
 
 	@Test
-	public void run() {
+	public void run() throws Exception {
 		String jobId = "myJobId";
 		String script = "myScript";
 		

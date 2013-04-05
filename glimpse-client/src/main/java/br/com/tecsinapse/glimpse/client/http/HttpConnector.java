@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Set;
 
 import br.com.tecsinapse.glimpse.client.Connector;
+import br.com.tecsinapse.glimpse.client.ConnectorException;
 import br.com.tecsinapse.glimpse.protocol.CancelPollResultItem;
 import br.com.tecsinapse.glimpse.protocol.ClosePollResultItem;
 import br.com.tecsinapse.glimpse.protocol.PollResultItem;
@@ -35,7 +36,7 @@ public class HttpConnector implements Connector {
 		this.invoker = new HttpInvoker(url, username, password);
 	}
 
-	public String start(String script) {
+	public String start(String script) throws ConnectorException {
 		String id = invoker.invoke("/start", script);
 		ids.add(id);
 		return id;
@@ -45,7 +46,7 @@ public class HttpConnector implements Connector {
 		return ids.contains(id);
 	}
 
-	public List<PollResultItem> poll(String id) {
+	public List<PollResultItem> poll(String id) throws ConnectorException {
 		String body = invoker.invoke("/poll", id);
 		List<PollResultItem> result = ClientPollConverter.convert(body);
 		for (PollResultItem clientPoll : result) {
@@ -56,19 +57,19 @@ public class HttpConnector implements Connector {
 		return result;
  	}
 
-	public void cancel(String id) {
+	public void cancel(String id) throws ConnectorException {
 		invoker.invoke("/cancel", id);
 	}
 
-	public String createRepl() {
+	public String createRepl() throws ConnectorException {
 		return invoker.invoke("/createRepl", "");
 	}
 
-	public String eval(String replId, String script) {
+	public String eval(String replId, String script) throws ConnectorException {
 		return invoker.invoke("/eval", replId + "\n" + script);
 	}
 
-	public void closeRepl(String replId) {
+	public void closeRepl(String replId) throws ConnectorException {
 		invoker.invoke("/closeRepl", replId);
 	}
 
