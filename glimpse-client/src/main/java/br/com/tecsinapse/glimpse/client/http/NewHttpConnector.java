@@ -26,6 +26,11 @@ import br.com.tecsinapse.glimpse.client.NotFoundException;
 import br.com.tecsinapse.glimpse.protocol.CancelOp;
 import br.com.tecsinapse.glimpse.protocol.CancelPollResultItem;
 import br.com.tecsinapse.glimpse.protocol.ClosePollResultItem;
+import br.com.tecsinapse.glimpse.protocol.CloseReplOp;
+import br.com.tecsinapse.glimpse.protocol.CreateReplOp;
+import br.com.tecsinapse.glimpse.protocol.CreateReplResult;
+import br.com.tecsinapse.glimpse.protocol.EvalOp;
+import br.com.tecsinapse.glimpse.protocol.EvalResult;
 import br.com.tecsinapse.glimpse.protocol.Marshaller;
 import br.com.tecsinapse.glimpse.protocol.Operation;
 import br.com.tecsinapse.glimpse.protocol.Parser;
@@ -84,20 +89,19 @@ public class NewHttpConnector implements Connector {
 
 	@Override
 	public String createRepl() throws ConnectorException {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException();
+		CreateReplResult result = (CreateReplResult) invoke(new CreateReplOp());
+		return result.getReplId();
 	}
 
 	@Override
 	public String eval(String replId, String script) throws ConnectorException {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException();
+		EvalResult result = (EvalResult) invoke(new EvalOp(replId, script));
+		return result.getResult();
 	}
 
 	@Override
 	public void closeRepl(String replId) throws ConnectorException {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException();
+		invoke(new CloseReplOp(replId));
 	}
 
 	public boolean isServerCompatible() throws ConnectorException {

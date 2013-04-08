@@ -34,13 +34,15 @@ public class MarshallerTest {
 				Utils.XML_HEADER, script);
 		assertEquals(Marshaller.marshall(startOp), expected);
 	}
-	
+
 	@Test
 	public void cancelOp() {
 		String jobId = "myJobId";
 		CancelOp cancelOp = new CancelOp(jobId);
-		
-		String expected = String.format("%s<cancel><job-id>%s</job-id></cancel>", Utils.XML_HEADER, jobId);
+
+		String expected = String.format(
+				"%s<cancel><job-id>%s</job-id></cancel>", Utils.XML_HEADER,
+				jobId);
 		assertEquals(Marshaller.marshall(cancelOp), expected);
 	}
 
@@ -62,7 +64,7 @@ public class MarshallerTest {
 
 		String expected = String.format("%s<poll><job-id>%s</job-id></poll>",
 				Utils.XML_HEADER, jobId);
-		
+
 		assertEquals(Marshaller.marshall(pollOp), expected);
 	}
 
@@ -81,7 +83,8 @@ public class MarshallerTest {
 								Utils.XML_HEADER, steps) },
 				{
 						new CancelPollResultItem(),
-						String.format("%s<poll-result><canceled/></poll-result>",
+						String.format(
+								"%s<poll-result><canceled/></poll-result>",
 								Utils.XML_HEADER) },
 				{
 						new ClosePollResultItem(),
@@ -111,4 +114,58 @@ public class MarshallerTest {
 		assertEquals(Marshaller.marshall(pollResult), expected);
 	}
 
+	@Test
+	public void createReplOp() {
+		CreateReplOp createReplOp = new CreateReplOp();
+		String expected = String.format("%s<create-repl/>", Utils.XML_HEADER);
+		assertEquals(Marshaller.marshall(createReplOp), expected);
+	}
+
+	@Test
+	public void createReplResult() {
+		String id = "myId";
+		CreateReplResult createReplResult = new CreateReplResult(id);
+		String expected = String
+				.format("%s<create-repl-result><repl-id>%s</repl-id></create-repl-result>",
+						Utils.XML_HEADER, id);
+		assertEquals(Marshaller.marshall(createReplResult), expected);
+	}
+
+	@Test
+	public void evalOp() {
+		String id = "myId";
+		String expression = "myexpression";
+		String expected = String
+				.format("%s<eval><repl-id>%s</repl-id><expression>%s</expression></eval>",
+						Utils.XML_HEADER, id, expression);
+		EvalOp evalOp = new EvalOp(id, expression);
+		assertEquals(Marshaller.marshall(evalOp), expected);
+	}
+
+	@Test
+	public void evalResult() {
+		String result = "myresult";
+		String expected = String.format(
+				"%s<eval-result><result>%s</result></eval-result>",
+				Utils.XML_HEADER, result);
+		EvalResult evalResult = new EvalResult(result);
+		assertEquals(Marshaller.marshall(evalResult), expected);
+	}
+
+	@Test
+	public void closeReplOp() {
+		String replId = "myId";
+		String expected = String.format(
+				"%s<close-repl><repl-id>%s</repl-id></close-repl>",
+				Utils.XML_HEADER, replId);
+		CloseReplOp closeReplOp = new CloseReplOp(replId);
+		assertEquals(Marshaller.marshall(closeReplOp), expected);
+	}
+
+	public void closeReplResult() {
+		String expected = String.format("%s<close-repl-result/>",
+				Utils.XML_HEADER);
+		CloseReplResult result = new CloseReplResult();
+		assertEquals(Marshaller.marshall(result), expected);
+	}
 }

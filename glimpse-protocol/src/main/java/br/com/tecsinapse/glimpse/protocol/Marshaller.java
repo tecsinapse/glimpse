@@ -33,7 +33,9 @@ public class Marshaller {
 					PollResult.class, BeginPollResultItem.class,
 					CancelPollResultItem.class, ClosePollResultItem.class,
 					StreamUpdatePollResultItem.class,
-					WorkedPollResultItem.class, CancelResult.class);
+					WorkedPollResultItem.class, CancelResult.class,
+					CreateReplOp.class, CreateReplResult.class, EvalOp.class,
+					EvalResult.class, CloseReplOp.class, CloseReplResult.class);
 			StringWriter writer = new StringWriter();
 			context.createMarshaller().marshal(obj, writer);
 			return writer.toString();

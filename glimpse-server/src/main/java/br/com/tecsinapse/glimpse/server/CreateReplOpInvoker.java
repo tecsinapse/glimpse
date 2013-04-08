@@ -14,27 +14,22 @@
  * limitations under the License.
  */
 
-package br.com.tecsinapse.glimpse.protocol;
+package br.com.tecsinapse.glimpse.server;
 
-import javax.xml.bind.annotation.XmlRootElement;
+import br.com.tecsinapse.glimpse.protocol.CreateReplOp;
+import br.com.tecsinapse.glimpse.protocol.CreateReplResult;
 
-@XmlRootElement(name = "cancel-result")
-public class CancelResult implements Result {
+public class CreateReplOpInvoker implements OperationInvoker<CreateReplOp, CreateReplResult> {
 
-	@Override
-	public int hashCode() {
-		return 1;
+	private Server server;
+
+	public CreateReplOpInvoker(Server server) {
+		this.server = server;
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		return true;
+	public CreateReplResult invoke(CreateReplOp operation) {
+		return new CreateReplResult(server.createRepl());
 	}
 
 }

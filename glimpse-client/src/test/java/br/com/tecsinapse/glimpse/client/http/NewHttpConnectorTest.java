@@ -104,5 +104,22 @@ public class NewHttpConnectorTest {
 			serverConnector.stop();
 		}
 	}
+	
+	@Test
+	public void repl() throws Exception {
+		Server server = new Server(new GroovyScriptRunner(), new GroovyReplManager());
+		SunHttpConnector serverConnector = new SunHttpConnector(server, 8081);
+		try {
+			serverConnector.start();
+			
+			NewHttpConnector connector = new NewHttpConnector("http://localhost:8081", null, null);
+			String id = connector.createRepl();
+			String result = connector.eval(id, "1 + 1");
+			connector.closeRepl(id);
+			assertEquals(result, "2");
+		} finally {
+			serverConnector.stop();
+		}
+	}
 
 }

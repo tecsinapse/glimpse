@@ -21,6 +21,9 @@ import java.util.Map;
 import com.google.common.collect.Maps;
 
 import br.com.tecsinapse.glimpse.protocol.CancelOp;
+import br.com.tecsinapse.glimpse.protocol.CloseReplOp;
+import br.com.tecsinapse.glimpse.protocol.CreateReplOp;
+import br.com.tecsinapse.glimpse.protocol.EvalOp;
 import br.com.tecsinapse.glimpse.protocol.Operation;
 import br.com.tecsinapse.glimpse.protocol.PollOp;
 import br.com.tecsinapse.glimpse.protocol.Result;
@@ -28,17 +31,22 @@ import br.com.tecsinapse.glimpse.protocol.StartOp;
 
 public class ServerInvoker {
 
-	private Map<Class<? extends Operation>, OperationInvoker<? extends Operation, ? extends Result>> invokersByClass = Maps.newHashMap();
+	private Map<Class<? extends Operation>, OperationInvoker<? extends Operation, ? extends Result>> invokersByClass = Maps
+			.newHashMap();
 
 	public ServerInvoker(Server server) {
 		invokersByClass.put(StartOp.class, new StartOpInvoker(server));
 		invokersByClass.put(PollOp.class, new PollOpInvoker(server));
 		invokersByClass.put(CancelOp.class, new CancelOpInvoker(server));
+		invokersByClass
+				.put(CreateReplOp.class, new CreateReplOpInvoker(server));
+		invokersByClass.put(EvalOp.class, new EvalOpInvoker(server));
+		invokersByClass.put(CloseReplOp.class, new CloseReplOpInvoker(server));
 	}
 
 	public Result invoke(Operation operation) {
 		OperationInvoker invoker = invokersByClass.get(operation.getClass());
 		return invoker.invoke(operation);
 	}
-	
+
 }

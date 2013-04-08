@@ -18,8 +18,8 @@ package br.com.tecsinapse.glimpse.protocol;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
-@XmlRootElement(name = "cancel-result")
-public class CancelResult implements Result {
+@XmlRootElement(name="close-repl-result")
+public class CloseReplResult implements Result {
 
 	@Override
 	public int hashCode() {

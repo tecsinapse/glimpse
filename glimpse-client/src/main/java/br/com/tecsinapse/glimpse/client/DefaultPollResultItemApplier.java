@@ -19,8 +19,6 @@ package br.com.tecsinapse.glimpse.client;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.testng.collections.Maps;
-
 import br.com.tecsinapse.glimpse.protocol.BeginPollResultItem;
 import br.com.tecsinapse.glimpse.protocol.CancelPollResultItem;
 import br.com.tecsinapse.glimpse.protocol.ClosePollResultItem;
@@ -31,8 +29,7 @@ import br.com.tecsinapse.glimpse.protocol.WorkedPollResultItem;
 public class DefaultPollResultItemApplier implements
 		PollResultItemApplier<PollResultItem> {
 
-	private Map<Class<? extends PollResultItem>, PollResultItemApplier<? extends PollResultItem>> appliersByClass = Maps
-			.newHashMap();
+	private Map<Class<? extends PollResultItem>, PollResultItemApplier<? extends PollResultItem>> appliersByClass = new HashMap<Class<? extends PollResultItem>, PollResultItemApplier<? extends PollResultItem>>();
 
 	public DefaultPollResultItemApplier() {
 		appliersByClass.put(BeginPollResultItem.class,

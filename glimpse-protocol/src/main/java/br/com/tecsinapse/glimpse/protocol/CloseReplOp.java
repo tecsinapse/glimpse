@@ -16,14 +16,33 @@
 
 package br.com.tecsinapse.glimpse.protocol;
 
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-@XmlRootElement(name = "cancel-result")
-public class CancelResult implements Result {
+@XmlRootElement(name="close-repl")
+public class CloseReplOp implements Operation {
+
+	@XmlElement(name="repl-id")
+	private String replId;
+
+	// for jabx use
+	CloseReplOp() {
+	}
+
+	public CloseReplOp(String replId) {
+		this.replId = replId;
+	}
+
+	public String getReplId() {
+		return replId;
+	}
 
 	@Override
 	public int hashCode() {
-		return 1;
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((replId == null) ? 0 : replId.hashCode());
+		return result;
 	}
 
 	@Override
@@ -33,6 +52,12 @@ public class CancelResult implements Result {
 		if (obj == null)
 			return false;
 		if (getClass() != obj.getClass())
+			return false;
+		CloseReplOp other = (CloseReplOp) obj;
+		if (replId == null) {
+			if (other.replId != null)
+				return false;
+		} else if (!replId.equals(other.replId))
 			return false;
 		return true;
 	}

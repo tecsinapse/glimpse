@@ -16,14 +16,34 @@
 
 package br.com.tecsinapse.glimpse.protocol;
 
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-@XmlRootElement(name = "cancel-result")
-public class CancelResult implements Result {
+@XmlRootElement(name="eval-result")
+public class EvalResult implements Result {
+
+	@XmlElement(name="result")
+	private String result;
+
+	// for jaxb use
+	EvalResult() {
+	}
+	
+	public EvalResult(String result) {
+		this.result = result;
+	}
+
+	public String getResult() {
+		return result;
+	}
 
 	@Override
 	public int hashCode() {
-		return 1;
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+				+ ((this.result == null) ? 0 : this.result.hashCode());
+		return result;
 	}
 
 	@Override
@@ -33,6 +53,12 @@ public class CancelResult implements Result {
 		if (obj == null)
 			return false;
 		if (getClass() != obj.getClass())
+			return false;
+		EvalResult other = (EvalResult) obj;
+		if (result == null) {
+			if (other.result != null)
+				return false;
+		} else if (!result.equals(other.result))
 			return false;
 		return true;
 	}

@@ -27,15 +27,16 @@ import br.com.tecsinapse.glimpse.protocol.PollOp;
 import br.com.tecsinapse.glimpse.protocol.StartOp;
 
 public class ParserTest {
-	
+
 	@Test
 	public void startResult() {
 		String jobId = "myJobId";
-		String xml = String.format("<start-result><job-id>%s</job-id></start-result>", jobId);
+		String xml = String.format(
+				"<start-result><job-id>%s</job-id></start-result>", jobId);
 		StartResult result = (StartResult) Parser.parse(xml);
 		assertEquals(result.getJobId(), jobId);
 	}
-	
+
 	@Test
 	public void start() {
 		String script = "myscript";
@@ -45,70 +46,119 @@ public class ParserTest {
 		StartOp startOp = (StartOp) Parser.parse(xml);
 		assertEquals(startOp.getScript(), script);
 	}
-	
+
 	@Test
 	public void poll() {
 		String jobId = "myJobId";
 		String xml = String.format("<poll><job-id>%s</job-id></poll>", jobId);
-		
+
 		PollOp pollOp = (PollOp) Parser.parse(xml);
 		assertEquals(pollOp.getJobId(), jobId);
 	}
-	
+
 	@Test
 	public void cancel() {
 		String jobId = "myJobId";
-		String xml = String.format("<cancel><job-id>%s</job-id></cancel>", jobId);
-		
+		String xml = String.format("<cancel><job-id>%s</job-id></cancel>",
+				jobId);
+
 		CancelOp cancelOp = (CancelOp) Parser.parse(xml);
 		assertEquals(cancelOp.getJobId(), jobId);
 	}
-	
+
 	@Test
 	public void beginPollResultItem() {
 		int steps = 10;
 		String xml = String.format("<begin><steps>%d</steps></begin>", steps);
-		
+
 		BeginPollResultItem result = (BeginPollResultItem) Parser.parse(xml);
 		assertEquals(result.getSteps(), steps);
 	}
-	
+
 	@Test
 	public void cancelPollResultItem() {
 		String xml = "<canceled/>";
 		assertTrue(Parser.parse(xml) instanceof CancelPollResultItem);
 	}
-	
+
 	@Test
 	public void closePollResultItem() {
 		String xml = "<close/>";
 		assertTrue(Parser.parse(xml) instanceof ClosePollResultItem);
 	}
-	
+
 	@Test
 	public void streamUpdatePollResultItem() {
 		String update = "hello";
 		String xml = String.format("<stream-update>%s</stream-update>", update);
-		
-		StreamUpdatePollResultItem result = (StreamUpdatePollResultItem) Parser.parse(xml);
+
+		StreamUpdatePollResultItem result = (StreamUpdatePollResultItem) Parser
+				.parse(xml);
 		assertEquals(result.getUpdate(), update);
 	}
-	
+
 	@Test
 	public void workedPollResultItem() {
 		int steps = 1;
 		String xml = String.format("<worked><steps>%d</steps></worked>", steps);
-		
+
 		WorkedPollResultItem result = (WorkedPollResultItem) Parser.parse(xml);
 		assertEquals(result.getWorkedSteps(), steps);
 	}
-	
+
 	@Test
 	public void pollResult() {
 		String xml = "<poll-result><close/></poll-result>";
-		
+
 		PollResult result = (PollResult) Parser.parse(xml);
 		assertEquals(result.getItems().get(0), new ClosePollResultItem());
+	}
+
+	@Test
+	public void createReplOp() {
+		String xml = "<create-repl/>";
+		assertEquals(Parser.parse(xml), new CreateReplOp());
+	}
+
+	@Test
+	public void createReplResult() {
+		String id = "myId";
+		String xml = String
+				.format("<create-repl-result><repl-id>%s</repl-id></create-repl-result>",
+						id);
+		assertEquals(Parser.parse(xml), new CreateReplResult(id));
+	}
+
+	@Test
+	public void evalOp() {
+		String replId = "myId";
+		String expression = "myexpression";
+		String xml = String
+				.format("<eval><repl-id>%s</repl-id><expression>%s</expression></eval>",
+						replId, expression);
+		assertEquals(Parser.parse(xml), new EvalOp(replId, expression));
+	}
+
+	@Test
+	public void evalResult() {
+		String result = "myresult";
+		String xml = String.format(
+				"<eval-result><result>%s</result></eval-result>", result);
+		assertEquals(Parser.parse(xml), new EvalResult(result));
+	}
+
+	@Test
+	public void closeReplOp() {
+		String replId = "myId";
+		String xml = String.format(
+				"<close-repl><repl-id>%s</repl-id></close-repl>", replId);
+		assertEquals(Parser.parse(xml), new CloseReplOp(replId));
+	}
+
+	@Test
+	public void closeReplResult() {
+		String xml = "<close-repl-result/>";
+		assertEquals(Parser.parse(xml), new CloseReplResult());
 	}
 
 }
