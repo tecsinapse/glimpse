@@ -28,6 +28,8 @@ import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.commons.httpclient.methods.StringRequestEntity;
 
 import br.com.tecsinapse.glimpse.client.ConnectorException;
+import br.com.tecsinapse.glimpse.client.NotFoundException;
+import br.com.tecsinapse.glimpse.client.UnauthorizedException;
 
 public class HttpInvoker {
 
@@ -65,8 +67,10 @@ public class HttpInvoker {
 			if (statusCode == HttpStatus.SC_OK) {
 				return builder.toString();
 			} else if (statusCode == HttpStatus.SC_UNAUTHORIZED) {
-				throw new ConnectorException(
+				throw new UnauthorizedException(
 						"Unauthorized Access, check your username and password.");
+			} else if (statusCode == HttpStatus.SC_NOT_FOUND) {
+				throw new NotFoundException(builder.toString());
 			} else {
 				throw new ConnectorException("Status: " + statusCode + " - "
 						+ builder.toString());

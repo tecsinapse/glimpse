@@ -23,7 +23,7 @@ import java.util.List;
 
 import org.testng.annotations.Test;
 
-import br.com.tecsinapse.glimpse.client.ConnectorException;
+import br.com.tecsinapse.glimpse.client.UnauthorizedException;
 import br.com.tecsinapse.glimpse.protocol.CancelPollResultItem;
 import br.com.tecsinapse.glimpse.protocol.ClosePollResultItem;
 import br.com.tecsinapse.glimpse.protocol.PollResultItem;
@@ -82,7 +82,7 @@ public class NewHttpConnectorTest {
 		}
 	}
 
-	@Test(expectedExceptions = { ConnectorException.class }, expectedExceptionsMessageRegExp = "Unauthorized Access, check your username and password.")
+	@Test(expectedExceptions = { UnauthorizedException.class }, expectedExceptionsMessageRegExp = "Unauthorized Access, check your username and password.")
 	public void authenticationError() throws Exception {
 		Server server = new Server(new GroovyScriptRunner(),
 				new GroovyReplManager());

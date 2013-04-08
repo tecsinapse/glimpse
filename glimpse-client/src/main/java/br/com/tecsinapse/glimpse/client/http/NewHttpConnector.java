@@ -22,6 +22,7 @@ import java.util.Set;
 
 import br.com.tecsinapse.glimpse.client.Connector;
 import br.com.tecsinapse.glimpse.client.ConnectorException;
+import br.com.tecsinapse.glimpse.client.NotFoundException;
 import br.com.tecsinapse.glimpse.protocol.CancelOp;
 import br.com.tecsinapse.glimpse.protocol.CancelPollResultItem;
 import br.com.tecsinapse.glimpse.protocol.ClosePollResultItem;
@@ -38,18 +39,18 @@ import br.com.tecsinapse.glimpse.protocol.StartResult;
 public class NewHttpConnector implements Connector {
 
 	private HttpInvoker invoker;
-	
+
 	private Set<String> ids = new HashSet<String>();
-	
+
 	public NewHttpConnector(String url, String username, String password) {
 		invoker = new HttpInvoker(url, username, password);
 	}
-	
+
 	private Result invoke(Operation startOp) throws ConnectorException {
 		String result = invoker.invoke("/", Marshaller.marshall(startOp));
 		return (Result) Parser.parse(result);
 	}
-	
+
 	@Override
 	public String start(String script) throws ConnectorException {
 		StartOp startOp = new StartOp(script);
@@ -68,7 +69,8 @@ public class NewHttpConnector implements Connector {
 		PollResult result = (PollResult) invoke(new PollOp(id));
 		List<PollResultItem> items = result.getItems();
 		for (PollResultItem pollResultItem : items) {
-			if (pollResultItem instanceof CancelPollResultItem || pollResultItem instanceof ClosePollResultItem) {
+			if (pollResultItem instanceof CancelPollResultItem
+					|| pollResultItem instanceof ClosePollResultItem) {
 				ids.remove(id);
 			}
 		}
@@ -96,6 +98,15 @@ public class NewHttpConnector implements Connector {
 	public void closeRepl(String replId) throws ConnectorException {
 		// TODO Auto-generated method stub
 		throw new UnsupportedOperationException();
+	}
+
+	public boolean isServerCompatible() throws ConnectorException {
+		try {
+			invoker.invoke("/version", "");
+			return true;
+		} catch (NotFoundException e) {
+			return false;
+		}
 	}
 
 }

@@ -22,6 +22,7 @@ import static org.testng.Assert.fail;
 
 import java.io.InputStream;
 
+import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpStatus;
 import org.apache.commons.httpclient.methods.PostMethod;
@@ -51,6 +52,11 @@ public class SunHttpConnectorTest {
 		PostMethod post = new PostMethod("http://localhost:8081/");
 		post.setRequestEntity(new StringRequestEntity(startXml, "text/plain",
 				"UTF-8"));
+		String base64 = ":";
+		post.setRequestHeader(
+				"Authorization",
+				"Basic "
+						+ new String(Base64.encodeBase64(base64.getBytes())));
 		int statusCode = client.executeMethod(post);
 		StringBuilder builder = new StringBuilder();
 		InputStream in = post.getResponseBodyAsStream();
