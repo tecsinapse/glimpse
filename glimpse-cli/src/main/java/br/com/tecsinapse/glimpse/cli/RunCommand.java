@@ -6,7 +6,9 @@ import org.apache.commons.cli.Options;
 public class RunCommand implements Command {
 	@Override
 	public Options getOptions() {
-		return new Options();
+		Options options = new Options();
+		DefaultHostManager.addHostOptions(options);
+		return options;
 	}
 
 	@Override
