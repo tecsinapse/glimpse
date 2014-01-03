@@ -1,0 +1,19 @@
+GLIMPSE_HOME="$HOME/.glimpse"
+SELF_INSTALL_JAR="$GLIMPSE_HOME/self-install.jar"
+JAVA_CMD="java -cp $SELF_INSTALL_JAR br.com.tecsinapse.glimpse.cli.SelfInstall"
+SELF_INSTALL_CMD="wget -O \"$SELF_INSTALL_JAR\" http://glimpse.tecsinapse.com.br/self-install.jar"
+
+function self_install {
+    if [ ! -d "$GLIMPSE_HOME" ]
+    then
+        mkdir "$GLIMPSE_HOME"
+    fi
+    $SELF_INSTALL_CMD
+}
+
+if [ ! -f "$SELF_INSTALL_JAR" ]
+then
+    self_install
+fi
+
+$JAVA_CMD "$@"
