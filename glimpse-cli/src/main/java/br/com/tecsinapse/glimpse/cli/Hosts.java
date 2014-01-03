@@ -9,7 +9,6 @@ import javax.annotation.Nullable;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.annotation.XmlAnyElement;
-import javax.xml.bind.annotation.XmlList;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
@@ -26,7 +25,7 @@ public class Hosts {
 		return Maps.<String, Host>newHashMap(Maps.uniqueIndex(hosts, new Function<DefaultHost, String>() {
 			@Nullable
 			@Override
-			public String apply(@Nullable DefaultHost host) {
+			public String apply(DefaultHost host) {
 				return host.getName();
 			}
 		}));
@@ -35,19 +34,27 @@ public class Hosts {
 	public Host getDefaultHost() {
 		return Iterables.find(hosts, new Predicate<DefaultHost>() {
 			@Override
-			public boolean apply(@Nullable DefaultHost host) {
+			public boolean apply(DefaultHost host) {
 				return host.isDefaultHost();
 			}
 		}, null);
 	}
 
-	public static Hosts parse(String xml) {
+	public static Hosts parse(FileSystem fileSystem) {
 		try {
 			JAXBContext context = JAXBContext.newInstance(Hosts.class, DefaultHost.class);
-			return (Hosts) context.createUnmarshaller().unmarshal(
-					new ByteArrayInputStream(xml.getBytes()));
+			Hosts hosts = (Hosts) context.createUnmarshaller().unmarshal(
+					new ByteArrayInputStream(fileSystem.readHostsFile().getBytes()));
+			hosts.setFileSystem(fileSystem);
+			return hosts;
 		} catch (JAXBException e) {
 			throw new IllegalStateException(e);
+		}
+	}
+
+	private void setFileSystem(FileSystem fileSystem) {
+		for(DefaultHost host: hosts) {
+			host.setFileSystem(fileSystem);
 		}
 	}
 

@@ -4,4 +4,5 @@ public interface FileSystem {
 
 	String readHostsFile();
 
+	String readFile(String fileName);
 }

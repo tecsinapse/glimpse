@@ -16,7 +16,7 @@ public class DefaultHostManager implements HostManager {
 	public DefaultHostManager(FileSystem fileSystem) {
 		this.fileSystem = fileSystem;
 
-		Hosts hosts = Hosts.parse(fileSystem.readHostsFile());
+		Hosts hosts = Hosts.parse(fileSystem);
 		defaultHost = hosts.getDefaultHost();
 		hostsByName = hosts.getHostsByName();
 	}
@@ -38,7 +38,7 @@ public class DefaultHostManager implements HostManager {
 		}
 		if (commandLine.hasOption('u')) {
 			String url = commandLine.getOptionValue('u');
-			return new DefaultHost(url);
+			return new DefaultHost(url, fileSystem);
 		}
 		if (defaultHost == null) {
 			console.println("Error: there is no default host set, use 'glimpse host default <host_name>' to set a default host");
