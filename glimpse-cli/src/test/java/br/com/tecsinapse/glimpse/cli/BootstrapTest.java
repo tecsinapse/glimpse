@@ -18,21 +18,21 @@ public class BootstrapTest {
 
 	@Test
 	public void testNoArgsCommand() {
-		Output output = mock(Output.class);
-		Bootstrap.output = output;
+		Console console = mock(Console.class);
+		Bootstrap.console = console;
 
 		Command mockCommand = mock(Command.class);
 		Bootstrap.noArgsCommand = mockCommand;
 
 		Bootstrap.main(new String[] {});
 
-		verify(mockCommand).execute(null, output);
+		verify(mockCommand).execute(null, console);
 	}
 
 	@Test
 	public void testExecuteCommand() {
-		final Output mockOutput = mock(Output.class);
-		Bootstrap.output = mockOutput;
+		final Console mockConsole = mock(Console.class);
+		Bootstrap.console = mockConsole;
 
 		Command command1 = new Command() {
 			@Override
@@ -41,9 +41,9 @@ public class BootstrapTest {
 			}
 
 			@Override
-			public void execute(CommandLine commandLine, Output output) {
+			public void execute(CommandLine commandLine, Console output) {
 				assertTrue(commandLine.getArgList().isEmpty());
-				assertEquals(output, mockOutput);
+				assertEquals(output, mockConsole);
 			}
 		};
 
@@ -56,10 +56,10 @@ public class BootstrapTest {
 			}
 
 			@Override
-			public void execute(CommandLine commandLine, Output output) {
+			public void execute(CommandLine commandLine, Console output) {
 				assertTrue(commandLine.hasOption('p'));
 				assertEquals("test", commandLine.getOptionValue('p'));
-				assertEquals(output, mockOutput);
+				assertEquals(output, mockConsole);
 			}
 		};
 
@@ -74,8 +74,8 @@ public class BootstrapTest {
 
 	@Test
 	public void testNonExistentCommand() {
-		DumbOutput output = new DumbOutput();
-		Bootstrap.output = output;
+		DumbConsole output = new DumbConsole();
+		Bootstrap.console = output;
 
 		Bootstrap.main(new String[] {"nonexistent"});
 
@@ -84,8 +84,8 @@ public class BootstrapTest {
 
 	@Test
 	public void testParsingError() {
-		DumbOutput output = new DumbOutput();
-		Bootstrap.output = output;
+		DumbConsole output = new DumbConsole();
+		Bootstrap.console = output;
 
 		Command command1 = mock(Command.class);
 		when(command1.getOptions()).thenReturn(new Options());

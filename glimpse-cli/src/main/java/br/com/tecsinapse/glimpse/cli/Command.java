@@ -7,6 +7,6 @@ public interface Command {
 
 	Options getOptions();
 
-	void execute(CommandLine commandLine, Output output);
+	void execute(CommandLine commandLine, Console console);
 
 }
