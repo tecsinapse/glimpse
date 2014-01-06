@@ -2,16 +2,19 @@ package br.com.tecsinapse.glimpse.cli;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
-import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.apache.commons.cli.PosixParser;
 import org.testng.annotations.Test;
 
+import java.util.List;
+
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertNull;
+import static org.testng.Assert.assertTrue;
 
 public class DefaultHostManagerTest {
 
@@ -25,7 +28,7 @@ public class DefaultHostManagerTest {
 				"\t<host>\n" +
 				"\t\t<name>server1</name>\n" +
 				"\t\t<url>http://server1:8081</url>\n" +
-				"\t\t<default>true</default>\n" +
+				"\t\t<default>false</default>\n" +
 				"\t</host>\n" +
 				"</hosts>";
 	}
@@ -125,6 +128,28 @@ public class DefaultHostManagerTest {
 		DefaultHost host = (DefaultHost) defaultHostManager.getHost(commandLine, console);
 
 		assertEquals(host.getUrl(), "http://server2:8081");
+	}
+
+	@Test
+	public void testListHosts() {
+		FileSystem fileSystem = mock(FileSystem.class);
+		when(fileSystem.readHostsFile()).thenReturn(getHostsFileContent());
+
+		DefaultHostManager defaultHostManager = new DefaultHostManager(fileSystem);
+
+		List<Host> hosts = defaultHostManager.listHosts();
+
+		assertEquals(hosts.size(), 2);
+
+		Host host1 = hosts.get(0);
+		assertEquals(host1.getName(), "localhost");
+		assertEquals(host1.getUrl(),  "http://localhost:8081");
+		assertTrue(host1.isDefaultHost());
+
+		Host host2 = hosts.get(1);
+		assertEquals(host2.getName(), "server1");
+		assertEquals(host2.getUrl(), "http://server1:8081");
+		assertFalse(host2.isDefaultHost());
 	}
 
 }

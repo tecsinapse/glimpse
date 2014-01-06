@@ -2,6 +2,8 @@ package br.com.tecsinapse.glimpse.cli;
 
 import org.apache.commons.cli.CommandLine;
 
+import java.util.List;
+
 public class DefaultConsole implements Console {
 
 	private final HostManager hostManager;
@@ -18,5 +20,10 @@ public class DefaultConsole implements Console {
 	@Override
 	public void println(String s) {
 		System.out.println(s);
+	}
+
+	@Override
+	public List<Host> listHosts() {
+		return hostManager.listHosts();
 	}
 }

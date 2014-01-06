@@ -1,8 +1,10 @@
 package br.com.tecsinapse.glimpse.cli;
 
+import com.google.common.collect.Lists;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Options;
 
+import java.util.List;
 import java.util.Map;
 
 public class DefaultHostManager implements HostManager {
@@ -44,5 +46,10 @@ public class DefaultHostManager implements HostManager {
 			console.println("Error: there is no default host set, use 'glimpse host default <host_name>' to set a default host");
 		}
 		return defaultHost;
+	}
+
+	@Override
+	public List<Host> listHosts() {
+		return Lists.newArrayList(hostsByName.values());
 	}
 }

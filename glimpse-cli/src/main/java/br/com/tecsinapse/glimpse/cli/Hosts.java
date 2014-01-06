@@ -22,7 +22,7 @@ public class Hosts {
 	private List<DefaultHost> hosts = new ArrayList<DefaultHost>();
 
 	public Map<String, Host> getHostsByName() {
-		return Maps.<String, Host>newHashMap(Maps.uniqueIndex(hosts, new Function<DefaultHost, String>() {
+		return Maps.<String, Host>newLinkedHashMap(Maps.uniqueIndex(hosts, new Function<DefaultHost, String>() {
 			@Nullable
 			@Override
 			public String apply(DefaultHost host) {
