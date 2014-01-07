@@ -9,4 +9,6 @@ public interface HostManager {
 	Host getHost(CommandLine commandLine, Console console);
 
 	List<Host> listHosts();
+
+	void addHost(HostSpec hostSpec);
 }

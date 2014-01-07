@@ -38,6 +38,11 @@ public class DumbConsole implements Console {
 		return hostManager.listHosts();
 	}
 
+	@Override
+	public void addHost(HostSpec hostSpec) {
+		hostManager.addHost(hostSpec);
+	}
+
 	public String getOutput() {
 		return output.toString();
 	}

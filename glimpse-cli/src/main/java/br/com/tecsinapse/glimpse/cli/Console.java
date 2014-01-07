@@ -11,4 +11,6 @@ public interface Console {
 	void println(String s);
 
 	List<Host> listHosts();
+
+	void addHost(HostSpec hostSpec);
 }

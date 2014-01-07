@@ -26,4 +26,9 @@ public class DefaultConsole implements Console {
 	public List<Host> listHosts() {
 		return hostManager.listHosts();
 	}
+
+	@Override
+	public void addHost(HostSpec hostSpec) {
+		hostManager.addHost(hostSpec);
+	}
 }

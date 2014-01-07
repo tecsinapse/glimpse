@@ -52,4 +52,9 @@ public class DefaultHostManager implements HostManager {
 	public List<Host> listHosts() {
 		return Lists.newArrayList(hostsByName.values());
 	}
+
+	@Override
+	public void addHost(HostSpec hostSpec) {
+		throw new UnsupportedOperationException();
+	}
 }
