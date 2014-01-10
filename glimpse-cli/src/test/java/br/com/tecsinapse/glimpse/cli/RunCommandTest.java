@@ -23,12 +23,20 @@ public class RunCommandTest {
 		CommandLine commandLine = parser.parse(command.getOptions(), new String[] {"script.groovy"});
 
 		Host host = mock(Host.class);
+		when(host.getUrl()).thenReturn("http://localhost:8081");
 
 		HostManager hostManager = mock(HostManager.class);
 		when(hostManager.getHost(commandLine, console)).thenReturn(host);
 		console.setHostManager(hostManager);
 
 		command.execute(commandLine, console);
+
+		assertEquals(console.getOutput(), "Executing script at: http://localhost:8081\n" +
+				"--------------------------------------------------\n" +
+				"\n" +
+				"\n" +
+				"--------------------------------------------------\n" +
+				"Finished executing script\n");
 
 		verify(host).runScript("script.groovy", console);
 	}
