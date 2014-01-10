@@ -69,7 +69,7 @@ public class DefaultHostManagerTest {
 
 		DefaultHost host = (DefaultHost) defaultHostManager.getHost(commandLine, console);
 
-		assertEquals(console.getOutput(), "Error: there is no default host set, use 'glimpse host default <host_name>' to set a default host\n");
+		assertEquals(console.getOutput(), "Error: there is no default host set, use 'glimpse set-default-host <host_name>' to set a default host\n");
 		assertNull(host);
 	}
 

@@ -38,7 +38,7 @@ public class DefaultHostManager implements HostManager {
 		}
 		Host defaultHost = hosts.getDefaultHost();
 		if (defaultHost == null) {
-			console.println("Error: there is no default host set, use 'glimpse host default <host_name>' to set a default host");
+			console.println("Error: there is no default host set, use 'glimpse set-default-host <host_name>' to set a default host");
 		}
 		return defaultHost;
 	}
