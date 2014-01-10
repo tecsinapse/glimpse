@@ -3,9 +3,9 @@ package br.com.tecsinapse.glimpse.cli;
 import com.google.common.base.Function;
 import com.google.common.base.Optional;
 import com.google.common.base.Predicate;
-import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 
+import javax.annotation.Nullable;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.annotation.XmlAnyElement;
@@ -14,6 +14,10 @@ import java.io.ByteArrayInputStream;
 import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.google.common.collect.Iterables.removeIf;
+import static com.google.common.collect.Iterables.transform;
+import static com.google.common.collect.Iterables.tryFind;
 
 @XmlRootElement(name = "hosts")
 public class Hosts {
@@ -52,7 +56,7 @@ public class Hosts {
 	}
 
 	public Host getByName(final String hostName) {
-		Optional<HostSpec> optionalSpec = Iterables.tryFind(hosts, new Predicate<HostSpec>() {
+		Optional<HostSpec> optionalSpec = tryFind(hosts, new Predicate<HostSpec>() {
 			@Override
 			public boolean apply(HostSpec hostSpec) {
 				return hostSpec.getName().equals(hostName);
@@ -64,7 +68,7 @@ public class Hosts {
 
 
 	public Host getDefaultHost() {
-		Optional<HostSpec> optionalSpec = Iterables.tryFind(hosts, new Predicate<HostSpec>() {
+		Optional<HostSpec> optionalSpec = tryFind(hosts, new Predicate<HostSpec>() {
 			@Override
 			public boolean apply(HostSpec hostSpec) {
 				return hostSpec.isDefaultHost();
@@ -79,18 +83,18 @@ public class Hosts {
 	}
 
 	public void addHost(final HostSpec hostSpec) {
-		if (Iterables.tryFind(hosts, new Predicate<HostSpec>() {
+		if (tryFind(hosts, new Predicate<HostSpec>() {
 			@Override
 			public boolean apply(HostSpec h) {
 				return h.getName().equals(hostSpec.getName());
 			}
 		}).isPresent()) throw new IllegalArgumentException(String.format("Host '%s' already exists", hostSpec.getName()));
 		if (hostSpec.isDefaultHost()) {
-			hosts = Lists.newArrayList(Iterables.transform(hosts, new Function<HostSpec, HostSpec>() {
+			hosts = Lists.newArrayList(transform(hosts, new Function<HostSpec, HostSpec>() {
 				@Override
 				public HostSpec apply(HostSpec hostSpec) {
 					if (!hostSpec.isDefaultHost()) return hostSpec;
-					return hostSpec.nonDefault();
+					return hostSpec.asNonDefault();
 				}
 			}));
 		}
@@ -99,12 +103,29 @@ public class Hosts {
 	}
 
 	public void deleteHost(final String hostName) {
-		if (!Iterables.removeIf(hosts, new Predicate<HostSpec>() {
+		if (!removeIf(hosts, new Predicate<HostSpec>() {
 			@Override
 			public boolean apply(HostSpec hostSpec) {
 				return hostSpec.getName().equals(hostName);
 			}
 		})) throw new IllegalArgumentException(String.format("No such host '%s'", hostName));
+		write();
+	}
+
+	public void setDefaultHost(final String hostName) {
+		if (!tryFind(hosts, new Predicate<HostSpec>() {
+			@Override
+			public boolean apply(HostSpec hostSpec) {
+				return hostSpec.getName().equals(hostName);
+			}
+		}).isPresent()) throw new IllegalArgumentException(String.format("No such host: '%s'", hostName));
+		hosts = Lists.newArrayList(transform(hosts, new Function<HostSpec, HostSpec>() {
+			@Nullable
+			@Override
+			public HostSpec apply(HostSpec hostSpec) {
+				return hostSpec.getName().equals(hostName) ? hostSpec.asDefault() : hostSpec.asNonDefault();
+			}
+		}));
 		write();
 	}
 }

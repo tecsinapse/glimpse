@@ -36,4 +36,9 @@ public class DefaultConsole implements Console {
 	public void deleteHost(String hostName) {
 		hostManager.deleteHost(hostName);
 	}
+
+	@Override
+	public void setDefaultHost(String hostName) {
+		hostManager.setDefaultHost(hostName);
+	}
 }

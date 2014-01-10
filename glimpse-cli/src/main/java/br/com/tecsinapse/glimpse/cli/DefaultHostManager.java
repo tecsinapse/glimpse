@@ -57,4 +57,9 @@ public class DefaultHostManager implements HostManager {
 	public void deleteHost(String hostName) {
 		hosts.deleteHost(hostName);
 	}
+
+	@Override
+	public void setDefaultHost(String hostName) {
+		hosts.setDefaultHost(hostName);
+	}
 }

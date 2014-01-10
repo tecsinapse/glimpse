@@ -48,6 +48,11 @@ public class DumbConsole implements Console {
 		hostManager.deleteHost(hostName);
 	}
 
+	@Override
+	public void setDefaultHost(String hostName) {
+		hostManager.setDefaultHost(hostName);
+	}
+
 	public String getOutput() {
 		return output.toString();
 	}

@@ -15,4 +15,6 @@ public interface Console {
 	void addHost(HostSpec hostSpec);
 
 	void deleteHost(String hostName);
+
+	void setDefaultHost(String hostName);
 }

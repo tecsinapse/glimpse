@@ -9,9 +9,9 @@ import org.testng.annotations.Test;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
-import static org.testng.Assert.assertEquals;
+import static org.testng.AssertJUnit.assertEquals;
 
-public class DeleteHostCommandTest {
+public class SetDefaultHostCommandTest {
 
 	@Test
 	public void testExecute() throws ParseException {
@@ -19,31 +19,30 @@ public class DeleteHostCommandTest {
 
 		DumbConsole console = new DumbConsole(hostManager);
 
-		DeleteHostCommand deleteHostCommand = new DeleteHostCommand();
+		SetDefaultHostCommand command = new SetDefaultHostCommand();
 
 		CommandLineParser parser = new PosixParser();
-		CommandLine commandLine = parser.parse(deleteHostCommand.getOptions(), new String[] {"host1"});
+		CommandLine commandLine = parser.parse(command.getOptions(), new String[] {"host1"});
 
-		deleteHostCommand.execute(commandLine, console);
+		command.execute(commandLine, console);
 
-		assertEquals(console.getOutput(), "Host 'host1' deleted\n");
-
-		verify(hostManager).deleteHost("host1");
+		assertEquals(console.getOutput(), "Host 'host1' set as default\n");
+		verify(hostManager).setDefaultHost("host1");
 	}
 
 	@Test
 	public void testNoSuchHost() throws ParseException {
 		HostManager hostManager = mock(HostManager.class);
-		doThrow(new IllegalArgumentException("No such host: 'host1'")).when(hostManager).deleteHost("host1");
+		doThrow(new IllegalArgumentException("No such host: 'host1'")).when(hostManager).setDefaultHost("host1");
 
 		DumbConsole console = new DumbConsole(hostManager);
 
-		DeleteHostCommand deleteHostCommand = new DeleteHostCommand();
+		SetDefaultHostCommand command = new SetDefaultHostCommand();
 
 		CommandLineParser parser = new PosixParser();
-		CommandLine commandLine = parser.parse(deleteHostCommand.getOptions(), new String[] {"host1"});
+		CommandLine commandLine = parser.parse(command.getOptions(), new String[] {"host1"});
 
-		deleteHostCommand.execute(commandLine, console);
+		command.execute(commandLine, console);
 
 		assertEquals(console.getOutput(), "Error: No such host: 'host1'\n");
 	}
@@ -54,12 +53,12 @@ public class DeleteHostCommandTest {
 
 		DumbConsole console = new DumbConsole(hostManager);
 
-		DeleteHostCommand deleteHostCommand = new DeleteHostCommand();
+		SetDefaultHostCommand command = new SetDefaultHostCommand();
 
 		CommandLineParser parser = new PosixParser();
-		CommandLine commandLine = parser.parse(deleteHostCommand.getOptions(), new String[] {});
+		CommandLine commandLine = parser.parse(command.getOptions(), new String[] {});
 
-		deleteHostCommand.execute(commandLine, console);
+		command.execute(commandLine, console);
 
 		assertEquals(console.getOutput(), "Error: A host name must be provided\n");
 	}

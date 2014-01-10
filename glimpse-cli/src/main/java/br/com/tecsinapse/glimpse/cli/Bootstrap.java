@@ -22,6 +22,7 @@ public class Bootstrap {
 		commandsMap.put("list-hosts", new ListHostsCommand());
 		commandsMap.put("add-host", new AddHostCommand());
 		commandsMap.put("delete-host", new DeleteHostCommand());
+		commandsMap.put("set-default-host", new SetDefaultHostCommand());
 	}
 
 	private static CommandLineParser parser = new PosixParser();

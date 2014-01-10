@@ -73,7 +73,11 @@ public class HostSpec {
 		return name.hashCode();
 	}
 
-	public HostSpec nonDefault() {
+	public HostSpec asNonDefault() {
 		return new HostSpec(name, url, false, username, password);
+	}
+
+	public HostSpec asDefault() {
+		return new HostSpec(name, url, true, username, password);
 	}
 }

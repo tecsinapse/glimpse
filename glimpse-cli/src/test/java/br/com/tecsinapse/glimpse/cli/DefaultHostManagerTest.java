@@ -165,7 +165,7 @@ public class DefaultHostManagerTest {
 		verify(fileSystem).writeHostsFile("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><hosts><host><name>server1</name><url>http://localhost:8081</url><default>false</default></host></hosts>");
 	}
 
-	@Test(expectedExceptions = {IllegalArgumentException.class})
+	@Test(expectedExceptions = IllegalArgumentException.class)
 	public void testAddHostThatAlreadyExist() {
 		FileSystem fileSystem = mock(FileSystem.class);
 		when(fileSystem.readHostsFile()).thenReturn(getHostsFileContent());
@@ -205,6 +205,26 @@ public class DefaultHostManagerTest {
 
 		DefaultHostManager defaultHostManager = new DefaultHostManager(fileSystem);
 		defaultHostManager.deleteHost("teste");
+	}
+
+	@Test
+	public void testSetDefaultHost() {
+		FileSystem fileSystem = mock(FileSystem.class);
+		when(fileSystem.readHostsFile()).thenReturn(getHostsFileContent());
+
+		DefaultHostManager defaultHostManager = new DefaultHostManager(fileSystem);
+		defaultHostManager.setDefaultHost("server1");
+
+		verify(fileSystem).writeHostsFile("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><hosts><host><name>localhost</name><url>http://localhost:8081</url><default>false</default></host><host><name>server1</name><url>http://server1:8081</url><default>true</default></host></hosts>");
+	}
+
+	@Test(expectedExceptions = IllegalArgumentException.class)
+	public void testSetDefaultHostNoSuchHost() {
+		FileSystem fileSystem = mock(FileSystem.class);
+		when(fileSystem.readHostsFile()).thenReturn(getHostsFileContent());
+
+		DefaultHostManager defaultHostManager = new DefaultHostManager(fileSystem);
+		defaultHostManager.setDefaultHost("teste");
 	}
 
 }
