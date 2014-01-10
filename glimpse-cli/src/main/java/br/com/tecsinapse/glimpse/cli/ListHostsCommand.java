@@ -13,12 +13,12 @@ public class ListHostsCommand implements Command {
 
 	@Override
 	public void execute(CommandLine commandLine, Console console) {
-		List<Host> hosts = console.listHosts();
+		List<HostSpec> hosts = console.listHostSpecs();
 		if (hosts.isEmpty()) {
 			console.println("There are no hosts saved");
 			return;
 		}
-		for (Host host : hosts) {
+		for (HostSpec host : hosts) {
 			console.println(host.getName() + " - " + host.getUrl() + (host.isDefaultHost() ? " (default)": ""));
 		}
 	}

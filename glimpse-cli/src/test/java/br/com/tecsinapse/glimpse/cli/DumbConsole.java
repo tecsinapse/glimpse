@@ -34,8 +34,8 @@ public class DumbConsole implements Console {
 	}
 
 	@Override
-	public List<Host> listHosts() {
-		return hostManager.listHosts();
+	public List<HostSpec> listHostSpecs() {
+		return hostManager.listHostSpecs();
 	}
 
 	@Override

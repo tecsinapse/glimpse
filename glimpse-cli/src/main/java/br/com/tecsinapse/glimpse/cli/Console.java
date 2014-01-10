@@ -10,7 +10,7 @@ public interface Console {
 
 	void println(String s);
 
-	List<Host> listHosts();
+	List<HostSpec> listHostSpecs();
 
 	void addHost(HostSpec hostSpec);
 }

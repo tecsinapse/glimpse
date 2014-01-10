@@ -5,4 +5,6 @@ public interface FileSystem {
 	String readHostsFile();
 
 	String readFile(String fileName);
+
+	void writeHostsFile(String content);
 }

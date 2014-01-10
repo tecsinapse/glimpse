@@ -1,16 +1,34 @@
 package br.com.tecsinapse.glimpse.cli;
 
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement(name = "host")
 public class HostSpec {
 
+	@XmlElement
+	@SuppressWarnings("UnusedDeclaration")
 	private String name;
 
+	@XmlElement
 	private String url;
 
+	@XmlElement(name = "default")
+	@SuppressWarnings("UnusedDeclaration")
 	private boolean defaultHost;
 
+	@XmlElement
+	@SuppressWarnings("UnusedDeclaration")
 	private String username;
 
+	@XmlElement
+	@SuppressWarnings("UnusedDeclaration")
 	private String password;
+
+	// for jaxb use
+	@SuppressWarnings("UnusedDeclaration")
+	private HostSpec() {
+	}
 
 	public HostSpec(String name, String url, boolean defaultHost, String username, String password) {
 		this.name = name;
@@ -43,26 +61,19 @@ public class HostSpec {
 	@Override
 	public boolean equals(Object o) {
 		if (this == o) return true;
-		if (o == null || getClass() != o.getClass()) return false;
+		if (!(o instanceof HostSpec)) return false;
 
 		HostSpec hostSpec = (HostSpec) o;
 
-		if (defaultHost != hostSpec.defaultHost) return false;
-		if (!name.equals(hostSpec.name)) return false;
-		if (password != null ? !password.equals(hostSpec.password) : hostSpec.password != null) return false;
-		if (!url.equals(hostSpec.url)) return false;
-		if (username != null ? !username.equals(hostSpec.username) : hostSpec.username != null) return false;
-
-		return true;
+		return name.equals(hostSpec.name);
 	}
 
 	@Override
 	public int hashCode() {
-		int result = name.hashCode();
-		result = 31 * result + url.hashCode();
-		result = 31 * result + (defaultHost ? 1 : 0);
-		result = 31 * result + (username != null ? username.hashCode() : 0);
-		result = 31 * result + (password != null ? password.hashCode() : 0);
-		return result;
+		return name.hashCode();
+	}
+
+	public HostSpec nonDefault() {
+		return new HostSpec(name, url, false, username, password);
 	}
 }

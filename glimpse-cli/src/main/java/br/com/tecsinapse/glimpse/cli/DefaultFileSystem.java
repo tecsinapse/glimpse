@@ -7,6 +7,8 @@ import java.io.IOException;
 
 public class DefaultFileSystem implements FileSystem {
 
+	public static final String HOSTS_FILES_NAME = "hosts.xml";
+	public static final String ENCODING = "UTF-8";
 	private File glimpseHome;
 
 	public DefaultFileSystem(File glimpseHome) {
@@ -16,16 +18,29 @@ public class DefaultFileSystem implements FileSystem {
 	@Override
 	public String readHostsFile() {
 		try {
-			return FileUtils.readFileToString(new File(glimpseHome, "hosts.xml"));
+			return FileUtils.readFileToString(getHostsFile());
+		} catch (IOException e) {
+			throw new IllegalStateException(e);
+		}
+	}
+
+	private File getHostsFile() {
+		return new File(glimpseHome, HOSTS_FILES_NAME);
+	}
+
+	@Override
+	public String readFile(String fileName) {
+		try {
+			return FileUtils.readFileToString(new File(fileName), ENCODING);
 		} catch (IOException e) {
 			throw new IllegalStateException(e);
 		}
 	}
 
 	@Override
-	public String readFile(String fileName) {
+	public void writeHostsFile(String content) {
 		try {
-			return FileUtils.readFileToString(new File(fileName));
+			FileUtils.writeStringToFile(getHostsFile(), content, ENCODING);
 		} catch (IOException e) {
 			throw new IllegalStateException(e);
 		}

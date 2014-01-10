@@ -17,21 +17,12 @@ public class ListHostsCommandTest {
 
 	@Test
 	public void testExecute() throws ParseException {
-		List<Host> hosts = new ArrayList<Host>();
-		Host host1 = mock(Host.class);
-		when(host1.getName()).thenReturn("host1");
-		when(host1.getUrl()).thenReturn("http://host1:8081");
-		when(host1.isDefaultHost()).thenReturn(false);
-		hosts.add(host1);
-
-		Host host2 = mock(Host.class);
-		when(host2.getName()).thenReturn("host2");
-		when(host2.getUrl()).thenReturn("http://host2:8081");
-		when(host2.isDefaultHost()).thenReturn(true);
-		hosts.add(host2);
+		List<HostSpec> hosts = new ArrayList<HostSpec>();
+		hosts.add(new HostSpec("host1", "http://host1:8081", false, null, null));
+		hosts.add(new HostSpec("host2", "http://host2:8081", true, null, null));
 
 		HostManager hostManager = mock(HostManager.class);
-		when(hostManager.listHosts()).thenReturn(hosts);
+		when(hostManager.listHostSpecs()).thenReturn(hosts);
 
 		DumbConsole console = new DumbConsole(hostManager);
 
@@ -50,7 +41,7 @@ public class ListHostsCommandTest {
 	@Test
 	public void testExecuteNoHosts() throws ParseException {
 		HostManager hostManager = mock(HostManager.class);
-		when(hostManager.listHosts()).thenReturn(new ArrayList<Host>());
+		when(hostManager.listHostSpecs()).thenReturn(new ArrayList<HostSpec>());
 
 		DumbConsole console = new DumbConsole(hostManager);
 

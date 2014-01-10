@@ -10,6 +10,7 @@ import org.testng.annotations.Test;
 import java.util.List;
 
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
@@ -131,25 +132,59 @@ public class DefaultHostManagerTest {
 	}
 
 	@Test
-	public void testListHosts() {
+	public void testListHostSpecs() {
 		FileSystem fileSystem = mock(FileSystem.class);
 		when(fileSystem.readHostsFile()).thenReturn(getHostsFileContent());
 
 		DefaultHostManager defaultHostManager = new DefaultHostManager(fileSystem);
 
-		List<Host> hosts = defaultHostManager.listHosts();
+		List<HostSpec> hosts = defaultHostManager.listHostSpecs();
 
 		assertEquals(hosts.size(), 2);
 
-		Host host1 = hosts.get(0);
+		HostSpec host1 = hosts.get(0);
 		assertEquals(host1.getName(), "localhost");
 		assertEquals(host1.getUrl(),  "http://localhost:8081");
 		assertTrue(host1.isDefaultHost());
 
-		Host host2 = hosts.get(1);
+		HostSpec host2 = hosts.get(1);
 		assertEquals(host2.getName(), "server1");
 		assertEquals(host2.getUrl(), "http://server1:8081");
 		assertFalse(host2.isDefaultHost());
+	}
+
+	@Test
+	public void testAddHost() {
+		FileSystem fileSystem = mock(FileSystem.class);
+		when(fileSystem.readHostsFile()).thenReturn("<hosts></hosts>");
+
+		DefaultHostManager defaultHostManager = new DefaultHostManager(fileSystem);
+
+		defaultHostManager.addHost(new HostSpec("server1", "http://localhost:8081", false, null, null));
+
+		verify(fileSystem).writeHostsFile("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><hosts><host><name>server1</name><url>http://localhost:8081</url><default>false</default></host></hosts>");
+	}
+
+	@Test(expectedExceptions = {IllegalArgumentException.class})
+	public void testAddHostThatAlreadyExist() {
+		FileSystem fileSystem = mock(FileSystem.class);
+		when(fileSystem.readHostsFile()).thenReturn(getHostsFileContent());
+
+		DefaultHostManager defaultHostManager = new DefaultHostManager(fileSystem);
+
+		defaultHostManager.addHost(new HostSpec("localhost", null, false, null, null));
+	}
+
+	@Test
+	public void testAddDefaultHost() {
+		FileSystem fileSystem = mock(FileSystem.class);
+		when(fileSystem.readHostsFile()).thenReturn(getHostsFileContent());
+
+		DefaultHostManager defaultHostManager = new DefaultHostManager(fileSystem);
+
+		defaultHostManager.addHost(new HostSpec("teste", "teste", true, null, null));
+
+		verify(fileSystem).writeHostsFile("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><hosts><host><name>localhost</name><url>http://localhost:8081</url><default>false</default></host><host><name>server1</name><url>http://server1:8081</url><default>false</default></host><host><name>teste</name><url>teste</url><default>true</default></host></hosts>");
 	}
 
 }

@@ -24,7 +24,12 @@ public class AddHostCommand implements Command {
 	@Override
 	public void execute(CommandLine commandLine, Console console) {
 		HostSpec hostSpec = new HostSpec(commandLine.getOptionValue("name"), commandLine.getOptionValue("url"), commandLine.hasOption("default"), commandLine.getOptionValue("username"), commandLine.getOptionValue("password"));
-		console.addHost(hostSpec);
-		console.println(String.format("Host '%s' added", hostSpec.getName()));
+		try {
+			console.addHost(hostSpec);
+			console.println(String.format("Host '%s' added", hostSpec.getName()));
+		} catch (IllegalArgumentException e) {
+			console.println(String.format("Error: %s", e.getMessage()));
+		}
+
 	}
 }

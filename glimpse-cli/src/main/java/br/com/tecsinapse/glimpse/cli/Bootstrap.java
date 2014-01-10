@@ -19,6 +19,8 @@ public class Bootstrap {
 	static Map<String, Command> commandsMap = new HashMap<String, Command>();
 	static {
 		commandsMap.put("run", new RunCommand());
+		commandsMap.put("list-hosts", new ListHostsCommand());
+		commandsMap.put("add-host", new AddHostCommand());
 	}
 
 	private static CommandLineParser parser = new PosixParser();

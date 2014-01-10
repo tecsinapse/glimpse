@@ -8,7 +8,7 @@ public interface HostManager {
 
 	Host getHost(CommandLine commandLine, Console console);
 
-	List<Host> listHosts();
+	List<HostSpec> listHostSpecs();
 
 	void addHost(HostSpec hostSpec);
 }
