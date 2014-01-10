@@ -3,7 +3,11 @@ package br.com.tecsinapse.glimpse.cli;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Options;
 
-public class SetDefaultHostCommand implements Command {
+public class SetDefaultHostCommand extends AbstractCommand {
+	public SetDefaultHostCommand() {
+		super("set-default-host");
+	}
+
 	@Override
 	public Options getOptions() {
 		return new Options();

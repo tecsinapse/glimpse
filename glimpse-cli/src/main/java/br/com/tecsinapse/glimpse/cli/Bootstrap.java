@@ -1,5 +1,8 @@
 package br.com.tecsinapse.glimpse.cli;
 
+import com.google.common.base.Function;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.Options;
@@ -8,21 +11,45 @@ import org.apache.commons.cli.PosixParser;
 
 import java.io.File;
 import java.util.Arrays;
-import java.util.HashMap;
+import java.util.Comparator;
+import java.util.List;
 import java.util.Map;
+
+import static java.util.Collections.sort;
 
 public class Bootstrap {
 
 	static Console console;
 
-	static Command noArgsCommand = new UsageCommand();
-	static Map<String, Command> commandsMap = new HashMap<String, Command>();
+	static Command noArgsCommand;
+	static Map<String, Command> commandsMap;
 	static {
-		commandsMap.put("run", new RunCommand());
-		commandsMap.put("list-hosts", new ListHostsCommand());
-		commandsMap.put("add-host", new AddHostCommand());
-		commandsMap.put("delete-host", new DeleteHostCommand());
-		commandsMap.put("set-default-host", new SetDefaultHostCommand());
+		List<Command> commands = Lists.<Command>newArrayList(
+			new RunCommand(),
+			new ListHostsCommand(),
+			new AddHostCommand(),
+			new DeleteHostCommand(),
+			new SetDefaultHostCommand()
+		);
+
+		HelpCommand helpCommand = new HelpCommand(Lists.newArrayList(commands));
+		commands.add(helpCommand);
+
+		sort(commands, new Comparator<Command>() {
+			@Override
+			public int compare(Command o1, Command o2) {
+				return o1.getName().compareTo(o2.getName());
+			}
+		});
+
+		noArgsCommand = new UsageCommand(commands);
+
+		commandsMap = Maps.uniqueIndex(commands, new Function<Command, String>() {
+			@Override
+			public String apply(Command command) {
+				return command.getName();
+			}
+		});
 	}
 
 	private static CommandLineParser parser = new PosixParser();

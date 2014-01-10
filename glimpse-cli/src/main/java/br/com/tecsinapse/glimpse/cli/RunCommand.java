@@ -5,7 +5,11 @@ import org.apache.commons.cli.Options;
 
 import static java.lang.String.format;
 
-public class RunCommand implements Command {
+public class RunCommand extends AbstractCommand {
+	public RunCommand() {
+		super("run");
+	}
+
 	@Override
 	public Options getOptions() {
 		Options options = new Options();

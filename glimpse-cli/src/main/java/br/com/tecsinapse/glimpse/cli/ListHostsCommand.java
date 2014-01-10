@@ -5,7 +5,11 @@ import org.apache.commons.cli.Options;
 
 import java.util.List;
 
-public class ListHostsCommand implements Command {
+public class ListHostsCommand extends AbstractCommand {
+	public ListHostsCommand() {
+		super("list-hosts");
+	}
+
 	@Override
 	public Options getOptions() {
 		return new Options();

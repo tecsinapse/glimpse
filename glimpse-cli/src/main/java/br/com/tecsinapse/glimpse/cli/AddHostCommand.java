@@ -4,7 +4,11 @@ import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
 
-public class AddHostCommand implements Command {
+public class AddHostCommand extends AbstractCommand {
+	public AddHostCommand() {
+		super("add-host");
+	}
+
 	@Override
 	public Options getOptions() {
 		Options options = new Options();

@@ -34,7 +34,7 @@ public class BootstrapTest {
 		final Console mockConsole = mock(Console.class);
 		Bootstrap.console = mockConsole;
 
-		Command command1 = new Command() {
+		Command command1 = new AbstractCommand("command1") {
 			@Override
 			public Options getOptions() {
 				return new Options();
@@ -49,7 +49,7 @@ public class BootstrapTest {
 
 		final Options command2Options = new Options();
 		command2Options.addOption("p", true, "mock option");
-		Command command2 = new Command() {
+		Command command2 = new AbstractCommand("command2") {
 			@Override
 			public Options getOptions() {
 				return command2Options;
