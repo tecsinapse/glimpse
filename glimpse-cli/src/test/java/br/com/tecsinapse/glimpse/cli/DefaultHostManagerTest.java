@@ -187,4 +187,24 @@ public class DefaultHostManagerTest {
 		verify(fileSystem).writeHostsFile("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><hosts><host><name>localhost</name><url>http://localhost:8081</url><default>false</default></host><host><name>server1</name><url>http://server1:8081</url><default>false</default></host><host><name>teste</name><url>teste</url><default>true</default></host></hosts>");
 	}
 
+	@Test
+	public void testDeleteHost() {
+		FileSystem fileSystem = mock(FileSystem.class);
+		when(fileSystem.readHostsFile()).thenReturn(getHostsFileContent());
+
+		DefaultHostManager defaultHostManager = new DefaultHostManager(fileSystem);
+		defaultHostManager.deleteHost("localhost");
+
+		verify(fileSystem).writeHostsFile("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><hosts><host><name>server1</name><url>http://server1:8081</url><default>false</default></host></hosts>");
+	}
+
+	@Test(expectedExceptions = IllegalArgumentException.class)
+	public void testDeleteNoSuchHost() {
+		FileSystem fileSystem = mock(FileSystem.class);
+		when(fileSystem.readHostsFile()).thenReturn(getHostsFileContent());
+
+		DefaultHostManager defaultHostManager = new DefaultHostManager(fileSystem);
+		defaultHostManager.deleteHost("teste");
+	}
+
 }

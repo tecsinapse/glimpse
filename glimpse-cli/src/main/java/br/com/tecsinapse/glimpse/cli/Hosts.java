@@ -97,4 +97,14 @@ public class Hosts {
 		hosts.add(hostSpec);
 		write();
 	}
+
+	public void deleteHost(final String hostName) {
+		if (!Iterables.removeIf(hosts, new Predicate<HostSpec>() {
+			@Override
+			public boolean apply(HostSpec hostSpec) {
+				return hostSpec.getName().equals(hostName);
+			}
+		})) throw new IllegalArgumentException(String.format("No such host '%s'", hostName));
+		write();
+	}
 }

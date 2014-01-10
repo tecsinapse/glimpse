@@ -31,4 +31,9 @@ public class DefaultConsole implements Console {
 	public void addHost(HostSpec hostSpec) {
 		hostManager.addHost(hostSpec);
 	}
+
+	@Override
+	public void deleteHost(String hostName) {
+		hostManager.deleteHost(hostName);
+	}
 }

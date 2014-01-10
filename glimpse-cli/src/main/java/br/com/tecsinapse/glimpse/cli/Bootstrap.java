@@ -21,6 +21,7 @@ public class Bootstrap {
 		commandsMap.put("run", new RunCommand());
 		commandsMap.put("list-hosts", new ListHostsCommand());
 		commandsMap.put("add-host", new AddHostCommand());
+		commandsMap.put("delete-host", new DeleteHostCommand());
 	}
 
 	private static CommandLineParser parser = new PosixParser();

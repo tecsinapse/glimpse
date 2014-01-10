@@ -52,4 +52,9 @@ public class DefaultHostManager implements HostManager {
 	public void addHost(HostSpec hostSpec) {
 		hosts.addHost(hostSpec);
 	}
+
+	@Override
+	public void deleteHost(String hostName) {
+		hosts.deleteHost(hostName);
+	}
 }

@@ -11,4 +11,6 @@ public interface HostManager {
 	List<HostSpec> listHostSpecs();
 
 	void addHost(HostSpec hostSpec);
+
+	void deleteHost(String hostName);
 }
