@@ -10,6 +10,21 @@ public class AddHostCommand extends AbstractCommand {
 	}
 
 	@Override
+	protected String getCommandLineSyntax() {
+		return "glimpse add-host -name $HOST_NAME -url $HOST_URL";
+	}
+
+	@Override
+	public String getShortDescription() {
+		return "Adds a new host";
+	}
+
+	@Override
+	protected String getHelpDescription() {
+		return "Adds a new host. A host defines a server where glimpse scripts could run.";
+	}
+
+	@Override
 	public Options getOptions() {
 		Options options = new Options();
 		Option nameOption = new Option("name", true, "name of the host");

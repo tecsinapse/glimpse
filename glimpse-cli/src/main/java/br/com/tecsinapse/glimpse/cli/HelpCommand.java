@@ -15,15 +15,31 @@ public class HelpCommand extends AbstractCommand {
 
 	private Map<String, Command> commandsMap;
 
+	@Override
+	protected String getCommandLineSyntax() {
+		return "glimpse help $COMMAND_NAME";
+	}
+
+	@Override
+	protected String getHelpDescription() {
+		return "Shows the help for a given command. The command should be the first argument after the command.";
+	}
+
+	@Override
+	public String getShortDescription() {
+		return "Shows a command help";
+	}
+
 	public HelpCommand(List<Command> commands) {
 		super("help");
-		this.commandsMap = Maps.uniqueIndex(commands, new Function<Command, String>() {
+		this.commandsMap = Maps.newHashMap(Maps.uniqueIndex(commands, new Function<Command, String>() {
 			@Nullable
 			@Override
 			public String apply(Command command) {
 				return command.getName();
 			}
-		});
+		}));
+		this.commandsMap.put("help", this);
 	}
 
 	@Override

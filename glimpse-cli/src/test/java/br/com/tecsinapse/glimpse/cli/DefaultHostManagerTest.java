@@ -85,7 +85,7 @@ public class DefaultHostManagerTest {
 		CommandLineParser parser = new PosixParser();
 		Options options = new Options();
 		DefaultHostManager.addHostOptions(options);
-		CommandLine commandLine = parser.parse(options, new String[] {"-h", "server1"});
+		CommandLine commandLine = parser.parse(options, new String[] {"-host", "server1"});
 
 		DefaultHost host = (DefaultHost) defaultHostManager.getHost(commandLine, console);
 
@@ -104,7 +104,7 @@ public class DefaultHostManagerTest {
 		CommandLineParser parser = new PosixParser();
 		Options options = new Options();
 		DefaultHostManager.addHostOptions(options);
-		CommandLine commandLine = parser.parse(options, new String[] {"-h", "server1"});
+		CommandLine commandLine = parser.parse(options, new String[] {"-host", "server1"});
 
 		DefaultHost host = (DefaultHost) defaultHostManager.getHost(commandLine, console);
 
@@ -124,7 +124,7 @@ public class DefaultHostManagerTest {
 		CommandLineParser parser = new PosixParser();
 		Options options = new Options();
 		DefaultHostManager.addHostOptions(options);
-		CommandLine commandLine = parser.parse(options, new String[] {"-u", "http://server2:8081"});
+		CommandLine commandLine = parser.parse(options, new String[] {"-url", "http://server2:8081"});
 
 		DefaultHost host = (DefaultHost) defaultHostManager.getHost(commandLine, console);
 

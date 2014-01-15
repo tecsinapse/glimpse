@@ -18,22 +18,22 @@ public class DefaultHostManager implements HostManager {
 	}
 
 	public static void addHostOptions(Options options) {
-		options.addOption("h", true, "name of the host");
-		options.addOption("u", true, "url of the host");
+		options.addOption("host", true, "name of the host where the script should be run");
+		options.addOption("url", true, "url of an alternative host (only use this option if in need to run on a host that is not saved)");
 	}
 
 	@Override
 	public Host getHost(CommandLine commandLine, Console console) {
-		if (commandLine.hasOption('h')) {
-			String hostName = commandLine.getOptionValue('h');
+		if (commandLine.hasOption("host")) {
+			String hostName = commandLine.getOptionValue("host");
 			Host result = hosts.getByName(hostName);
 			if (result == null) {
 				console.println("Error: no such host '" + hostName + "', use 'glimpse host add <host_name> <host_url>' to add a host");
 			}
 			return result;
 		}
-		if (commandLine.hasOption('u')) {
-			String url = commandLine.getOptionValue('u');
+		if (commandLine.hasOption("url")) {
+			String url = commandLine.getOptionValue("url");
 			return new DefaultHost(new HostSpec(url, url, false, null, null), fileSystem);
 		}
 		Host defaultHost = hosts.getDefaultHost();

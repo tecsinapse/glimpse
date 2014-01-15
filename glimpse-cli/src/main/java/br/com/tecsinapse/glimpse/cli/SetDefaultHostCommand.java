@@ -1,7 +1,6 @@
 package br.com.tecsinapse.glimpse.cli;
 
 import org.apache.commons.cli.CommandLine;
-import org.apache.commons.cli.Options;
 
 public class SetDefaultHostCommand extends AbstractCommand {
 	public SetDefaultHostCommand() {
@@ -9,8 +8,18 @@ public class SetDefaultHostCommand extends AbstractCommand {
 	}
 
 	@Override
-	public Options getOptions() {
-		return new Options();
+	protected String getCommandLineSyntax() {
+		return "glimpse set-default-host $HOST_NAME";
+	}
+
+	@Override
+	public String getShortDescription() {
+		return "Sets the default host";
+	}
+
+	@Override
+	protected String getHelpDescription() {
+		return "Sets a given host as the default host. The name of the host to be set as default should be the first argument after the command.";
 	}
 
 	@Override

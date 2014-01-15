@@ -1,7 +1,6 @@
 package br.com.tecsinapse.glimpse.cli;
 
 import org.apache.commons.cli.CommandLine;
-import org.apache.commons.cli.Options;
 
 public class DeleteHostCommand extends AbstractCommand {
 	public DeleteHostCommand() {
@@ -9,8 +8,18 @@ public class DeleteHostCommand extends AbstractCommand {
 	}
 
 	@Override
-	public Options getOptions() {
-		return new Options();
+	protected String getCommandLineSyntax() {
+		return "glimpse delete-host $HOST_NAME";
+	}
+
+	@Override
+	protected String getHelpDescription() {
+		return "Deletes a given host. The name of the host should be the first argument after the command.";
+	}
+
+	@Override
+	public String getShortDescription() {
+		return "Deletes a host";
 	}
 
 	@Override

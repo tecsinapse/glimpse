@@ -11,6 +11,21 @@ public class RunCommand extends AbstractCommand {
 	}
 
 	@Override
+	protected String getCommandLineSyntax() {
+		return "glimpse run $SCRIPT_FILE";
+	}
+
+	@Override
+	protected String getHelpDescription() {
+		return "Runs a given script. If no host name is provided the script is run on the default host. Options are provided to run the script in another host.";
+	}
+
+	@Override
+	public String getShortDescription() {
+		return "Runs a given script";
+	}
+
+	@Override
 	public Options getOptions() {
 		Options options = new Options();
 		DefaultHostManager.addHostOptions(options);

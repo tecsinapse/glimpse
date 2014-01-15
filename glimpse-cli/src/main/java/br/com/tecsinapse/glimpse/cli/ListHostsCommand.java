@@ -1,7 +1,6 @@
 package br.com.tecsinapse.glimpse.cli;
 
 import org.apache.commons.cli.CommandLine;
-import org.apache.commons.cli.Options;
 
 import java.util.List;
 
@@ -11,8 +10,18 @@ public class ListHostsCommand extends AbstractCommand {
 	}
 
 	@Override
-	public Options getOptions() {
-		return new Options();
+	protected String getHelpDescription() {
+		return "Lists the name and url of the hosts.";
+	}
+
+	@Override
+	public String getShortDescription() {
+		return "Lists the hosts";
+	}
+
+	@Override
+	protected String getCommandLineSyntax() {
+		return "glimpse list-hosts";
 	}
 
 	@Override

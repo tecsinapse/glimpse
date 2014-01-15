@@ -2,7 +2,6 @@ package br.com.tecsinapse.glimpse.cli;
 
 import com.google.common.base.Strings;
 import org.apache.commons.cli.CommandLine;
-import org.apache.commons.cli.Options;
 
 import java.util.List;
 
@@ -13,11 +12,6 @@ public class UsageCommand extends AbstractCommand {
 	public UsageCommand(List<Command> commands) {
 		super("");
 		this.commands = commands;
-	}
-
-	@Override
-	public Options getOptions() {
-		return new Options();
 	}
 
 	@Override
