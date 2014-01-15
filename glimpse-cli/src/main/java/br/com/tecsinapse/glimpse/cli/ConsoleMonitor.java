@@ -5,6 +5,10 @@ import br.com.tecsinapse.glimpse.client.Monitor;
 public class ConsoleMonitor implements Monitor {
 	private final Console console;
 
+	private int totalWorkedSteps;
+
+	private int steps;
+
 	public ConsoleMonitor(Console console) {
 		this.console = console;
 	}
@@ -16,12 +20,14 @@ public class ConsoleMonitor implements Monitor {
 
 	@Override
 	public void begin(int steps) {
-		throw new UnsupportedOperationException();
+		this.steps = steps;
+		console.enableProgressBar();
 	}
 
 	@Override
 	public void worked(int workedSteps) {
-		throw new UnsupportedOperationException();
+		totalWorkedSteps += workedSteps;
+		console.updateProgressBar((float) totalWorkedSteps / (float) steps);
 	}
 
 	@Override

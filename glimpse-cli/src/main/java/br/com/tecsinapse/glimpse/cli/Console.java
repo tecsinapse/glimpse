@@ -17,4 +17,12 @@ public interface Console {
 	void deleteHost(String hostName);
 
 	void setDefaultHost(String hostName);
+
+	void enableProgressBar();
+
+	void updateProgressBar(float percentWorked);
+
+	void startExecution();
+
+	void finishExecution();
 }

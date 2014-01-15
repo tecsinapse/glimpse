@@ -53,6 +53,24 @@ public class DumbConsole implements Console {
 		hostManager.setDefaultHost(hostName);
 	}
 
+	@Override
+	public void enableProgressBar() {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public void updateProgressBar(float percentWorked) {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public void startExecution() {
+	}
+
+	@Override
+	public void finishExecution() {
+	}
+
 	public String getOutput() {
 		return output.toString();
 	}

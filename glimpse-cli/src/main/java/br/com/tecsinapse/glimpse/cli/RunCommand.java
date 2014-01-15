@@ -43,7 +43,9 @@ public class RunCommand extends AbstractCommand {
 			console.println(format("Executing script at: %s", host.getUrl()));
 			console.println("--------------------------------------------------");
 			console.println("");
+			console.startExecution();
 			host.runScript(commandLine.getArgs()[0], console);
+			console.finishExecution();
 			console.println("");
 			console.println("--------------------------------------------------");
 			console.println("Finished executing script");
