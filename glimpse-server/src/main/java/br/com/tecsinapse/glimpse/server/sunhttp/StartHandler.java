@@ -16,12 +16,12 @@
 
 package br.com.tecsinapse.glimpse.server.sunhttp;
 
-import java.io.IOException;
-
 import br.com.tecsinapse.glimpse.server.Server;
-
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
+
+import java.io.IOException;
+import java.util.Collections;
 
 public class StartHandler implements HttpHandler {
 
@@ -35,7 +35,7 @@ public class StartHandler implements HttpHandler {
 		ExchangeTemplate template = new ExchangeTemplate(exchange);
 		String script = template.getRequestBody();
 		template.setResponseOk();
-		String id = server.start(script.toString());
+		String id = server.start(script, Collections.<String, String> emptyMap());
 		template.writeReponse(id);
 	}
 

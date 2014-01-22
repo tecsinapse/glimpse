@@ -16,19 +16,22 @@
 
 package br.com.tecsinapse.glimpse.server;
 
-import java.util.LinkedList;
-import java.util.List;
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.LinkedBlockingDeque;
-import java.util.concurrent.atomic.AtomicBoolean;
-
 import br.com.tecsinapse.glimpse.protocol.CancelPollResultItem;
 import br.com.tecsinapse.glimpse.protocol.ClosePollResultItem;
 import br.com.tecsinapse.glimpse.protocol.PollResultItem;
 
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingDeque;
+import java.util.concurrent.atomic.AtomicBoolean;
+
 public class Job {
 
 	private String script;
+
+	private Map<String, String> parameters;
 
 	private ScriptRunner scriptRunner;
 
@@ -40,9 +43,10 @@ public class Job {
 	
 	private AtomicBoolean running = new AtomicBoolean(true);
 	
-	public Job(String script, ScriptRunner scriptRunner) {
+	public Job(String script, Map<String, String> parameters, ScriptRunner scriptRunner) {
 		this.script = script;
 		this.scriptRunner = scriptRunner;
+		this.parameters = parameters;
 	}
 
 	public void start() {
@@ -50,7 +54,7 @@ public class Job {
 		Thread thread = new Thread(new Runnable() {
 
 			public void run() {
-				scriptRunner.run(script, new DefaultMonitor(queue, canceled));
+				scriptRunner.run(script, parameters, new DefaultMonitor(queue, canceled));
 				queue.add(new ClosePollResultItem());
 				Job.this.running.set(false);
 			}

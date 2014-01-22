@@ -4,6 +4,7 @@ import br.com.tecsinapse.glimpse.server.Monitor;
 import com.google.common.collect.Maps;
 import org.testng.annotations.Test;
 
+import java.util.Collections;
 import java.util.Map;
 
 import static org.mockito.Mockito.mock;
@@ -23,7 +24,7 @@ public class GroovyScriptRunnerTest {
 
 		GroovyScriptRunner runner = new GroovyScriptRunner();
 
-		runner.run(script, monitor);
+		runner.run(script, Collections.<String, String>emptyMap(), monitor);
 
 		verify(monitor).println("test");
 		verify(monitor).begin(15);

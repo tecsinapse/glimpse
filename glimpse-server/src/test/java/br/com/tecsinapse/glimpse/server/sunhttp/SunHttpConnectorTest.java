@@ -16,12 +16,7 @@
 
 package br.com.tecsinapse.glimpse.server.sunhttp;
 
-import static org.mockito.Mockito.mock;
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.fail;
-
-import java.io.InputStream;
-
+import br.com.tecsinapse.glimpse.server.Server;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpStatus;
@@ -30,7 +25,12 @@ import org.apache.commons.httpclient.methods.StringRequestEntity;
 import org.mockito.Mockito;
 import org.testng.annotations.Test;
 
-import br.com.tecsinapse.glimpse.server.Server;
+import java.io.InputStream;
+import java.util.Collections;
+
+import static org.mockito.Mockito.mock;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.fail;
 
 public class SunHttpConnectorTest {
 
@@ -40,7 +40,7 @@ public class SunHttpConnectorTest {
 		String script = "myScript";
 
 		Server server = mock(Server.class);
-		Mockito.when(server.start(script)).thenReturn(jobId);
+		Mockito.when(server.start(script, Collections.<String, String>emptyMap())).thenReturn(jobId);
 
 		SunHttpConnector connector = new SunHttpConnector(server, 8081);
 		connector.start();
@@ -61,7 +61,7 @@ public class SunHttpConnectorTest {
 		StringBuilder builder = new StringBuilder();
 		InputStream in = post.getResponseBodyAsStream();
 		if (in != null) {
-			int c = 0;
+			int c;
 			while ((c = in.read()) != -1) {
 				builder.append((char) c);
 			}

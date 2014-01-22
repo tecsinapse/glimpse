@@ -16,13 +16,14 @@
 
 package br.com.tecsinapse.glimpse.server;
 
-import static org.testng.Assert.assertEquals;
-
+import br.com.tecsinapse.glimpse.protocol.StartOp;
+import br.com.tecsinapse.glimpse.protocol.StartResult;
 import org.mockito.Mockito;
 import org.testng.annotations.Test;
 
-import br.com.tecsinapse.glimpse.protocol.StartOp;
-import br.com.tecsinapse.glimpse.protocol.StartResult;
+import java.util.Collections;
+
+import static org.testng.Assert.assertEquals;
 
 public class StartOpInvokerTest {
 
@@ -32,7 +33,7 @@ public class StartOpInvokerTest {
 		String script = "myScript";
 		StartOp startOp = new StartOp(script);
 		Server server = Mockito.mock(Server.class);
-		Mockito.when(server.start(script)).thenReturn(jobId);
+		Mockito.when(server.start(script, Collections.<String, String>emptyMap())).thenReturn(jobId);
 		StartOpInvoker invoker = new StartOpInvoker(server);
 		StartResult result = invoker.invoke(startOp);
 		assertEquals(result.getJobId(), jobId);

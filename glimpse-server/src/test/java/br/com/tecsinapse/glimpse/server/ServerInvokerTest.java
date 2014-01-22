@@ -16,21 +16,21 @@
 
 package br.com.tecsinapse.glimpse.server;
 
-import java.util.Arrays;
-import java.util.List;
-
+import br.com.tecsinapse.glimpse.protocol.Operation;
+import br.com.tecsinapse.glimpse.protocol.PollOp;
+import br.com.tecsinapse.glimpse.protocol.PollResult;
+import br.com.tecsinapse.glimpse.protocol.PollResultItem;
+import br.com.tecsinapse.glimpse.protocol.Result;
+import br.com.tecsinapse.glimpse.protocol.StartOp;
+import br.com.tecsinapse.glimpse.protocol.StartResult;
 import org.mockito.Mockito;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
-import br.com.tecsinapse.glimpse.protocol.Operation;
-import br.com.tecsinapse.glimpse.protocol.PollOp;
-import br.com.tecsinapse.glimpse.protocol.PollResult;
-import br.com.tecsinapse.glimpse.protocol.Result;
-import br.com.tecsinapse.glimpse.protocol.PollResultItem;
-import br.com.tecsinapse.glimpse.protocol.StartOp;
-import br.com.tecsinapse.glimpse.protocol.StartResult;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 public class ServerInvokerTest {
 
@@ -45,7 +45,7 @@ public class ServerInvokerTest {
 	public ServerInvokerTest() {
 		Server server = Mockito.mock(Server.class);
 		serverInvoker = new ServerInvoker(server);
-		Mockito.when(server.start(script)).thenReturn(jobId);
+		Mockito.when(server.start(script, Collections.<String, String>emptyMap())).thenReturn(jobId);
 		Mockito.when(server.poll(jobId)).thenReturn(polls);
 	}
 	

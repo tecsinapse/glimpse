@@ -16,17 +16,17 @@
 
 package br.com.tecsinapse.glimpse.server;
 
-import java.util.List;
-import java.util.UUID;
-import java.util.concurrent.ConcurrentMap;
-import java.util.concurrent.TimeUnit;
-
 import br.com.tecsinapse.glimpse.protocol.PollResultItem;
-
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.RemovalListener;
 import com.google.common.cache.RemovalNotification;
+
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
+import java.util.concurrent.ConcurrentMap;
+import java.util.concurrent.TimeUnit;
 
 public class Server {
 
@@ -62,9 +62,9 @@ public class Server {
 	 *            the script to be run by the server
 	 * @return the id assigned for the new conversation
 	 */
-	public String start(String script) {
+	public String start(String script, Map<String, String> parameters) {
 		String id = UUID.randomUUID().toString();
-		Job job = new Job(script, scriptRunner);
+		Job job = new Job(script, parameters, scriptRunner);
 		jobs.putIfAbsent(id, job);
 		job.start();
 		return id;

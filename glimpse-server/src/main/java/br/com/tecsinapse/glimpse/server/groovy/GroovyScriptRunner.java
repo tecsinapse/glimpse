@@ -24,7 +24,6 @@ import org.codehaus.groovy.control.CompilerConfiguration;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.util.Collections;
 import java.util.Map;
 
 public class GroovyScriptRunner implements ScriptRunner {
@@ -40,10 +39,6 @@ public class GroovyScriptRunner implements ScriptRunner {
 	}
 
 	public GroovyScriptRunner() {
-	}
-
-	public void run(String script, Monitor monitor) {
-		run(script, Collections.<String, String>emptyMap(), monitor);
 	}
 
 	public void run(String script, Map<String, String> parameters, Monitor monitor) {
