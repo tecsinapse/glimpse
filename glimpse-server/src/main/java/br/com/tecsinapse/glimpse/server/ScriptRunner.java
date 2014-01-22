@@ -16,8 +16,12 @@
 
 package br.com.tecsinapse.glimpse.server;
 
+import java.util.Map;
+
 public interface ScriptRunner {
 
 	void run(String script, Monitor monitor);
+
+	void run(String script, Map<String, String> parameters, Monitor monitor);
 	
 }
