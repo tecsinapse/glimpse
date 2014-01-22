@@ -16,10 +16,9 @@
 
 package br.com.tecsinapse.glimpse.protocol;
 
-import java.io.ByteArrayInputStream;
-
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
+import java.io.ByteArrayInputStream;
 
 public class Parser {
 
@@ -35,7 +34,7 @@ public class Parser {
 					WorkedPollResultItem.class, PollResult.class, PollOp.class,
 					CancelOp.class, CancelResult.class, CreateReplOp.class,
 					CreateReplResult.class, EvalOp.class, EvalResult.class,
-					CloseReplOp.class, CloseReplResult.class);
+					CloseReplOp.class, CloseReplResult.class, ParamValue.class);
 			return context.createUnmarshaller().unmarshal(
 					new ByteArrayInputStream(xml.getBytes()));
 		} catch (JAXBException e) {

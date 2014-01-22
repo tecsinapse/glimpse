@@ -16,8 +16,17 @@
 
 package br.com.tecsinapse.glimpse.protocol;
 
+import com.google.common.base.Function;
+import com.google.common.collect.Iterables;
+import com.google.common.collect.Lists;
+
+import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Represents the start operation in Java.
@@ -27,41 +36,51 @@ public class StartOp implements Operation {
 
 	@XmlElement
 	private String script;
-	
+
+	@XmlAnyElement(lax=true)
+	private List<ParamValue> paramValues = new ArrayList<ParamValue>();
+
+	@SuppressWarnings("UnusedDeclaration")
 	public StartOp() {
 	}
 	
 	public StartOp(String script) {
+		this(script, Collections.<String, String>emptyMap());
+	}
+
+	public StartOp(String script, Map<String, String> params) {
 		this.script = script;
+		this.paramValues = Lists.newArrayList(Iterables.transform(params.entrySet(), new Function<Map.Entry<String, String>, ParamValue>() {
+
+			@Override
+			public ParamValue apply(Map.Entry<String, String> o) {
+				return new ParamValue(o.getKey(), o.getValue());
+			}
+		}));
 	}
 	
 	public String getScript() {
 		return script;
 	}
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((script == null) ? 0 : script.hashCode());
-		return result;
+	public List<ParamValue> getParamValues() {
+		return paramValues;
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		StartOp other = (StartOp) obj;
-		if (script == null) {
-			if (other.script != null)
-				return false;
-		} else if (!script.equals(other.script))
-			return false;
-		return true;
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+
+		StartOp startOp = (StartOp) o;
+
+		return script.equals(startOp.script) && paramValues.equals(startOp.paramValues);
 	}
-	
+
+	@Override
+	public int hashCode() {
+		int result = script.hashCode();
+		result = 31 * result + paramValues.hashCode();
+		return result;
+	}
 }

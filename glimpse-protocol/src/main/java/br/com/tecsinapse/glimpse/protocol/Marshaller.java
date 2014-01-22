@@ -16,10 +16,9 @@
 
 package br.com.tecsinapse.glimpse.protocol;
 
-import java.io.StringWriter;
-
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
+import java.io.StringWriter;
 
 public class Marshaller {
 
@@ -35,7 +34,7 @@ public class Marshaller {
 					StreamUpdatePollResultItem.class,
 					WorkedPollResultItem.class, CancelResult.class,
 					CreateReplOp.class, CreateReplResult.class, EvalOp.class,
-					EvalResult.class, CloseReplOp.class, CloseReplResult.class);
+					EvalResult.class, CloseReplOp.class, CloseReplResult.class, ParamValue.class);
 			StringWriter writer = new StringWriter();
 			context.createMarshaller().marshal(obj, writer);
 			return writer.toString();

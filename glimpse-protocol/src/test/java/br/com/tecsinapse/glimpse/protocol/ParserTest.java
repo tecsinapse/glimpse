@@ -16,15 +16,10 @@
 
 package br.com.tecsinapse.glimpse.protocol;
 
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertTrue;
-
-import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import br.com.tecsinapse.glimpse.protocol.Parser;
-import br.com.tecsinapse.glimpse.protocol.PollOp;
-import br.com.tecsinapse.glimpse.protocol.StartOp;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
 
 public class ParserTest {
 
@@ -45,6 +40,31 @@ public class ParserTest {
 
 		StartOp startOp = (StartOp) Parser.parse(xml);
 		assertEquals(startOp.getScript(), script);
+	}
+
+	@Test
+	public void startWithParams() {
+		String script = "myscript";
+		String param1 = "param1";
+		String param2 = "param2";
+		String value1 = "test1";
+		String value2 = "test2";
+		String xml = String.format("<start>\n" +
+				"\t<script>%s</script>\n" +
+				"\t<param>\n" +
+				"\t\t<name>%s</name>\n" +
+				"\t\t<value>%s</value>\n" +
+				"\t</param>\n" +
+				"\t<param>\n" +
+				"\t\t<name>%s</name>\n" +
+				"\t\t<value>%s</value>\n" +
+				"\t</param>\n" +
+				"</start>", script, param1, value1, param2, value2);
+
+		StartOp startOp = (StartOp) Parser.parse(xml);
+		assertEquals(startOp.getScript(), script);
+		assertEquals(startOp.getParamValues().get(0), new ParamValue(param1, value1));
+		assertEquals(startOp.getParamValues().get(1), new ParamValue(param2, value2));
 	}
 
 	@Test

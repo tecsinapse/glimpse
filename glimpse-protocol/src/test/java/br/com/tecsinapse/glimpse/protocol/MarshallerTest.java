@@ -16,12 +16,14 @@
 
 package br.com.tecsinapse.glimpse.protocol;
 
-import static org.testng.Assert.assertEquals;
-
-import java.util.Arrays;
-
+import com.beust.jcommander.internal.Maps;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
+
+import java.util.Arrays;
+import java.util.Map;
+
+import static org.testng.Assert.assertEquals;
 
 public class MarshallerTest {
 
@@ -32,6 +34,19 @@ public class MarshallerTest {
 
 		String expected = String.format("%s<start><script>%s</script></start>",
 				Utils.XML_HEADER, script);
+		assertEquals(Marshaller.marshall(startOp), expected);
+	}
+
+	@Test
+	public void startOpWithParams() {
+		String script = "myScript";
+		Map<String, String> params = Maps.newLinkedHashMap();
+		params.put("param1", "test1");
+		params.put("param2", "test2");
+
+		StartOp startOp = new StartOp(script, params);
+
+		String expected = String.format("%s<start><script>myScript</script><param><name>param1</name><value>test1</value></param><param><name>param2</name><value>test2</value></param></start>", Utils.XML_HEADER);
 		assertEquals(Marshaller.marshall(startOp), expected);
 	}
 
@@ -162,6 +177,7 @@ public class MarshallerTest {
 		assertEquals(Marshaller.marshall(closeReplOp), expected);
 	}
 
+	@Test
 	public void closeReplResult() {
 		String expected = String.format("%s<close-repl-result/>",
 				Utils.XML_HEADER);
