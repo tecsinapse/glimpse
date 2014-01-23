@@ -18,10 +18,11 @@ package br.com.tecsinapse.glimpse.server;
 
 import br.com.tecsinapse.glimpse.protocol.StartOp;
 import br.com.tecsinapse.glimpse.protocol.StartResult;
+import com.beust.jcommander.internal.Maps;
 import org.mockito.Mockito;
 import org.testng.annotations.Test;
 
-import java.util.Collections;
+import java.util.Map;
 
 import static org.testng.Assert.assertEquals;
 
@@ -31,9 +32,11 @@ public class StartOpInvokerTest {
 	public void invoke() {
 		String jobId = "myId";
 		String script = "myScript";
-		StartOp startOp = new StartOp(script);
+		Map<String, String> params = Maps.newHashMap();
+		params.put("param1", "test1");
+		StartOp startOp = new StartOp(script, params);
 		Server server = Mockito.mock(Server.class);
-		Mockito.when(server.start(script, Collections.<String, String>emptyMap())).thenReturn(jobId);
+		Mockito.when(server.start(script, params)).thenReturn(jobId);
 		StartOpInvoker invoker = new StartOpInvoker(server);
 		StartResult result = invoker.invoke(startOp);
 		assertEquals(result.getJobId(), jobId);

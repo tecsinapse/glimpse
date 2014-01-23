@@ -19,7 +19,9 @@ package br.com.tecsinapse.glimpse.protocol;
 import com.google.common.base.Function;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 
+import javax.annotation.Nullable;
 import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -82,5 +84,20 @@ public class StartOp implements Operation {
 		int result = script.hashCode();
 		result = 31 * result + paramValues.hashCode();
 		return result;
+	}
+
+	public Map<String, String> getParamsAsMap() {
+		Map<String, ParamValue> paramValueByName = Maps.uniqueIndex(paramValues, new Function<ParamValue, String>() {
+			@Override
+			public String apply(ParamValue paramValue) {
+				return paramValue.getName();
+			}
+		});
+		return Maps.transformEntries(paramValueByName, new Maps.EntryTransformer<String, ParamValue, String>() {
+			@Override
+			public String transformEntry(@Nullable String s, @Nullable ParamValue paramValue) {
+				return paramValue.getValue();
+			}
+		});
 	}
 }

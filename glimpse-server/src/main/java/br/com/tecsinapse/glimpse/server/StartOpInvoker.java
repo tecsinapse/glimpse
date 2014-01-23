@@ -19,8 +19,6 @@ package br.com.tecsinapse.glimpse.server;
 import br.com.tecsinapse.glimpse.protocol.StartOp;
 import br.com.tecsinapse.glimpse.protocol.StartResult;
 
-import java.util.Collections;
-
 public class StartOpInvoker implements
 		OperationInvoker<StartOp, StartResult> {
 
@@ -32,7 +30,7 @@ public class StartOpInvoker implements
 
 	@Override
 	public StartResult invoke(StartOp operation) {
-		return new StartResult(server.start(operation.getScript(), Collections.<String, String>emptyMap()));
+		return new StartResult(server.start(operation.getScript(), operation.getParamsAsMap()));
 	}
 
 }
