@@ -1,9 +1,11 @@
 package br.com.tecsinapse.glimpse.cli;
 
+import com.google.common.collect.Maps;
 import org.apache.commons.cli.CommandLine;
+import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
 
-import java.util.Collections;
+import java.util.Map;
 
 import static java.lang.String.format;
 
@@ -31,6 +33,11 @@ public class RunCommand extends AbstractCommand {
 	public Options getOptions() {
 		Options options = new Options();
 		DefaultHostManager.addHostOptions(options);
+
+		Option option = new Option("params", true, "Parameters to be sent to the script separated by '|', each param must use the format $param=$value");
+		option.setValueSeparator('|');
+		options.addOption(option);
+
 		return options;
 	}
 
@@ -42,15 +49,40 @@ public class RunCommand extends AbstractCommand {
 				console.println("Error: a script file must be specified\n\tUsage: glimpse run <script.groovy>");
 				return;
 			}
+			Map<String, String> params = Maps.newLinkedHashMap();
+			if (!parseParams(commandLine, params, console)) {
+				return;
+			}
 			console.println(format("Executing script at: %s", host.getUrl()));
 			console.println("--------------------------------------------------");
+			for (Map.Entry<String, String> entry : params.entrySet()) {
+				console.println(format("%s=%s", entry.getKey(), entry.getValue()));
+			}
 			console.println("");
 			console.startExecution();
-			host.runScript(commandLine.getArgs()[0], Collections.<String, String>emptyMap(), console);
+			host.runScript(commandLine.getArgs()[0], params, console);
 			console.finishExecution();
 			console.println("");
 			console.println("--------------------------------------------------");
 			console.println("Finished executing script");
 		}
+	}
+
+	private boolean parseParams(CommandLine commandLine, Map<String, String> params, Console console) {
+		if (commandLine.hasOption("params")) {
+			String paramsStr = commandLine.getOptionValue("params");
+			String[] paramValuesStr = paramsStr.split("\\|");
+			for (String paramValueStr: paramValuesStr) {
+				String[] paramValue = paramValueStr.split("=");
+				if (paramValue.length != 2) {
+					console.println("Error: malformed parameters");
+					return false;
+				}
+				String param = paramValue[0];
+				String value = paramValue[1];
+				params.put(param, value);
+			}
+		}
+		return true;
 	}
 }
