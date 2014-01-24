@@ -16,15 +16,16 @@
 
 package br.com.tecsinapse.glimpse.client.http;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
 import br.com.tecsinapse.glimpse.client.Connector;
 import br.com.tecsinapse.glimpse.client.ConnectorException;
 import br.com.tecsinapse.glimpse.protocol.CancelPollResultItem;
 import br.com.tecsinapse.glimpse.protocol.ClosePollResultItem;
 import br.com.tecsinapse.glimpse.protocol.PollResultItem;
+
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 public class HttpConnector implements Connector {
 
@@ -36,7 +37,7 @@ public class HttpConnector implements Connector {
 		this.invoker = new HttpInvoker(url, username, password);
 	}
 
-	public String start(String script) throws ConnectorException {
+	public String start(String script, Map<String, String> params) throws ConnectorException {
 		String id = invoker.invoke("/start", script);
 		ids.add(id);
 		return id;

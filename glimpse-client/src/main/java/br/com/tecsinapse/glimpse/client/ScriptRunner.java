@@ -17,6 +17,8 @@
 package br.com.tecsinapse.glimpse.client;
 
 
+import java.util.Map;
+
 public interface ScriptRunner {
 
 	/**
@@ -24,9 +26,9 @@ public interface ScriptRunner {
 	 * 
 	 * @param script
 	 *            the script to be run
-	 * @param out
+	 * @param monitor
 	 *            provides a Monitor the server can use to feed its current status
 	 */
-	void run(String script, Monitor monitor);
+	void run(String script, Map<String, String> params, Monitor monitor);
 
 }

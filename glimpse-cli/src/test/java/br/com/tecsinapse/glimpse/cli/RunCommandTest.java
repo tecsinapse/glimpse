@@ -6,6 +6,8 @@ import org.apache.commons.cli.ParseException;
 import org.apache.commons.cli.PosixParser;
 import org.testng.annotations.Test;
 
+import java.util.Collections;
+
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -38,7 +40,7 @@ public class RunCommandTest {
 				"--------------------------------------------------\n" +
 				"Finished executing script\n");
 
-		verify(host).runScript("script.groovy", console);
+		verify(host).runScript("script.groovy", Collections.<String, String>emptyMap(), console);
 	}
 
 	@Test

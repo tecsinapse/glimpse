@@ -16,13 +16,14 @@
 
 package br.com.tecsinapse.glimpse.client;
 
-import java.util.List;
-
 import br.com.tecsinapse.glimpse.protocol.PollResultItem;
+
+import java.util.List;
+import java.util.Map;
 
 public interface Connector {
 
-	String start(String script) throws ConnectorException;
+	String start(String script, Map<String, String> params) throws ConnectorException;
 
 	boolean isOpen(String id) throws ConnectorException;
 

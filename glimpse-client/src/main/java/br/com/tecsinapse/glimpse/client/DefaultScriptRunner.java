@@ -16,9 +16,10 @@
 
 package br.com.tecsinapse.glimpse.client;
 
-import java.util.List;
-
 import br.com.tecsinapse.glimpse.protocol.PollResultItem;
+
+import java.util.List;
+import java.util.Map;
 
 public class DefaultScriptRunner implements ScriptRunner {
 
@@ -30,9 +31,9 @@ public class DefaultScriptRunner implements ScriptRunner {
 		this.connector = connector;
 	}
 
-	public void run(final String script, final Monitor monitor) {
+	public void run(final String script, final Map<String, String> params, final Monitor monitor) {
 		try {
-			String id = connector.start(script);
+			String id = connector.start(script, params);
 
 			while (connector.isOpen(id)) {
 				if (monitor.isCanceled()) {

@@ -16,17 +16,18 @@
 
 package br.com.tecsinapse.glimpse.client;
 
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
-
-import java.util.Arrays;
-
-import org.mockito.Mockito;
-import org.testng.annotations.Test;
-
 import br.com.tecsinapse.glimpse.protocol.ClosePollResultItem;
 import br.com.tecsinapse.glimpse.protocol.PollResultItem;
 import br.com.tecsinapse.glimpse.protocol.StreamUpdatePollResultItem;
+import com.beust.jcommander.internal.Maps;
+import org.mockito.Mockito;
+import org.testng.annotations.Test;
+
+import java.util.Arrays;
+import java.util.Map;
+
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 public class DefaultScriptRunnerTest {
 
@@ -38,18 +39,21 @@ public class DefaultScriptRunnerTest {
 		String update = "update";
 		StreamUpdatePollResultItem poll1 = new StreamUpdatePollResultItem(update);
 		ClosePollResultItem poll2 = new ClosePollResultItem();
-		
+
+		Map<String, String> params = Maps.newHashMap();
+		params.put("param1", "value1");
+
 		Connector connector = mock(Connector.class);
-		when(connector.start(script)).thenReturn(jobId);
+		when(connector.start(script, params)).thenReturn(jobId);
 		when(connector.isOpen(jobId)).thenReturn(true, true, false);
 		when(connector.poll(jobId)).thenReturn(Arrays.asList((PollResultItem) poll1), Arrays.asList((PollResultItem) poll2));
 		Monitor monitor = mock(Monitor.class);
 		when(monitor.isCanceled()).thenReturn(false);
 		
 		DefaultScriptRunner runner = new DefaultScriptRunner(connector);
-		runner.run(script, monitor);
+		runner.run(script, params, monitor);
 		
-		Mockito.verify(connector).start(script);
+		Mockito.verify(connector).start(script, params);
 		Mockito.verify(connector, Mockito.times(3)).isOpen(jobId);
 		Mockito.verify(connector, Mockito.times(2)).poll(jobId);
 		

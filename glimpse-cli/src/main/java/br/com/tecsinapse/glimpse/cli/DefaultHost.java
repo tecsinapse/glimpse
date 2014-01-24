@@ -3,6 +3,8 @@ package br.com.tecsinapse.glimpse.cli;
 import br.com.tecsinapse.glimpse.client.ScriptRunner;
 import br.com.tecsinapse.glimpse.client.ScriptRunnerFactory;
 
+import java.util.Map;
+
 public class DefaultHost implements Host {
 
 	private HostSpec hostSpec;
@@ -24,8 +26,8 @@ public class DefaultHost implements Host {
 	}
 
 	@Override
-	public void runScript(String scriptFileName, Console console) {
+	public void runScript(String scriptFileName, Map<String, String> params, Console console) {
 		ScriptRunner scriptRunner = ScriptRunnerFactory.create(hostSpec.getUrl(), hostSpec.getUsername(), hostSpec.getPassword());
-		scriptRunner.run(fileSystem.readFile(scriptFileName), new ConsoleMonitor(console));
+		scriptRunner.run(fileSystem.readFile(scriptFileName), params, new ConsoleMonitor(console));
 	}
 }

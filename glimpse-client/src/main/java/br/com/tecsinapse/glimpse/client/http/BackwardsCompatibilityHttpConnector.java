@@ -16,11 +16,12 @@
 
 package br.com.tecsinapse.glimpse.client.http;
 
-import java.util.List;
-
 import br.com.tecsinapse.glimpse.client.Connector;
 import br.com.tecsinapse.glimpse.client.ConnectorException;
 import br.com.tecsinapse.glimpse.protocol.PollResultItem;
+
+import java.util.List;
+import java.util.Map;
 
 public class BackwardsCompatibilityHttpConnector implements Connector {
 
@@ -53,8 +54,8 @@ public class BackwardsCompatibilityHttpConnector implements Connector {
 	}
 
 	@Override
-	public String start(String script) throws ConnectorException {
-		return getDelegate().start(script);
+	public String start(String script, Map<String, String> params) throws ConnectorException {
+		return getDelegate().start(script, params);
 	}
 
 	@Override

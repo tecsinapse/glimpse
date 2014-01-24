@@ -16,10 +16,6 @@
 
 package br.com.tecsinapse.glimpse.client.http;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
 import br.com.tecsinapse.glimpse.client.Connector;
 import br.com.tecsinapse.glimpse.client.ConnectorException;
 import br.com.tecsinapse.glimpse.client.NotFoundException;
@@ -41,6 +37,11 @@ import br.com.tecsinapse.glimpse.protocol.Result;
 import br.com.tecsinapse.glimpse.protocol.StartOp;
 import br.com.tecsinapse.glimpse.protocol.StartResult;
 
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 public class NewHttpConnector implements Connector {
 
 	private HttpInvoker invoker;
@@ -57,8 +58,8 @@ public class NewHttpConnector implements Connector {
 	}
 
 	@Override
-	public String start(String script) throws ConnectorException {
-		StartOp startOp = new StartOp(script);
+	public String start(String script, Map<String, String> params) throws ConnectorException {
+		StartOp startOp = new StartOp(script, params);
 		StartResult result = (StartResult) invoke(startOp);
 		ids.add(result.getJobId());
 		return result.getJobId();

@@ -16,13 +16,6 @@
 
 package br.com.tecsinapse.glimpse.client.http;
 
-import static org.testng.Assert.assertEquals;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import org.testng.annotations.Test;
-
 import br.com.tecsinapse.glimpse.client.UnauthorizedException;
 import br.com.tecsinapse.glimpse.protocol.CancelPollResultItem;
 import br.com.tecsinapse.glimpse.protocol.ClosePollResultItem;
@@ -33,6 +26,13 @@ import br.com.tecsinapse.glimpse.server.Server;
 import br.com.tecsinapse.glimpse.server.groovy.GroovyReplManager;
 import br.com.tecsinapse.glimpse.server.groovy.GroovyScriptRunner;
 import br.com.tecsinapse.glimpse.server.sunhttp.SunHttpConnector;
+import org.testng.annotations.Test;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+import static org.testng.Assert.assertEquals;
 
 public class NewHttpConnectorTest {
 
@@ -46,7 +46,7 @@ public class NewHttpConnectorTest {
 
 			NewHttpConnector connector = new NewHttpConnector(
 					"http://localhost:8081", null, null);
-			String id = connector.start("println 'hello'");
+			String id = connector.start("println 'hello'", Collections.<String, String>emptyMap());
 			List<PollResultItem> results = new ArrayList<PollResultItem>();
 			while (connector.isOpen(id)) {
 				results.addAll(connector.poll(id));
@@ -70,7 +70,7 @@ public class NewHttpConnectorTest {
 			NewHttpConnector connector = new NewHttpConnector(
 					"http://localhost:8081", null, null);
 			String id = connector
-					.start("while (!isCanceled()) { Thread.sleep(500) }");
+					.start("while (!isCanceled()) { Thread.sleep(500) }", Collections.<String, String>emptyMap());
 			connector.cancel(id);
 			List<PollResultItem> results = new ArrayList<PollResultItem>();
 			while (connector.isOpen(id)) {
@@ -99,7 +99,7 @@ public class NewHttpConnectorTest {
 
 			NewHttpConnector connector = new NewHttpConnector(
 					"http://localhost:8081", null, null);
-			connector.start("println 'hello'");
+			connector.start("println 'hello'", Collections.<String, String>emptyMap());
 		} finally {
 			serverConnector.stop();
 		}
