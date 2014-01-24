@@ -37,6 +37,9 @@ public class RunCommandTest {
 
 		assertEquals(console.getOutput(), "Executing script at: http://localhost:8081\n" +
 				"--------------------------------------------------\n" +
+				"Parameters:\n" +
+				"\n" +
+				"--------------------------------------------------\n" +
 				"\n" +
 				"\n" +
 				"--------------------------------------------------\n" +
@@ -92,8 +95,11 @@ public class RunCommandTest {
 
 		assertEquals(console.getOutput(), "Executing script at: http://localhost:8081\n" +
 				"--------------------------------------------------\n" +
+				"Parameters:\n" +
+				"\n" +
 				"param1=test1\n" +
 				"param2=test2\n" +
+				"--------------------------------------------------\n" +
 				"\n" +
 				"\n" +
 				"--------------------------------------------------\n" +

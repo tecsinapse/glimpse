@@ -55,9 +55,12 @@ public class RunCommand extends AbstractCommand {
 			}
 			console.println(format("Executing script at: %s", host.getUrl()));
 			console.println("--------------------------------------------------");
+			console.println("Parameters:");
+			console.println("");
 			for (Map.Entry<String, String> entry : params.entrySet()) {
 				console.println(format("%s=%s", entry.getKey(), entry.getValue()));
 			}
+			console.println("--------------------------------------------------");
 			console.println("");
 			console.startExecution();
 			host.runScript(commandLine.getArgs()[0], params, console);
