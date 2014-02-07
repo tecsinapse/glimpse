@@ -1,5 +1,8 @@
 package br.com.tecsinapse.glimpse.cli;
 
+import br.com.tecsinapse.glimpse.client.Repl;
+import br.com.tecsinapse.glimpse.client.ReplManager;
+import br.com.tecsinapse.glimpse.client.ReplManagerFactory;
 import br.com.tecsinapse.glimpse.client.ScriptRunner;
 import br.com.tecsinapse.glimpse.client.ScriptRunnerFactory;
 
@@ -23,6 +26,14 @@ public class DefaultHost implements Host {
 
 	public String getUrl() {
 		return hostSpec.getUrl();
+	}
+
+	@Override
+	public void startRepl(Console console) {
+		ReplManager replManager = ReplManagerFactory.create(hostSpec.getUrl(), hostSpec.getUsername(), hostSpec.getPassword());
+		Repl repl = replManager.createRepl();
+		console.startRepl(this, repl);
+		repl.close();
 	}
 
 	@Override

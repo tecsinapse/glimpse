@@ -1,5 +1,6 @@
 package br.com.tecsinapse.glimpse.cli;
 
+import br.com.tecsinapse.glimpse.client.Repl;
 import org.apache.commons.cli.CommandLine;
 
 import java.util.List;
@@ -69,6 +70,11 @@ public class DumbConsole implements Console {
 
 	@Override
 	public void finishExecution() {
+	}
+
+	@Override
+	public void startRepl(Host host, Repl repl) {
+		throw new UnsupportedOperationException();
 	}
 
 	public String getOutput() {

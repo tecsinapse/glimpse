@@ -1,5 +1,6 @@
 package br.com.tecsinapse.glimpse.cli;
 
+import br.com.tecsinapse.glimpse.client.Repl;
 import org.apache.commons.cli.CommandLine;
 
 import java.util.List;
@@ -25,4 +26,6 @@ public interface Console {
 	void startExecution();
 
 	void finishExecution();
+
+	void startRepl(Host host, Repl repl);
 }

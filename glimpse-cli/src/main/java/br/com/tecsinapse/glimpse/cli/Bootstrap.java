@@ -26,6 +26,7 @@ public class Bootstrap {
 	static {
 		List<Command> commands = Lists.<Command>newArrayList(
 			new RunCommand(),
+			new ReplCommand(),
 			new ListHostsCommand(),
 			new AddHostCommand(),
 			new DeleteHostCommand(),

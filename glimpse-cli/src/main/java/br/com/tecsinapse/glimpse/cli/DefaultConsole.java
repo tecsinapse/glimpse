@@ -1,8 +1,11 @@
 package br.com.tecsinapse.glimpse.cli;
 
+import br.com.tecsinapse.glimpse.client.Repl;
 import com.google.common.base.Strings;
+import jline.console.ConsoleReader;
 import org.apache.commons.cli.CommandLine;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -86,6 +89,27 @@ public class DefaultConsole implements Console {
 		progressTimer.cancel();
 		progressTimer = null;
 		System.out.print(Strings.padEnd("", PRINTLN_MINIMUM_LENGTH, ' '));
+	}
+
+	@Override
+	public void startRepl(Host host, Repl repl) {
+		ConsoleReader reader = null;
+		try {
+			reader = new ConsoleReader();
+			reader.setPrompt("glimpse-" + host.getUrl() + "> ");
+			while (true) {
+				String line = reader.readLine();
+				if (line.equals("exit")) {
+					break;
+				}
+				String result = repl.eval(line);
+				System.out.println("==>" + result);
+			}
+		} catch (IOException e) {
+			throw new IllegalStateException(e);
+		} finally {
+			if (reader != null) reader.shutdown();
+		}
 	}
 
 
