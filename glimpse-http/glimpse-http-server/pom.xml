@@ -11,5 +11,11 @@
 
 	<artifactId>glimpse-http-server</artifactId>
 
+	<dependencies>
+		<dependency>
+			<groupId>br.com.tecsinapse.glimpse</groupId>
+			<artifactId>glimpse-groovy</artifactId>
+		</dependency>
+	</dependencies>
 
 </project>

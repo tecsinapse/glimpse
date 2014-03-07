@@ -25,7 +25,7 @@ class SunHttpGlimpseConnector {
     void start() {
         if (httpServer != null) throw new IllegalStateException("server already started")
         def address = new InetSocketAddress(port)
-        def jsonHandler = new JsonHandler()
+        def jsonHandler = new JsonHandler(glimpseServer)
         def httpHandler = new HttpHandler() {
             @Override
             void handle(HttpExchange httpExchange) throws IOException {
@@ -36,6 +36,7 @@ class SunHttpGlimpseConnector {
                 template.writeReponse(response)
             }
         }
+        httpServer = HttpServer.create(address, -1)
         httpServer.createContext("/", httpHandler)
         httpServer.start()
     }
