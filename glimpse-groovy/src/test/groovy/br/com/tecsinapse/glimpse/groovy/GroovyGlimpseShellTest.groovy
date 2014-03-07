@@ -8,7 +8,7 @@ class GroovyGlimpseShellTest extends Specification {
 
     def "evaluation"() {
         expect:
-        shell.evaluate("1 + 1") == 2
+        shell.evaluate("1 + 1").get() == 2
     }
 
     def "output stream redirection"() {
@@ -18,7 +18,7 @@ class GroovyGlimpseShellTest extends Specification {
         shell.setOutputStream(new PrintStream(output))
 
         when:
-        shell.evaluate("println '${message}'")
+        shell.evaluate("println '${message}'").get()
 
         then:
         output.toByteArray() == "${message}\n".getBytes()
@@ -31,7 +31,7 @@ class GroovyGlimpseShellTest extends Specification {
         shell.setParameter(param, value)
 
         expect:
-        shell.evaluate("params.${param}") == value
+        shell.evaluate("params.${param}").get() == value
     }
 
 }
