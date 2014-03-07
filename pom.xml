@@ -10,6 +10,7 @@
 	<modules>
 		<module>glimpse-core</module>
 		<module>glimpse-groovy</module>
+		<module>glimpse-http</module>
 	</modules>
 	<packaging>pom</packaging>
 
@@ -37,6 +38,11 @@
 				<groupId>br.com.tecsinapse.glimpse</groupId>
 				<artifactId>glimpse-core</artifactId>
 				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.google.guava</groupId>
+				<artifactId>guava</artifactId>
+				<version>16.0.1</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
