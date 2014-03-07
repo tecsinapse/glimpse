@@ -2,10 +2,10 @@ package br.com.tecsinapse.glimpse
 
 import spock.lang.Specification
 
-class GlimpseServerTest extends Specification {
+class DefaultGlimpseServerTest extends Specification {
 
     def factory = Mock(GlimpseShellFactory.class)
-    def server = new GlimpseServer(factory)
+    def server = new DefaultGlimpseServer(factory)
 
     def "create shell"() {
         setup:
