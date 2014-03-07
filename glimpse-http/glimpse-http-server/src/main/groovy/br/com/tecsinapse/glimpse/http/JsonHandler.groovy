@@ -1,14 +1,10 @@
 package br.com.tecsinapse.glimpse.http
 
 import br.com.tecsinapse.glimpse.GlimpseServer
-import br.com.tecsinapse.glimpse.GlimpseShell
 import com.google.common.cache.Cache
 import com.google.common.cache.CacheBuilder
-import groovy.json.JsonOutput
 import groovy.json.JsonSlurper
 
-import java.util.concurrent.ConcurrentHashMap
-import java.util.concurrent.ConcurrentMap
 import java.util.concurrent.Future
 import java.util.concurrent.TimeUnit
 
