@@ -15,5 +15,12 @@
 		<module>glimpse-http-server</module>
 	</modules>
 
+	<dependencies>
+		<dependency>
+			<groupId>br.com.tecsinapse.glimpse</groupId>
+			<artifactId>glimpse-core</artifactId>
+		</dependency>
+	</dependencies>
+
 
 </project>
