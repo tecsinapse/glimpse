@@ -5,13 +5,13 @@ import com.google.common.cache.CacheBuilder
 
 import java.util.concurrent.TimeUnit
 
-class DefaultGlimpseServer implements GlimpseServer {
+class DefaultGlimpse implements Glimpse {
 
     private GlimpseShellFactory factory
 
     private Cache<String, GlimpseShell> cache = CacheBuilder.newBuilder().expireAfterAccess(30, TimeUnit.MINUTES).build();
 
-    DefaultGlimpseServer(GlimpseShellFactory factory) {
+    DefaultGlimpse(GlimpseShellFactory factory) {
         this.factory = factory
     }
 

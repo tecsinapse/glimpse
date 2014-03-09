@@ -1,6 +1,6 @@
 package br.com.tecsinapse.glimpse
 
-interface GlimpseServer {
+interface Glimpse {
 
     String createShell()
 

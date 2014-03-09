@@ -1,6 +1,6 @@
 package br.com.tecsinapse.glimpse.http
 
-import br.com.tecsinapse.glimpse.GlimpseServer
+import br.com.tecsinapse.glimpse.Glimpse
 import com.sun.net.httpserver.HttpExchange
 import com.sun.net.httpserver.HttpHandler
 import com.sun.net.httpserver.HttpServer
@@ -9,12 +9,12 @@ class SunHttpGlimpseConnector {
 
     private int port;
 
-    private GlimpseServer glimpseServer
+    private Glimpse glimpse
 
     private HttpServer httpServer;
 
-    SunHttpGlimpseConnector(GlimpseServer glimpseServer, int port) {
-        this.glimpseServer = glimpseServer
+    SunHttpGlimpseConnector(Glimpse glimpse, int port) {
+        this.glimpse = glimpse
         this.port = port
     }
 
@@ -25,7 +25,7 @@ class SunHttpGlimpseConnector {
     void start() {
         if (httpServer != null) throw new IllegalStateException("server already started")
         def address = new InetSocketAddress(port)
-        def jsonHandler = new JsonHandler(glimpseServer)
+        def jsonHandler = new JsonHandler(glimpse)
         def httpHandler = new HttpHandler() {
             @Override
             void handle(HttpExchange httpExchange) throws IOException {

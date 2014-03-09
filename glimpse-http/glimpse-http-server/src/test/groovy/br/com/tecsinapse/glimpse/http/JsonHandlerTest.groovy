@@ -1,6 +1,6 @@
 package br.com.tecsinapse.glimpse.http
 
-import br.com.tecsinapse.glimpse.GlimpseServer
+import br.com.tecsinapse.glimpse.Glimpse
 import br.com.tecsinapse.glimpse.GlimpseShell
 import groovy.json.JsonSlurper
 import spock.lang.Specification
@@ -12,14 +12,14 @@ import static groovy.json.JsonOutput.toJson
 class JsonHandlerTest extends Specification {
 
     def slurper = new JsonSlurper()
-    def glimpseServer = Mock(GlimpseServer.class)
-    def jsonHandler = new JsonHandler(glimpseServer)
+    def glimpse = Mock(Glimpse.class)
+    def jsonHandler = new JsonHandler(glimpse)
 
     def "create shell"() {
         setup:
         def id = "1"
         def input = toJson([operation: "create"])
-        glimpseServer.createShell() >> 1
+        glimpse.createShell() >> 1
 
         expect:
         slurper.parseText(jsonHandler.handle(input)) == [result: "ok", id: id]
@@ -35,14 +35,14 @@ class JsonHandlerTest extends Specification {
 
         then:
         slurper.parseText(output) == [result: "ok"]
-        1 * glimpseServer.destroyShell(id)
+        1 * glimpse.destroyShell(id)
     }
 
     def "set parameters"() {
         setup:
         def id = "1"
         def shell = Mock(GlimpseShell.class)
-        glimpseServer.getShell(id) >> shell
+        glimpse.getShell(id) >> shell
         def input = toJson([operation: "set-parameters", id: id, params: [param1: "value1", param2: "value2"]])
 
         when:
@@ -58,7 +58,7 @@ class JsonHandlerTest extends Specification {
         setup:
         def id = "1"
         def shell = Mock(GlimpseShell.class)
-        glimpseServer.getShell(id) >> shell
+        glimpse.getShell(id) >> shell
         def script = "script"
         def future = Mock(Future.class)
         shell.evaluate(script) >> future
@@ -79,7 +79,7 @@ class JsonHandlerTest extends Specification {
         def shell = Mock(GlimpseShell.class)
         def script = "script"
         shell.evaluate(script) >> future
-        glimpseServer.getShell(id) >> shell
+        glimpse.getShell(id) >> shell
         jsonHandler.handle(toJson([operation: "evaluate", id: id, script: script]))
         def input = toJson([operation: "poll-evaluate", id: id])
 
@@ -100,7 +100,7 @@ class JsonHandlerTest extends Specification {
         future.get() >> result
         def shell = Mock(GlimpseShell.class)
         shell.evaluate(script) >> future
-        glimpseServer.getShell(id) >> shell
+        glimpse.getShell(id) >> shell
         jsonHandler.handle(toJson([operation: "evaluate", id: id, script: script]))
         def input = toJson([operation: "poll-evaluate", id: id])
 

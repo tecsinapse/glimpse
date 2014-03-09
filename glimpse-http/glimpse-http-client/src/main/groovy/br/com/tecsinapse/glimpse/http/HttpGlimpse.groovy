@@ -1,12 +1,12 @@
 package br.com.tecsinapse.glimpse.http
 
-import br.com.tecsinapse.glimpse.GlimpseServer
+import br.com.tecsinapse.glimpse.Glimpse
 import br.com.tecsinapse.glimpse.GlimpseShell
 import groovy.json.JsonSlurper
 
 import static groovy.json.JsonOutput.toJson
 
-class HttpGlimpseServer implements GlimpseServer {
+class HttpGlimpse implements Glimpse {
 
     private JsonSlurper jsonSlurper = new JsonSlurper()
 
@@ -14,7 +14,7 @@ class HttpGlimpseServer implements GlimpseServer {
 
     private int pollDelay
 
-    HttpGlimpseServer(HttpHandler httpHandler, int pollDelay) {
+    HttpGlimpse(HttpHandler httpHandler, int pollDelay) {
         this.httpHandler = httpHandler
         this.pollDelay = pollDelay
     }

@@ -4,10 +4,10 @@ import spock.lang.Specification
 
 import static groovy.json.JsonOutput.toJson
 
-class HttpGlimpseServerTest extends Specification {
+class HttpGlimpseTest extends Specification {
 
     def handler = Mock(HttpHandler.class)
-    def server = new HttpGlimpseServer(handler, 500)
+    def glimpse = new HttpGlimpse(handler, 500)
 
     def "create shell"() {
         setup:
@@ -15,7 +15,7 @@ class HttpGlimpseServerTest extends Specification {
         handler.handle(toJson([operation: 'create'])) >> toJson([result: "ok", id: id])
 
         expect:
-        server.createShell() == id
+        glimpse.createShell() == id
     }
 
     def "get shell"() {
@@ -23,7 +23,7 @@ class HttpGlimpseServerTest extends Specification {
         def id = "1"
 
         expect:
-        server.getShell(id) == new HttpGlimpseShell(handler, id, 500)
+        glimpse.getShell(id) == new HttpGlimpseShell(handler, id, 500)
     }
 
     def "destroy shell"() {
@@ -31,7 +31,7 @@ class HttpGlimpseServerTest extends Specification {
         def id = "1"
 
         when:
-        server.destroyShell(id)
+        glimpse.destroyShell(id)
 
         then:
         1 * handler.handle(toJson([operation: 'destroy', id: id]))

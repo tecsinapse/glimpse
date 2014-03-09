@@ -2,10 +2,10 @@ package br.com.tecsinapse.glimpse
 
 import spock.lang.Specification
 
-class DefaultGlimpseServerTest extends Specification {
+class DefaultGlimpseTest extends Specification {
 
     def factory = Mock(GlimpseShellFactory.class)
-    def server = new DefaultGlimpseServer(factory)
+    def glimpse = new DefaultGlimpse(factory)
 
     def "create shell"() {
         setup:
@@ -13,22 +13,22 @@ class DefaultGlimpseServerTest extends Specification {
         factory.create() >> shell
 
         when:
-        def id = server.createShell()
+        def id = glimpse.createShell()
 
         then:
-        server.getShell(id) == shell
+        glimpse.getShell(id) == shell
     }
 
     def "destroy shell"() {
         setup:
         def shell = Mock(GlimpseShell.class)
         factory.create() >> shell
-        def id = server.createShell()
+        def id = glimpse.createShell()
 
         when:
-        server.destroyShell(id)
+        glimpse.destroyShell(id)
 
         then:
-        server.getShell(id) == null
+        glimpse.getShell(id) == null
     }
 }
