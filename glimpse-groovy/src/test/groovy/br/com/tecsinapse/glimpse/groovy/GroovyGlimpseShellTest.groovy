@@ -1,5 +1,6 @@
 package br.com.tecsinapse.glimpse.groovy
 
+import br.com.tecsinapse.glimpse.Output
 import spock.lang.Specification
 
 class GroovyGlimpseShellTest extends Specification {
@@ -8,20 +9,19 @@ class GroovyGlimpseShellTest extends Specification {
 
     def "evaluation"() {
         expect:
-        shell.evaluate("1 + 1").get() == 2
+        shell.evaluate("1 + 1", null).get() == 2
     }
 
     def "output stream redirection"() {
         setup:
-        def output = new ByteArrayOutputStream()
+        def output = Mock(Output.class)
         def message = "test"
-        shell.setOutputStream(new PrintStream(output))
 
         when:
-        shell.evaluate("println '${message}'").get()
+        shell.evaluate("println '${message}'", output).get()
 
         then:
-        output.toByteArray() == "${message}\n".getBytes()
+        1 * output.println(message)
     }
 
     def "parameters"() {
@@ -31,7 +31,7 @@ class GroovyGlimpseShellTest extends Specification {
         shell.setParameter(param, value)
 
         expect:
-        shell.evaluate("params.${param}").get() == value
+        shell.evaluate("params.${param}", null).get() == value
     }
 
 }

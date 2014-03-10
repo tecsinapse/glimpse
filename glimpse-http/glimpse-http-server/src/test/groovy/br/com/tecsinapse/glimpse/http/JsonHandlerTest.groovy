@@ -61,7 +61,7 @@ class JsonHandlerTest extends Specification {
         glimpse.getShell(id) >> shell
         def script = "script"
         def future = Mock(Future.class)
-        shell.evaluate(script) >> future
+        shell.evaluate(script, null) >> future
         def input = toJson([operation: "evaluate", id: id, script: script])
 
         when:
@@ -78,7 +78,7 @@ class JsonHandlerTest extends Specification {
         future.isDone() >> false
         def shell = Mock(GlimpseShell.class)
         def script = "script"
-        shell.evaluate(script) >> future
+        shell.evaluate(script, null) >> future
         glimpse.getShell(id) >> shell
         jsonHandler.handle(toJson([operation: "evaluate", id: id, script: script]))
         def input = toJson([operation: "poll-evaluate", id: id])
@@ -99,7 +99,7 @@ class JsonHandlerTest extends Specification {
         future.isDone() >> true
         future.get() >> result
         def shell = Mock(GlimpseShell.class)
-        shell.evaluate(script) >> future
+        shell.evaluate(script, null) >> future
         glimpse.getShell(id) >> shell
         jsonHandler.handle(toJson([operation: "evaluate", id: id, script: script]))
         def input = toJson([operation: "poll-evaluate", id: id])

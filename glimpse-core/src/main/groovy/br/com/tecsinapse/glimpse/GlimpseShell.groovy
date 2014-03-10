@@ -6,8 +6,6 @@ interface GlimpseShell {
 
     void setParameter(String param, String value)
 
-    void setOutputStream(PrintStream out)
-
-    Future<String> evaluate(String script)
+    Future<String> evaluate(String script, Output output)
 
 }

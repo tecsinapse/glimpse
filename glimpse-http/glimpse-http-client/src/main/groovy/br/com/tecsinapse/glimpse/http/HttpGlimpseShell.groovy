@@ -1,6 +1,7 @@
 package br.com.tecsinapse.glimpse.http
 
 import br.com.tecsinapse.glimpse.GlimpseShell
+import br.com.tecsinapse.glimpse.Output
 import groovy.json.JsonSlurper
 import groovy.transform.EqualsAndHashCode
 
@@ -38,19 +39,14 @@ class HttpGlimpseShell implements GlimpseShell {
     }
 
     @Override
-    void setOutputStream(PrintStream out) {
-        throw new UnsupportedOperationException()
-    }
-
-    @Override
-    Future<String> evaluate(String script) {
+    Future<String> evaluate(String script, Output output) {
         return executor.submit({
             httpHandler.handle(toJson([operation: 'evaluate', id: id, script: script]))
             while (true) {
                 sleep(pollDelay)
-                def output = slurper.parseText(httpHandler.handle(toJson([operation: 'poll-evaluate', id: id])))
-                if (output.done) {
-                    return output."return"
+                def result = slurper.parseText(httpHandler.handle(toJson([operation: 'poll-evaluate', id: id])))
+                if (result.done) {
+                    return result."return"
                 }
             }
         } as Callable)

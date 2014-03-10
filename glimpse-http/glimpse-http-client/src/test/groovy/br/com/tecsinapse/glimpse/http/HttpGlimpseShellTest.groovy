@@ -45,7 +45,7 @@ class HttpGlimpseShellTest extends Specification {
         def shell = new HttpGlimpseShell(handler, id, pollDelay)
 
         when:
-        def future = shell.evaluate(script)
+        def future = shell.evaluate(script, null)
 
         then:
         !future.isDone()

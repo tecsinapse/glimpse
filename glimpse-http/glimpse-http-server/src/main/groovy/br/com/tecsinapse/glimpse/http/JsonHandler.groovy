@@ -45,7 +45,7 @@ class JsonHandler {
             def id = input.id
             def script = input.script
             def shell = glimpse.getShell(id)
-            def future = shell.evaluate(script)
+            def future = shell.evaluate(script, null)
             evaluationFutures.put(id, future)
             return toJson([result: 'ok'])
         } else if (input.operation == 'poll-evaluate') {

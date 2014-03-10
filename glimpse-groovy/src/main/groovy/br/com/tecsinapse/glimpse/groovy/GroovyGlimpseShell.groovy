@@ -1,6 +1,7 @@
 package br.com.tecsinapse.glimpse.groovy
 
 import br.com.tecsinapse.glimpse.GlimpseShell
+import br.com.tecsinapse.glimpse.Output
 import org.codehaus.groovy.control.CompilerConfiguration
 
 import java.util.concurrent.Callable
@@ -28,14 +29,11 @@ class GroovyGlimpseShell implements GlimpseShell {
     }
 
     @Override
-    void setOutputStream(PrintStream out) {
-        shell.setVariable("printStream", out)
-    }
-
-    @Override
-    Future evaluate(String script) {
+    Future evaluate(String script, Output output) {
         return executor.submit({
-            return shell.evaluate(script)
+            GlimpseScript s = (GlimpseScript) shell.parse(script)
+            s.setOutput(output)
+            return s.run()
         } as Callable)
     }
 }
