@@ -45,6 +45,9 @@ class HttpGlimpseShell implements GlimpseShell {
             while (true) {
                 sleep(pollDelay)
                 def result = slurper.parseText(httpHandler.handle(toJson([operation: 'poll-evaluate', id: id])))
+                if (result.print) {
+                    output.print(result.print)
+                }
                 if (result.done) {
                     return result."return"
                 }

@@ -61,7 +61,7 @@ class JsonHandlerTest extends Specification {
         glimpse.getShell(id) >> shell
         def script = "script"
         def future = Mock(Future.class)
-        shell.evaluate(script, null) >> future
+        shell.evaluate(script, _) >> future
         def input = toJson([operation: "evaluate", id: id, script: script])
 
         when:
@@ -78,7 +78,7 @@ class JsonHandlerTest extends Specification {
         future.isDone() >> false
         def shell = Mock(GlimpseShell.class)
         def script = "script"
-        shell.evaluate(script, null) >> future
+        shell.evaluate(script, _) >> future
         glimpse.getShell(id) >> shell
         jsonHandler.handle(toJson([operation: "evaluate", id: id, script: script]))
         def input = toJson([operation: "poll-evaluate", id: id])
@@ -99,7 +99,7 @@ class JsonHandlerTest extends Specification {
         future.isDone() >> true
         future.get() >> result
         def shell = Mock(GlimpseShell.class)
-        shell.evaluate(script, null) >> future
+        shell.evaluate(script, _) >> future
         glimpse.getShell(id) >> shell
         jsonHandler.handle(toJson([operation: "evaluate", id: id, script: script]))
         def input = toJson([operation: "poll-evaluate", id: id])
@@ -109,6 +109,31 @@ class JsonHandlerTest extends Specification {
 
         then:
         slurper.parseText(output) == [result: "ok", done: true, "return": result]
+    }
+
+    def "poll evaluate stream redirection"() {
+        setup:
+        def id = "1"
+        def script = "script"
+        def message = "message"
+        def future = Mock(Future.class)
+        future.isDone() >> false
+        def shell = [
+            evaluate: { s, o ->
+                assert s == script
+                o.println(message)
+                return future
+            }
+        ] as GlimpseShell
+        glimpse.getShell(id) >> shell
+        jsonHandler.handle(toJson([operation: "evaluate", id: id, script: script]))
+        def input = toJson([operation: "poll-evaluate", id: id])
+
+        when:
+        def json = jsonHandler.handle(input)
+
+        then:
+        slurper.parseText(json) == [result: "ok", done: false, "print": "${message}\n"]
     }
 
 }

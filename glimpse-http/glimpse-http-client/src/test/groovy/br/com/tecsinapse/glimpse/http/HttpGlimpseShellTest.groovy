@@ -1,5 +1,6 @@
 package br.com.tecsinapse.glimpse.http
 
+import br.com.tecsinapse.glimpse.Output
 import groovy.json.JsonSlurper
 import spock.lang.Specification
 
@@ -51,6 +52,30 @@ class HttpGlimpseShellTest extends Specification {
         !future.isDone()
         done.set(true)
         future.get() == result
+    }
+
+    def "output redirection"() {
+        setup:
+        def printedValue
+        def output = [
+            print: {
+                printedValue = it
+            }
+        ] as Output
+        def id = "1"
+        def message = "message"
+        def script = "script"
+        def handler = Mock(HttpHandler.class)
+        handler.handle(toJson([operation: 'evaluate', id: id, script: script])) >> toJson([result: "ok"])
+        handler.handle(toJson([operation: 'poll-evaluate', id: id])) >> toJson([result: 'ok', done: true, 'return': null, print: message])
+        def shell = new HttpGlimpseShell(handler, id, pollDelay)
+
+        when:
+        def future = shell.evaluate(script, output)
+
+        then:
+        future.get() == null
+        message == printedValue
     }
 
 }

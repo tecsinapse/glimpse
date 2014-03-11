@@ -30,10 +30,15 @@ class SunHttpGlimpseConnector {
             @Override
             void handle(HttpExchange httpExchange) throws IOException {
                 def template = new ExchangeTemplate(httpExchange)
-                def body = template.getRequestBody()
-                def response = jsonHandler.handle(body)
-                template.setResponseOk()
-                template.writeReponse(response)
+                try {
+                    def body = template.getRequestBody()
+                    def response = jsonHandler.handle(body)
+                    template.setResponseOk()
+                    template.writeReponse(response)
+                } catch (e) {
+                    e.printStackTrace()
+                    template.setResponseInternalServerError();
+                }
             }
         }
         httpServer = HttpServer.create(address, -1)

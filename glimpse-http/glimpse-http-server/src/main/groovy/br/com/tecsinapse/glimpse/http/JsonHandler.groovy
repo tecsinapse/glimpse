@@ -17,6 +17,7 @@ class JsonHandler {
     private Glimpse glimpse
 
     private Cache<String, Future> evaluationFutures = CacheBuilder.newBuilder().expireAfterAccess(30, TimeUnit.MINUTES).build();
+    private Cache<String, JsonOutput> outputs = CacheBuilder.newBuilder().expireAfterAccess(30, TimeUnit.MINUTES).build()
 
     JsonHandler(Glimpse glimpse) {
         this.glimpse = glimpse
@@ -45,13 +46,16 @@ class JsonHandler {
             def id = input.id
             def script = input.script
             def shell = glimpse.getShell(id)
-            def future = shell.evaluate(script, null)
+            def output = new JsonOutput()
+            outputs.put(id, output)
+            def future = shell.evaluate(script, output)
             evaluationFutures.put(id, future)
             return toJson([result: 'ok'])
         } else if (input.operation == 'poll-evaluate') {
             def id = input.id
             def future = evaluationFutures.getIfPresent(id)
-            def result = [result: 'ok', done: future.isDone()]
+            def output = outputs.getIfPresent(id)
+            def result = [result: 'ok', done: future.isDone()] + output.getNextOutput()
             if (result.done) {
                 result."return" = future.get()
             }
