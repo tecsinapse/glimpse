@@ -11,6 +11,7 @@
 		<module>glimpse-core</module>
 		<module>glimpse-groovy</module>
 		<module>glimpse-http</module>
+		<module>glimpse-cli</module>
 	</modules>
 	<packaging>pom</packaging>
 

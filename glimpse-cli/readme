@@ -1,0 +1,24 @@
+-- command line
+
+glimpse -> inicia console
+
+glimpse $SCRIPT -> executa o script na vm disponivel, se tiver mais de uma, pergunta qual ira usar
+
+-h
+-url
+-u
+-p
+
+-- console
+por padrao busca vm disponivel, se tiver mais de uma, pergunta qual irá conectar
+senao tiver vm disponivel pede host ou url
+se passar opcoes conecta na url enviada
+apresentar sempre claramente onde está conectado
+
+\help
+\add-host
+\remove-host
+\list-hosts
+\connect $HOST||$URL
+\run $SCRIPT
+\quit
