@@ -4,7 +4,11 @@ class Bootstrap {
 
     public static void main(String[] args) {
         def console = ConsoleFactory.createConsole()
-        console.start()
+        if (args.length == 0) {
+            console.start(ConnectionFactory.defaultConnection())
+        } else {
+            console.runScript(ConnectionFactory.defaultConnection(), args[0])
+        }
     }
 
 }
