@@ -2,10 +2,10 @@ package br.com.tecsinapse.glimpse.cli
 
 class ConnectionFactory {
 
-    static Closure<Connection> connectionClosure
+    static Closure<Connection> defaultConnectionClosure
 
     public static Connection defaultConnection() {
-        connectionClosure.call()
+        defaultConnectionClosure.call()
     }
 
     public static Connection hostConnection(String hostName) {
