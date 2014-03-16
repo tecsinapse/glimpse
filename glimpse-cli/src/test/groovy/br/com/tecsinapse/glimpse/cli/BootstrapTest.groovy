@@ -35,12 +35,10 @@ class BootstrapTest extends Specification {
         Bootstrap.main(options as String[])
 
         then:
-        interaction {
-            if (result instanceof Connection) {
-                1 * console.start(result)
-            } else {
-                writer.toString().contains(result)
-            }
+        if (result instanceof Connection) {
+            1 * console.start(result)
+        } else {
+            writer.toString().contains(result)
         }
 
         where:
