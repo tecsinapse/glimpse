@@ -5,4 +5,6 @@ public interface Console {
     void start(Connection connection)
 
     void runScript(Connection connection, String scriptFile)
+
+    PrintWriter getWriter()
 }

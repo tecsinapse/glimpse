@@ -26,17 +26,28 @@ class BootstrapTest extends Specification {
         1 * console.runScript(defaultConnection, script)
     }
 
-    def "start console"(options, connection) {
+    def "start console"(options, result) {
+        setup:
+        def writer = new StringWriter()
+        console.getWriter() >> new PrintWriter(writer)
+
         when:
         Bootstrap.main(options as String[])
 
         then:
-        1 * console.start(connection)
+        interaction {
+            if (result instanceof Connection) {
+                1 * console.start(result)
+            } else {
+                writer.toString().contains(result)
+            }
+        }
 
         where:
-        options             || connection
+        options             || result
         []                  || defaultConnection
         ["-h", "hostName"]  || new HostConnection("hostName")
+        ["-h"]              || "Missing argument for option: h"
     }
 
 }
