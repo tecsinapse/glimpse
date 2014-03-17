@@ -46,6 +46,8 @@ class BootstrapTest extends Specification {
         []                  || defaultConnection
         ["-h", "hostName"]  || new HostConnection("hostName")
         ["-h"]              || "Missing argument for option: h"
+        ["-url", "url", "-u", "username", "-p", "password"] || new UrlConnection("url", "username", "password")
+        ["-url", "url"]     || new UrlConnection("url", null, null)
     }
 
 }

@@ -4,12 +4,15 @@ class ConnectionFactory {
 
     static Closure<Connection> defaultConnectionClosure
 
-    public static Connection defaultConnection() {
+    static Connection defaultConnection() {
         defaultConnectionClosure.call()
     }
 
-    public static Connection hostConnection(String hostName) {
+    static Connection hostConnection(String hostName) {
         new HostConnection(hostName)
     }
 
+    static Connection urlConnection(String url, String username, String password) {
+        new UrlConnection(url, username, password)
+    }
 }

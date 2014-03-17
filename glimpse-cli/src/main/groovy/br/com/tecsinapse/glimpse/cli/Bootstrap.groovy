@@ -7,6 +7,9 @@ class Bootstrap {
 
         def cli = new CliBuilder(usage:'glimpse [options] [script]')
         cli.h(args: 1, argName: 'hostName', 'host name')
+        cli.url(args: 1, argName: 'url', 'url')
+        cli.u(args: 1, argName: 'username', 'username')
+        cli.p(args: 1, argName: 'password', 'password')
         cli.writer = console.writer
 
         def options = cli.parse(args)
@@ -17,6 +20,8 @@ class Bootstrap {
         def connection
         if (options.h) {
             connection = ConnectionFactory.hostConnection(options.h)
+        } else if (options.url) {
+            connection = ConnectionFactory.urlConnection(options.url, options.u?:null, options.p?:null)
         } else {
             connection = ConnectionFactory.defaultConnection()
         }
