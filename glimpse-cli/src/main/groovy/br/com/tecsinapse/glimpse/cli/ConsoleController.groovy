@@ -3,6 +3,7 @@ package br.com.tecsinapse.glimpse.cli
 public class ConsoleController {
 
     private Connection connection;
+    private Command lastCommand
     Map<String, Command> commands
 
     ConsoleController(Connection connection) {
@@ -14,14 +15,18 @@ public class ConsoleController {
     }
 
     void execute(String command, PrintWriter writer) {
-        def c = command.startsWith("\\") ? commands.get(command) : null
-        if (c) {
-            c.run(writer)
+        if (lastCommand) {
+            lastCommand = lastCommand.answer(command, writer)
         } else {
-            def output = new ConsoleOutput(writer)
-            def shell = connection.shell
-            def future = shell.evaluate(command, output)
-            writer.println("===> ${future.get()}")
+            def c = command.startsWith("\\") ? commands.get(command) : null
+            if (c) {
+                lastCommand = c.run(writer)
+            } else {
+                def output = new ConsoleOutput(writer)
+                def shell = connection.shell
+                def future = shell.evaluate(command, output)
+                writer.println("===> ${future.get()}")
+            }
         }
     }
 

@@ -1,7 +1,6 @@
 package br.com.tecsinapse.glimpse.cli
 
 import br.com.tecsinapse.glimpse.GlimpseShell
-import br.com.tecsinapse.glimpse.Output
 import spock.lang.Specification
 
 import java.util.concurrent.Callable
@@ -39,6 +38,46 @@ class ConsoleControllerTest extends Specification {
 
         then:
         "${message}\n" == writer.toString()
+    }
+
+    def "backslash command with question"() {
+        setup:
+        def message = "message"
+        def count = 0
+        def command = new Command() {
+            @Override
+            Command run(PrintWriter writer) {
+                this
+            }
+
+            @Override
+            String nextPrompt() {
+                throw new UnsupportedOperationException()
+            }
+
+            @Override
+            Command answer(String answer, Writer writer) {
+                if (count == 0) {
+                    count++
+                    this
+                } else {
+                    writer.print(message)
+                }
+            }
+        }
+        def commands = [
+            "\\command": command
+        ]
+        controller.commands = commands
+        def writer = new StringWriter()
+
+        when:
+        controller.execute("\\command", new PrintWriter(writer))
+        controller.execute("1", new PrintWriter(writer))
+        controller.execute("2", new PrintWriter(writer))
+
+        then:
+        "${message}" == writer.toString()
     }
 
     def "groovy command"() {
