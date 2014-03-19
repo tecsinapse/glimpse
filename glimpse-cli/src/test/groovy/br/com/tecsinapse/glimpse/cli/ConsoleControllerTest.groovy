@@ -47,7 +47,7 @@ class ConsoleControllerTest extends Specification {
         def command = new Command() {
             @Override
             Command run(PrintWriter writer) {
-                this
+                return this
             }
 
             @Override
@@ -59,9 +59,10 @@ class ConsoleControllerTest extends Specification {
             Command answer(String answer, Writer writer) {
                 if (count == 0) {
                     count++
-                    this
+                    return this
                 } else {
                     writer.print(message)
+                    return null
                 }
             }
         }
@@ -100,6 +101,14 @@ class ConsoleControllerTest extends Specification {
 
         then:
         "===> ${result}\n" == writer.toString()
+    }
+
+    def "quit command"() {
+        when:
+        controller.execute("\\quit", new PrintWriter(new StringWriter()))
+
+        then:
+        controller.isFinished()
     }
 
 }

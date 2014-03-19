@@ -2,9 +2,17 @@ package br.com.tecsinapse.glimpse.cli
 
 public class ConsoleController {
 
-    private Connection connection;
+    private boolean finished = false
+    private Connection connection
     private Command lastCommand
-    Map<String, Command> commands
+    Map<String, Command> commands = [
+            "\\quit": [
+                run: { w ->
+                    finished = true
+                    return null
+                }
+            ] as Command
+    ]
 
     ConsoleController(Connection connection) {
         this.connection = connection;
@@ -35,6 +43,6 @@ public class ConsoleController {
     }
 
     boolean isFinished() {
-        throw new UnsupportedOperationException()
+        finished
     }
 }
