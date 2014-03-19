@@ -4,7 +4,7 @@ import jline.console.ConsoleReader
 
 class JlineConsole implements Console {
 
-    PrintWriter writer = new PrintWriter(System.out)
+    PrintWriter writer = new PrintWriter(System.out, true)
 
     @Override
     void start(Connection connection) {
