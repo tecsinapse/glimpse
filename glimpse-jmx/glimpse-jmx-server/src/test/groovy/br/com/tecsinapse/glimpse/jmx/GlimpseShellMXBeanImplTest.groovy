@@ -1,10 +1,12 @@
 package br.com.tecsinapse.glimpse.jmx
 
 import br.com.tecsinapse.glimpse.GlimpseShell
+import br.com.tecsinapse.glimpse.groovy.GroovyGlimpseShell
 import spock.lang.Specification
 
 import javax.management.AttributeChangeNotification
 import javax.management.JMX
+import javax.management.Notification
 import javax.management.NotificationListener
 import javax.management.ObjectName
 import java.lang.management.ManagementFactory
@@ -13,7 +15,7 @@ import java.util.concurrent.Future
 class GlimpseShellMXBeanImplTest extends Specification {
 
     def id = "123"
-    def shell = Mock(GlimpseShell.class)
+    def shell = new GroovyGlimpseShell()
     def mxBean = new GlimpseShellMXBeanImpl(id, shell)
     def objectName = new ObjectName("br.com.tecsinapse.glimpse:type=Shell,id=${id}")
     GlimpseShellMXBean mxBeanProxy = null
@@ -35,17 +37,16 @@ class GlimpseShellMXBeanImplTest extends Specification {
 
         when:
         mxBeanProxy.setParameter(param, value)
+        def result = shell.evaluate("params.param", null).get()
 
         then:
-        1 * shell.setParameter(param, value)
+        value == result
     }
 
     def "evaluate"() {
         setup:
-        def script = "script"
-        def future = Mock(Future)
-        future.isDone() >> false
-        shell.evaluate(script, _) >> future
+        shell.setParameter("semaphore", "true")
+        def script = "while (params.semaphore) { sleep(100) }"
         def notification = null
         mBeanServer.addNotificationListener(objectName, { n, hb ->
             notification = n
@@ -56,10 +57,14 @@ class GlimpseShellMXBeanImplTest extends Specification {
 
         then:
         mxBeanProxy.evaluating
+        !mxBeanProxy.finished
         notification instanceof AttributeChangeNotification
         notification.attributeName == "evaluating"
         notification.oldValue == false
         notification.newValue == true
+
+        cleanup:
+        shell.setParameter("semaphore", null)
     }
 
 }

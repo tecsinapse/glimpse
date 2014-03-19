@@ -4,6 +4,7 @@ import br.com.tecsinapse.glimpse.GlimpseShell
 
 import javax.management.AttributeChangeNotification
 import javax.management.NotificationBroadcasterSupport
+import java.util.concurrent.Executors
 import java.util.concurrent.Future
 
 class GlimpseShellMXBeanImpl extends NotificationBroadcasterSupport implements GlimpseShellMXBean {
@@ -15,6 +16,8 @@ class GlimpseShellMXBeanImpl extends NotificationBroadcasterSupport implements G
     private Future future
 
     private long sequenceNumber = 1;
+
+    def executor = Executors.newFixedThreadPool(1)
 
     GlimpseShellMXBeanImpl(String id, GlimpseShell shell) {
         this.id = id
@@ -35,6 +38,12 @@ class GlimpseShellMXBeanImpl extends NotificationBroadcasterSupport implements G
     void evaluate(String script) {
         future = shell.evaluate(script, null)
         sendNotification(new AttributeChangeNotification(this, sequenceNumber++, System.currentTimeMillis(), "Evaluating changed", "evaluating", "java.lang.String", false, true))
+        executor.submit({
+            while (!future.done) {
+                Thread.yield()
+            }
+            future = null
+        } as Runnable)
     }
 
     @Override
@@ -64,11 +73,15 @@ class GlimpseShellMXBeanImpl extends NotificationBroadcasterSupport implements G
 
     @Override
     boolean isFinished() {
-        throw new UnsupportedOperationException()
+        return future == null
     }
 
     @Override
     String getOutputSinceLastChange() {
+        throw new UnsupportedOperationException()
+    }
+
+    String getResult() {
         throw new UnsupportedOperationException()
     }
 }

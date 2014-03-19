@@ -20,6 +20,11 @@
 			<groupId>br.com.tecsinapse.glimpse</groupId>
 			<artifactId>glimpse-core</artifactId>
 		</dependency>
+        <dependency>
+            <groupId>br.com.tecsinapse.glimpse</groupId>
+            <artifactId>glimpse-groovy</artifactId>
+            <scope>test</scope>
+        </dependency>
 	</dependencies>
 
 
