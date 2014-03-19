@@ -13,6 +13,7 @@
 		<module>glimpse-http</module>
 		<module>glimpse-cli</module>
 		<module>glimpse-self-install</module>
+		<module>glimpse-jmx</module>
 	</modules>
 	<packaging>pom</packaging>
 
@@ -51,6 +52,16 @@
 			<dependency>
 				<groupId>br.com.tecsinapse.glimpse</groupId>
 				<artifactId>glimpse-http-client</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>br.com.tecsinapse.glimpse</groupId>
+				<artifactId>glimpse-jmx-api</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>br.com.tecsinapse.glimpse</groupId>
+				<artifactId>glimpse-jmx-client</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
