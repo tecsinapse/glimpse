@@ -34,4 +34,13 @@ class GroovyGlimpseShellTest extends Specification {
         shell.evaluate("params.${param}", null).get() == value
     }
 
+    def "exception"() {
+        setup:
+        def output = Mock(Output.class)
+        output.println(_)
+
+        expect:
+        shell.evaluate("throw new UnsupportedOperationException", output).get() == null
+    }
+
 }
