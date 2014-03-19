@@ -9,7 +9,8 @@ import java.util.concurrent.Executors
 class ConsoleControllerTest extends Specification {
 
     def connection = Mock(Connection.class)
-    def controller = new ConsoleController(connection)
+    def fileSystem = Mock(FileSystem.class)
+    def controller = new ConsoleController(connection, fileSystem)
 
     def "next prompt"() {
         setup:
@@ -109,6 +110,32 @@ class ConsoleControllerTest extends Specification {
 
         then:
         controller.isFinished()
+    }
+
+    def "execute script"() {
+        setup:
+        fileSystem.read("script.groovy") >> "1 + 1"
+        def result = null
+        def shell = [
+            evaluate: { s, o ->
+                return Executors.newFixedThreadPool(1).submit({
+                    result = Eval.me(s)
+                    return result.toString()
+                } as Callable)
+            }
+        ] as GlimpseShell
+        connection.getShell() >> shell
+        def writer = new StringWriter()
+
+        when:
+        controller.executeScript("script.groovy", new PrintWriter(writer))
+
+        then:
+        result == 2
+        writer.toString() == "Executing script at: null\n" +
+                "----------------------------------------------\n" +
+                "\n" +
+                "===> 2\n"
     }
 
 }

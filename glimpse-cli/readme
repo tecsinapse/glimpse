@@ -20,5 +20,4 @@ apresentar sempre claramente onde está conectado
 \remove-host
 \list-hosts
 \connect $HOST||$URL
-\run $SCRIPT
 \quit

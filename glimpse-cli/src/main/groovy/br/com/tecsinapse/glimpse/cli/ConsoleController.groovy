@@ -4,6 +4,7 @@ public class ConsoleController {
 
     private boolean finished = false
     private Connection connection
+    private FileSystem fileSystem
     private Command lastCommand
     Map<String, Command> commands = [
             "\\quit": [
@@ -14,8 +15,10 @@ public class ConsoleController {
             ] as Command
     ]
 
-    ConsoleController(Connection connection) {
+
+    ConsoleController(Connection connection, FileSystem fileSystem) {
         this.connection = connection;
+        this.fileSystem = fileSystem
     }
 
     String nextPrompt() {
@@ -39,7 +42,14 @@ public class ConsoleController {
     }
 
     void executeScript(String scriptFile, PrintWriter writer) {
-        throw new UnsupportedOperationException()
+        def script = fileSystem.read(scriptFile)
+        def shell = connection.shell
+        writer.println("Executing script at: ${connection.description}")
+        writer.println("----------------------------------------------")
+        writer.println()
+        def future = shell.evaluate(script, new ConsoleOutput(writer))
+        writer.println("===> ${future.get()}")
+
     }
 
     boolean isFinished() {
