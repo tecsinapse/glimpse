@@ -26,10 +26,12 @@ class HttpClientHttpHandler implements HttpHandler {
         def post = new PostMethod(url)
         post.setRequestEntity(new StringRequestEntity(input, "application/json", "UTF-8"))
         int statusCode = client.executeMethod(post)
-        def body = post.getResponseBodyAsString()
+        def bodyStream = post.getResponseBodyAsStream()
+        def bodyOut = new ByteArrayOutputStream()
+        bodyOut << bodyStream
         post.releaseConnection()
         if (statusCode == HttpStatus.SC_OK) {
-            return body
+            return new String(bodyOut.toByteArray())
         } else {
             throw new IllegalStateException()
         }
