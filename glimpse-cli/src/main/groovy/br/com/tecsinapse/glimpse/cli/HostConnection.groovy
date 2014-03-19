@@ -14,7 +14,7 @@ class HostConnection implements Connection {
 
     @Override
     String getDescription() {
-        throw new UnsupportedOperationException()
+        return hostName
     }
 
     @Override

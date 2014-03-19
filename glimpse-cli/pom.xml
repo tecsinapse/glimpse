@@ -24,6 +24,10 @@
             <groupId>jline</groupId>
             <artifactId>jline</artifactId>
         </dependency>
+		<dependency>
+			<groupId>br.com.tecsinapse.glimpse</groupId>
+			<artifactId>glimpse-http-client</artifactId>
+		</dependency>
     </dependencies>
 
 </project>

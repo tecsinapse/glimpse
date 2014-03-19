@@ -7,12 +7,18 @@ import org.apache.commons.httpclient.methods.StringRequestEntity
 
 class HttpClientHttpHandler implements HttpHandler {
 
-    private String url;
+    private String url
+
+    private String username
+
+    private String password
 
     private HttpClient client = new HttpClient()
 
-    HttpClientHttpHandler(String host, int port) {
-        this.url = "http://${host}:${port}/"
+    HttpClientHttpHandler(String url, String username, String password) {
+        this.url = url
+        this.username = username
+        this.password = password
     }
 
     @Override
