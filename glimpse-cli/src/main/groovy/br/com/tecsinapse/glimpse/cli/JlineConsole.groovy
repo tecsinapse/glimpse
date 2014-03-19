@@ -19,12 +19,14 @@ class JlineConsole implements Console {
             }
         }
         reader.shutdown()
+        System.exit(0)
     }
 
     @Override
     void runScript(Connection connection, String scriptFile) {
         def consoleController = new ConsoleController(connection, fileSystem)
         consoleController.executeScript(scriptFile, writer)
+        System.exit(0)
     }
 
     @Override
