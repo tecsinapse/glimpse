@@ -11,5 +11,16 @@
 
 	<artifactId>glimpse-jmx-server</artifactId>
 
+	<dependencies>
+		<dependency>
+			<groupId>br.com.tecsinapse.glimpse</groupId>
+			<artifactId>glimpse-jmx-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>br.com.tecsinapse.glimpse</groupId>
+			<artifactId>glimpse-core</artifactId>
+		</dependency>
+	</dependencies>
+
 
 </project>
