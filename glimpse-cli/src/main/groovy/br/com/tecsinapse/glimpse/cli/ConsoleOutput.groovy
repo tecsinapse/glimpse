@@ -22,11 +22,11 @@ class ConsoleOutput implements Output {
 
     @Override
     void print(Object o) {
-        throw new UnsupportedOperationException()
+        writer.print(o)
     }
 
     @Override
     void println(Object o) {
-        throw new UnsupportedOperationException()
+        writer.println(o)
     }
 }
