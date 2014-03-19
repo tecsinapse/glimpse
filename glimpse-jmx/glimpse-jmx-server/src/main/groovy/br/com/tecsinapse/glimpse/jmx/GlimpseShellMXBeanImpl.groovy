@@ -2,11 +2,19 @@ package br.com.tecsinapse.glimpse.jmx
 
 import br.com.tecsinapse.glimpse.GlimpseShell
 
-class GlimpseShellMXBeanImpl implements GlimpseShellMXBean {
+import javax.management.AttributeChangeNotification
+import javax.management.NotificationBroadcasterSupport
+import java.util.concurrent.Future
+
+class GlimpseShellMXBeanImpl extends NotificationBroadcasterSupport implements GlimpseShellMXBean {
 
     private String id
 
     private GlimpseShell shell
+
+    private Future future
+
+    private long sequenceNumber = 1;
 
     GlimpseShellMXBeanImpl(String id, GlimpseShell shell) {
         this.id = id
@@ -20,17 +28,18 @@ class GlimpseShellMXBeanImpl implements GlimpseShellMXBean {
 
     @Override
     void setParameter(String param, String value) {
-        throw new UnsupportedOperationException()
+        shell.setParameter(param, value)
     }
 
     @Override
     void evaluate(String script) {
-        throw new UnsupportedOperationException()
+        future = shell.evaluate(script, null)
+        sendNotification(new AttributeChangeNotification(this, sequenceNumber++, System.currentTimeMillis(), "Evaluating changed", "evaluating", "java.lang.String", false, true))
     }
 
     @Override
     boolean isEvaluating() {
-        throw new UnsupportedOperationException()
+        future != null
     }
 
     @Override
