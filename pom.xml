@@ -12,6 +12,7 @@
 		<module>glimpse-groovy</module>
 		<module>glimpse-http</module>
 		<module>glimpse-cli</module>
+		<module>glimpse-self-install</module>
 	</modules>
 	<packaging>pom</packaging>
 
@@ -29,6 +30,13 @@
 						</goals>
 					</execution>
 				</executions>
+				<dependencies>
+					<dependency>
+						<groupId>org.codehaus.groovy</groupId>
+						<artifactId>groovy</artifactId>
+						<version>1.8.9</version>
+					</dependency>
+				</dependencies>
 			</plugin>
 		</plugins>
 	</build>

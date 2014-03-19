@@ -19,7 +19,7 @@ public class ConsoleController {
     }
 
     String nextPrompt() {
-        return "${connection.description}>"
+        return "${connection.description}> "
     }
 
     void execute(String command, PrintWriter writer) {

@@ -17,7 +17,7 @@ class ConsoleControllerTest extends Specification {
         connection.getDescription() >> description
 
         expect:
-        "${description}>" == controller.nextPrompt()
+        "${description}> " == controller.nextPrompt()
     }
 
     def "backslash command"() {

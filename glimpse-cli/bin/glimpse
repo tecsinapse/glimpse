@@ -1,0 +1,5 @@
+GLIMPSE_HOME="$HOME/.glimpse"
+SELF_INSTALL_JAR="$GLIMPSE_HOME/self-install.jar"
+JAVA_CMD="java -cp $SELF_INSTALL_JAR br.com.tecsinapse.glimpse.selfinstall.SelfInstall"
+
+$JAVA_CMD "$@"
