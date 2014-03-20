@@ -17,7 +17,10 @@ class GroovyGlimpseShell implements GlimpseShell {
 
     private ExecutorService executor = Executors.newFixedThreadPool(1)
 
-    GroovyGlimpseShell() {
+    private PropertyResolver propertyResolver
+
+    GroovyGlimpseShell(PropertyResolver propertyResolver) {
+        this.propertyResolver = propertyResolver
         shell = new GroovyShell(
                     new CompilerConfiguration(scriptBaseClass: "br.com.tecsinapse.glimpse.groovy.GlimpseScript"))
         shell.setProperty("params", params)
@@ -34,6 +37,7 @@ class GroovyGlimpseShell implements GlimpseShell {
             try {
                 GlimpseScript s = (GlimpseScript) shell.parse(script)
                 s.setOutput(output)
+                s.setPropertyResolver(propertyResolver)
                 return s.run()
             } catch (e) {
                 def writer = new StringWriter()

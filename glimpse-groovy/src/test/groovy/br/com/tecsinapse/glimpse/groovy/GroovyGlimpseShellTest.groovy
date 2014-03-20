@@ -5,7 +5,8 @@ import spock.lang.Specification
 
 class GroovyGlimpseShellTest extends Specification {
 
-    def shell = new GroovyGlimpseShell()
+    def propertyResolver = Mock(PropertyResolver.class)
+    def shell = new GroovyGlimpseShell(propertyResolver)
 
     def "evaluation"() {
         expect:
@@ -41,6 +42,19 @@ class GroovyGlimpseShellTest extends Specification {
 
         expect:
         shell.evaluate("throw new UnsupportedOperationException", output).get() == null
+    }
+
+    def "property resolver"() {
+        setup:
+        def property = "object"
+        def object = [:]
+        propertyResolver.getProperty(property) >> object
+
+        when:
+        shell.evaluate("object.prop = 'value'", null).get()
+
+        then:
+        "value" == object.prop
     }
 
 }
