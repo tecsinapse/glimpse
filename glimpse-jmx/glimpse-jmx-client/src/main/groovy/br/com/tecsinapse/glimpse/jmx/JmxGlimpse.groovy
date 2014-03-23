@@ -6,11 +6,13 @@ import br.com.tecsinapse.glimpse.GlimpseShell
 class JmxGlimpse implements Glimpse {
 
     private GlimpseShellMXBeanFinder glimpseShellMXBeanFinder
+    private GlimpseShellEvaluationMXBeanFinder evaluationMXBeanFinder
     private GlimpseMXBean mxBean
 
-    JmxGlimpse(GlimpseShellMXBeanFinder glimpseShellMXBeanFinder, GlimpseMXBean mxBean) {
+    JmxGlimpse(GlimpseMXBean mxBean, GlimpseShellMXBeanFinder glimpseShellMXBeanFinder, GlimpseShellEvaluationMXBeanFinder evaluationMXBeanFinder) {
         this.mxBean = mxBean
         this.glimpseShellMXBeanFinder = glimpseShellMXBeanFinder
+        this.evaluationMXBeanFinder = evaluationMXBeanFinder
     }
 
     @Override
@@ -20,7 +22,7 @@ class JmxGlimpse implements Glimpse {
 
     @Override
     GlimpseShell getShell(String id) {
-        return new JmxGlimpseShell(glimpseShellMXBeanFinder.find(id))
+        return new JmxGlimpseShell(glimpseShellMXBeanFinder.find(id), evaluationMXBeanFinder)
     }
 
     @Override

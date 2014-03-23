@@ -43,6 +43,8 @@ class JmxGlimpseShell implements GlimpseShell {
                 Thread.yield()
             }
             String result = evalMXBean.result
+            // makes sure all output is printed
+            output.print(evalMXBean.getOutputSinceLastChange())
             mxBean.destroyEvaluation(evalId)
             return result
         } as Callable)

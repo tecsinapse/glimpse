@@ -36,6 +36,7 @@ class JmxGlimpseShellTest extends Specification {
         def evalMxBean = Mock(GlimpseShellEvaluationMXBean)
         evalMxBean.finished >> true
         evalMxBean.result >> "1"
+        evalMxBean.outputSinceLastChange >> "output"
         finder.find(id, evalId, output) >> evalMxBean
 
         when:
@@ -44,6 +45,7 @@ class JmxGlimpseShellTest extends Specification {
         then:
         result == "1"
         1 * evalMxBean.run()
+        1 * output.print("output")
     }
 
 }

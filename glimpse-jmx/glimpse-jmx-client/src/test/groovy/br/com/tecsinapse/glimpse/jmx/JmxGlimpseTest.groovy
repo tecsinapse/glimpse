@@ -6,7 +6,7 @@ class JmxGlimpseTest extends Specification {
 
     def finder = Mock(GlimpseShellMXBeanFinder)
     def mxBean = Mock(GlimpseMXBean)
-    def glimpse = new JmxGlimpse(finder, mxBean)
+    def glimpse = new JmxGlimpse(mxBean, finder, null)
 
     def "create shell"() {
         setup:
