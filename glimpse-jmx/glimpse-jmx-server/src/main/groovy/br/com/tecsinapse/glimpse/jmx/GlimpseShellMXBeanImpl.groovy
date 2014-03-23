@@ -2,24 +2,14 @@ package br.com.tecsinapse.glimpse.jmx
 
 import br.com.tecsinapse.glimpse.GlimpseShell
 
-import javax.management.AttributeChangeNotification
-import javax.management.NotificationBroadcasterSupport
 import javax.management.ObjectName
 import java.lang.management.ManagementFactory
-import java.util.concurrent.Executors
-import java.util.concurrent.Future
 
 class GlimpseShellMXBeanImpl implements GlimpseShellMXBean {
 
     private String id
 
     private GlimpseShell shell
-
-    private Future future
-
-    private long sequenceNumber = 1;
-
-    def executor = Executors.newFixedThreadPool(1)
 
     GlimpseShellMXBeanImpl(String id, GlimpseShell shell) {
         this.id = id
@@ -42,7 +32,6 @@ class GlimpseShellMXBeanImpl implements GlimpseShellMXBean {
         def evaluation = new GlimpseShellEvaluationMXBeanImpl(evalId, script, shell)
         def objectName = new ObjectName("br.com.tecsinapse.glimpse:type=Evaluation,id=${evalId},shellId=${id}")
         ManagementFactory.getPlatformMBeanServer().registerMBean(evaluation, objectName)
-        evaluation.run()
         return evalId
     }
 

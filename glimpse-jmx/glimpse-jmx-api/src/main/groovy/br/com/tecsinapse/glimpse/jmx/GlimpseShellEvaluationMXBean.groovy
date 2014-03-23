@@ -6,6 +6,20 @@ interface GlimpseShellEvaluationMXBean {
 
     String getScript()
 
+    void run()
+
+    boolean isRunning()
+
+    boolean isProgressEnabled()
+
+    long getTotalSteps()
+
+    long getWorkedSteps()
+
+    boolean isOutputChanged()
+
+    String getOutputSinceLastChange()
+
     boolean isFinished()
 
     String getResult()

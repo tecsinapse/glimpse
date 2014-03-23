@@ -1,21 +1,16 @@
 package br.com.tecsinapse.glimpse.jmx
 
-import br.com.tecsinapse.glimpse.groovy.GroovyGlimpseShell
-import br.com.tecsinapse.glimpse.groovy.PropertyResolver
+import br.com.tecsinapse.glimpse.GlimpseShell
 import spock.lang.Specification
-import spock.lang.Timeout
 
-import javax.management.InstanceNotFoundException
 import javax.management.JMX
 import javax.management.ObjectName
 import java.lang.management.ManagementFactory
-import java.util.concurrent.TimeUnit
 
 class GlimpseShellMXBeanImplTest extends Specification {
 
     def id = "123"
-    def propertyResolver = Mock(PropertyResolver.class)
-    def shell = new GroovyGlimpseShell(propertyResolver)
+    def shell = Mock(GlimpseShell.class)
     def mxBean = new GlimpseShellMXBeanImpl(id, shell)
     def objectName = new ObjectName("br.com.tecsinapse.glimpse:type=Shell,id=${id}")
     GlimpseShellMXBean mxBeanProxy = null
@@ -37,27 +32,22 @@ class GlimpseShellMXBeanImplTest extends Specification {
 
         when:
         mxBeanProxy.setParameter(param, value)
-        def result = shell.evaluate("params.param", null).get()
 
         then:
-        value == result
+        1 * shell.setParameter(param, value)
     }
 
-    @Timeout(value = 5, unit = TimeUnit.SECONDS)
     def "evaluate"() {
         setup:
-        def script = "1 + 1"
+        def script = "script"
 
         when:
         def evalId = mxBeanProxy.evaluate(script)
         def objectName = new ObjectName("br.com.tecsinapse.glimpse:type=Evaluation,id=${evalId},shellId=${id}")
         def evalProxy = JMX.newMBeanProxy(mBeanServer, objectName, GlimpseShellEvaluationMXBean.class)
-        while (!evalProxy.finished) {
-            sleep(100)
-        }
+
         def proxyId = evalProxy.id
         def proxyScript = evalProxy.script
-        def proxyResult = evalProxy.result
         mxBeanProxy.destroyEvaluation(evalId)
         def objectInstance = null
         try {
@@ -68,7 +58,6 @@ class GlimpseShellMXBeanImplTest extends Specification {
         then:
         evalId == proxyId
         script == proxyScript
-        "2" == proxyResult
         objectInstance == null
     }
 
