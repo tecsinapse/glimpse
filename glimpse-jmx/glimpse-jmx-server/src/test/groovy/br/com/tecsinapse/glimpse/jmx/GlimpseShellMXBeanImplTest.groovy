@@ -1,21 +1,15 @@
 package br.com.tecsinapse.glimpse.jmx
 
-import br.com.tecsinapse.glimpse.GlimpseShell
 import br.com.tecsinapse.glimpse.groovy.GroovyGlimpseShell
 import br.com.tecsinapse.glimpse.groovy.PropertyResolver
 import spock.lang.Specification
 import spock.lang.Timeout
 
-import javax.management.AttributeChangeNotification
 import javax.management.InstanceNotFoundException
 import javax.management.JMX
-import javax.management.Notification
-import javax.management.NotificationListener
 import javax.management.ObjectName
 import java.lang.management.ManagementFactory
-import java.util.concurrent.Future
 import java.util.concurrent.TimeUnit
-import java.util.concurrent.atomic.AtomicBoolean
 
 class GlimpseShellMXBeanImplTest extends Specification {
 
@@ -68,7 +62,7 @@ class GlimpseShellMXBeanImplTest extends Specification {
         def objectInstance = null
         try {
            objectInstance = mBeanServer.getObjectInstance(objectName)
-        } catch (InstanceNotFoundException e) {
+        } catch (InstanceNotFoundException) {
         }
 
         then:
