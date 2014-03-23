@@ -4,10 +4,12 @@ import br.com.tecsinapse.glimpse.GlimpseShell
 
 import javax.management.AttributeChangeNotification
 import javax.management.NotificationBroadcasterSupport
+import javax.management.ObjectName
+import java.lang.management.ManagementFactory
 import java.util.concurrent.Executors
 import java.util.concurrent.Future
 
-class GlimpseShellMXBeanImpl extends NotificationBroadcasterSupport implements GlimpseShellMXBean {
+class GlimpseShellMXBeanImpl implements GlimpseShellMXBean {
 
     private String id
 
@@ -35,53 +37,18 @@ class GlimpseShellMXBeanImpl extends NotificationBroadcasterSupport implements G
     }
 
     @Override
-    void evaluate(String script) {
-        future = shell.evaluate(script, null)
-        sendNotification(new AttributeChangeNotification(this, sequenceNumber++, System.currentTimeMillis(), "Evaluating changed", "evaluating", "java.lang.String", false, true))
-        executor.submit({
-            while (!future.done) {
-                Thread.yield()
-            }
-            future = null
-        } as Runnable)
+    String evaluate(String script) {
+        String evalId = UUID.randomUUID().toString()
+        def evaluation = new GlimpseShellEvaluationMXBeanImpl(evalId, script, shell)
+        def objectName = new ObjectName("br.com.tecsinapse.glimpse:type=Evaluation,id=${evalId},shellId=${id}")
+        ManagementFactory.getPlatformMBeanServer().registerMBean(evaluation, objectName)
+        evaluation.run()
+        return evalId
     }
 
     @Override
-    boolean isEvaluating() {
-        future != null
-    }
-
-    @Override
-    boolean isProgressEnabled() {
-        throw new UnsupportedOperationException()
-    }
-
-    @Override
-    int getTotalSteps() {
-        throw new UnsupportedOperationException()
-    }
-
-    @Override
-    int getWorkedSteps() {
-        throw new UnsupportedOperationException()
-    }
-
-    @Override
-    boolean isOutputChanged() {
-        throw new UnsupportedOperationException()
-    }
-
-    @Override
-    boolean isFinished() {
-        return future == null
-    }
-
-    @Override
-    String getOutputSinceLastChange() {
-        throw new UnsupportedOperationException()
-    }
-
-    String getResult() {
-        throw new UnsupportedOperationException()
+    void destroyEvaluation(String evalId) {
+        def objectName = new ObjectName("br.com.tecsinapse.glimpse:type=Evaluation,id=${evalId},shellId=${id}")
+        ManagementFactory.getPlatformMBeanServer().unregisterMBean(objectName)
     }
 }

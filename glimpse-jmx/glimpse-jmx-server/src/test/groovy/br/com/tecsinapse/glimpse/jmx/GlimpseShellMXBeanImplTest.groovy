@@ -2,20 +2,26 @@ package br.com.tecsinapse.glimpse.jmx
 
 import br.com.tecsinapse.glimpse.GlimpseShell
 import br.com.tecsinapse.glimpse.groovy.GroovyGlimpseShell
+import br.com.tecsinapse.glimpse.groovy.PropertyResolver
 import spock.lang.Specification
+import spock.lang.Timeout
 
 import javax.management.AttributeChangeNotification
+import javax.management.InstanceNotFoundException
 import javax.management.JMX
 import javax.management.Notification
 import javax.management.NotificationListener
 import javax.management.ObjectName
 import java.lang.management.ManagementFactory
 import java.util.concurrent.Future
+import java.util.concurrent.TimeUnit
+import java.util.concurrent.atomic.AtomicBoolean
 
 class GlimpseShellMXBeanImplTest extends Specification {
 
     def id = "123"
-    def shell = new GroovyGlimpseShell()
+    def propertyResolver = Mock(PropertyResolver.class)
+    def shell = new GroovyGlimpseShell(propertyResolver)
     def mxBean = new GlimpseShellMXBeanImpl(id, shell)
     def objectName = new ObjectName("br.com.tecsinapse.glimpse:type=Shell,id=${id}")
     GlimpseShellMXBean mxBeanProxy = null
@@ -43,28 +49,33 @@ class GlimpseShellMXBeanImplTest extends Specification {
         value == result
     }
 
+    @Timeout(value = 5, unit = TimeUnit.SECONDS)
     def "evaluate"() {
         setup:
-        shell.setParameter("semaphore", "true")
-        def script = "while (params.semaphore) { sleep(100) }"
-        def notification = null
-        mBeanServer.addNotificationListener(objectName, { n, hb ->
-            notification = n
-        } as NotificationListener, null, null)
+        def script = "1 + 1"
 
         when:
-        mxBeanProxy.evaluate(script)
+        def evalId = mxBeanProxy.evaluate(script)
+        def objectName = new ObjectName("br.com.tecsinapse.glimpse:type=Evaluation,id=${evalId},shellId=${id}")
+        def evalProxy = JMX.newMBeanProxy(mBeanServer, objectName, GlimpseShellEvaluationMXBean.class)
+        while (!evalProxy.finished) {
+            sleep(100)
+        }
+        def proxyId = evalProxy.id
+        def proxyScript = evalProxy.script
+        def proxyResult = evalProxy.result
+        mxBeanProxy.destroyEvaluation(evalId)
+        def objectInstance = null
+        try {
+           objectInstance = mBeanServer.getObjectInstance(objectName)
+        } catch (InstanceNotFoundException e) {
+        }
 
         then:
-        mxBeanProxy.evaluating
-        !mxBeanProxy.finished
-        notification instanceof AttributeChangeNotification
-        notification.attributeName == "evaluating"
-        notification.oldValue == false
-        notification.newValue == true
-
-        cleanup:
-        shell.setParameter("semaphore", null)
+        evalId == proxyId
+        script == proxyScript
+        "2" == proxyResult
+        objectInstance == null
     }
 
 }

@@ -6,20 +6,8 @@ public interface GlimpseShellMXBean {
 
     void setParameter(String param, String value)
 
-    void evaluate(String script)
+    String evaluate(String script)
 
-    boolean isEvaluating()
-
-    boolean isProgressEnabled()
-
-    int getTotalSteps()
-
-    int getWorkedSteps()
-
-    boolean isOutputChanged()
-
-    boolean isFinished()
-
-    String getOutputSinceLastChange()
+    void destroyEvaluation(String id)
 
 }
