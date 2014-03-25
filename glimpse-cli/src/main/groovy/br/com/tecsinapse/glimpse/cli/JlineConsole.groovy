@@ -33,4 +33,9 @@ class JlineConsole implements Console {
     PrintWriter getWriter() {
         return writer;
     }
+
+    @Override
+    String ask(String prompt) {
+        throw new UnsupportedOperationException()
+    }
 }

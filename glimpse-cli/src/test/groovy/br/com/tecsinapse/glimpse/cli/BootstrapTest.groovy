@@ -12,7 +12,13 @@ class BootstrapTest extends Specification {
 
     def setup() {
         ConsoleFactory.consoleClosure = { console }
-        ConnectionFactory.defaultConnectionClosure = { defaultConnection }
+        ConnectionFactory.defaultConnectionClosure = { c ->
+            if (c != console) {
+                throw new IllegalStateException("wrong console")
+            }
+
+            defaultConnection
+        }
     }
 
     def "run script"() {

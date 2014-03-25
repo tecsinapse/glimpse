@@ -23,7 +23,7 @@ class Bootstrap {
         } else if (options.url) {
             connection = ConnectionFactory.urlConnection(options.url, options.u?:null, options.p?:null)
         } else {
-            connection = ConnectionFactory.defaultConnection()
+            connection = ConnectionFactory.defaultConnection(console)
         }
 
         if (arguments.isEmpty()) {

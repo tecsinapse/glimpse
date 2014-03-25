@@ -7,4 +7,6 @@ public interface Console {
     void runScript(Connection connection, String scriptFile)
 
     PrintWriter getWriter()
+
+    String ask(String prompt)
 }
