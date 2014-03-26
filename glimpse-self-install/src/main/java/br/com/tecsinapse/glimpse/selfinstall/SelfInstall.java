@@ -21,11 +21,12 @@ public class SelfInstall {
 				return name.endsWith(".jar");
 			}
 		});
-		URL[] urls = new URL[files.length];
+		URL[] urls = new URL[files.length + 1];
 		for (int i=0; i<files.length; i++) {
 			urls[i] = files[i].toURI().toURL();
 		}
-		URLClassLoader classLoader = new URLClassLoader(urls);
+        urls[files.length] = new File(System.getProperty("java.home") + File.separator + ".." + File.separator + "lib" + File.separator + "tools.jar").toURI().toURL();
+        URLClassLoader classLoader = new URLClassLoader(urls);
 		Class clazz = classLoader.loadClass("br.com.tecsinapse.glimpse.cli.Bootstrap");
 		Method method = clazz.getMethod("main", String[].class);
 		method.invoke(null, new Object[] {args});

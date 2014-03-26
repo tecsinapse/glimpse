@@ -6,11 +6,11 @@ class JlineConsole implements Console {
 
     FileSystem fileSystem = new DefaultFileSystem()
     PrintWriter writer = new PrintWriter(System.out, true)
+    ConsoleReader reader = new ConsoleReader()
 
     @Override
     void start(Connection connection) {
         def consoleController = new ConsoleController(connection, fileSystem)
-        def reader = new ConsoleReader()
         while (true) {
             def command = reader.readLine(consoleController.nextPrompt())
             consoleController.execute(command, writer)
@@ -36,6 +36,6 @@ class JlineConsole implements Console {
 
     @Override
     String ask(String prompt) {
-        throw new UnsupportedOperationException()
+        return reader.readLine("${prompt}: ")
     }
 }
