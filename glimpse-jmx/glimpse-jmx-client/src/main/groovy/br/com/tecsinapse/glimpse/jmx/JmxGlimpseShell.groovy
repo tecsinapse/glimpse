@@ -44,7 +44,10 @@ class JmxGlimpseShell implements GlimpseShell {
             }
             String result = evalMXBean.result
             // makes sure all output is printed
-            output.print(evalMXBean.getOutputSinceLastChange())
+            def lastOutput = evalMXBean.getOutputSinceLastChange()
+            if (lastOutput) {
+                output.print(lastOutput)
+            }
             mxBean.destroyEvaluation(evalId)
             return result
         } as Callable)

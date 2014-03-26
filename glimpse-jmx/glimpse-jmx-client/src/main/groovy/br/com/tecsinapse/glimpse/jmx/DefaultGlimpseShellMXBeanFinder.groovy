@@ -15,6 +15,6 @@ class DefaultGlimpseShellMXBeanFinder implements GlimpseShellMXBeanFinder {
     @Override
     GlimpseShellMXBean find(String id) {
         def objectName = new ObjectName("br.com.tecsinapse.glimpse:type=Shell,id=${id}")
-        return JMX.newMBeanProxy(mBeanServerConnection, objectName, GlimpseShellMXBeanFinder)
+        return JMX.newMBeanProxy(mBeanServerConnection, objectName, GlimpseShellMXBean)
     }
 }

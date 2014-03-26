@@ -31,8 +31,8 @@ class JmxGlimpseFactory {
     }
 
     private static List<JmxGlimpseDescriptor> listVms() {
-        def vms = Arrays.asList(VirtualMachine.list())
-        vms.collect { VirtualMachineDescriptor vm ->
+        def vms = VirtualMachine.list()
+        return vms.collect { VirtualMachineDescriptor vm ->
             new JmxGlimpseDescriptor() {
 
                 @Override
@@ -47,7 +47,12 @@ class JmxGlimpseFactory {
 
                 @Override
                 String getServiceUrl() {
-                    getServiceUrl(vm)
+                    return getServiceUrl(vm)
+                }
+
+                @Override
+                String toString() {
+                    return "${getVmId()} - ${getServiceUrl()}"
                 }
             }
         }
