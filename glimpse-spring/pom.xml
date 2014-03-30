@@ -20,6 +20,15 @@
             <groupId>org.springframework</groupId>
             <artifactId>spring-context</artifactId>
         </dependency>
+        <dependency>
+            <groupId>br.com.tecsinapse.glimpse</groupId>
+            <artifactId>glimpse-jmx-server</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>br.com.tecsinapse.glimpse</groupId>
+            <artifactId>glimpse-jmx-client</artifactId>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
 </project>

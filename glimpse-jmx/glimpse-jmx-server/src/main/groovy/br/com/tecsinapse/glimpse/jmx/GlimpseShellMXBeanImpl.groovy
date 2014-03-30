@@ -11,6 +11,8 @@ class GlimpseShellMXBeanImpl implements GlimpseShellMXBean {
 
     private GlimpseShell shell
 
+    private List<String> evalIds = []
+
     GlimpseShellMXBeanImpl(String id, GlimpseShell shell) {
         this.id = id
         this.shell = shell
@@ -32,6 +34,7 @@ class GlimpseShellMXBeanImpl implements GlimpseShellMXBean {
         def evaluation = new GlimpseShellEvaluationMXBeanImpl(evalId, script, shell)
         def objectName = new ObjectName("br.com.tecsinapse.glimpse:type=Evaluation,id=${evalId},shellId=${id}")
         ManagementFactory.getPlatformMBeanServer().registerMBean(evaluation, objectName)
+        evalIds << evalId
         return evalId
     }
 
@@ -39,5 +42,12 @@ class GlimpseShellMXBeanImpl implements GlimpseShellMXBean {
     void destroyEvaluation(String evalId) {
         def objectName = new ObjectName("br.com.tecsinapse.glimpse:type=Evaluation,id=${evalId},shellId=${id}")
         ManagementFactory.getPlatformMBeanServer().unregisterMBean(objectName)
+        evalIds.remove(evalId)
+    }
+
+    void destroyAllEvaluations() {
+        evalIds.clone().each {
+            destroyEvaluation(it)
+        }
     }
 }
