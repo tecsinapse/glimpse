@@ -5,8 +5,9 @@ import spock.lang.Specification
 
 class GroovyGlimpseShellTest extends Specification {
 
+    def methodResolver = Mock(MethodResolver.class)
     def propertyResolver = Mock(PropertyResolver.class)
-    def shell = new GroovyGlimpseShell(propertyResolver)
+    def shell = new GroovyGlimpseShell(propertyResolver, methodResolver)
 
     def "evaluation"() {
         expect:
@@ -55,6 +56,14 @@ class GroovyGlimpseShellTest extends Specification {
 
         then:
         "value" == object.prop
+    }
+
+    def "method resolver"() {
+        when:
+        shell.evaluate("myMethod('1')", null).get()
+
+        then:
+        1 * methodResolver.methodMissing("myMethod", ['1'] as Object[])
     }
 
 }

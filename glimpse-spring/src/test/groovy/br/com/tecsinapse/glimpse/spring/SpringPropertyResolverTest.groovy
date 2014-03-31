@@ -8,7 +8,7 @@ import spock.lang.Specification
 class SpringPropertyResolverTest extends Specification {
 
     def propertyResolver = new SpringPropertyResolver()
-    def shell = new GroovyGlimpseShell(propertyResolver)
+    def shell = new GroovyGlimpseShell(propertyResolver, null)
 
     def setup() {
         def applicationContext = new ClassPathXmlApplicationContext("applicationContext.xml")

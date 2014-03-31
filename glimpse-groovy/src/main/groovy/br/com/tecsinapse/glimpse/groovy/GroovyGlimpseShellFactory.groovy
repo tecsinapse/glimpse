@@ -13,6 +13,6 @@ class GroovyGlimpseShellFactory implements GlimpseShellFactory {
 
     @Override
     GlimpseShell create() {
-        return new GroovyGlimpseShell(propertyResolver)
+        return new GroovyGlimpseShell(propertyResolver, null)
     }
 }

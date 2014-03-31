@@ -12,7 +12,7 @@ class GlimpseShellEvaluationMXBeanImplTest extends Specification {
 
     def id = "123"
     def shellId = "123"
-    def shell = new GroovyGlimpseShell()
+    def shell = new GroovyGlimpseShell(null, null)
     def script =
 """
 println 'test1'
