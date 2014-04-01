@@ -55,6 +55,11 @@
 				<artifactId>glimpse-http-client</artifactId>
 				<version>${project.version}</version>
 			</dependency>
+            <dependency>
+                <groupId>br.com.tecsinapse.glimpse</groupId>
+                <artifactId>glimpse-http-server</artifactId>
+                <version>${project.version}</version>
+            </dependency>
 			<dependency>
 				<groupId>br.com.tecsinapse.glimpse</groupId>
 				<artifactId>glimpse-jmx-api</artifactId>

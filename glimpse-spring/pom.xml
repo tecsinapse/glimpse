@@ -26,7 +26,16 @@
         </dependency>
         <dependency>
             <groupId>br.com.tecsinapse.glimpse</groupId>
+            <artifactId>glimpse-http-server</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>br.com.tecsinapse.glimpse</groupId>
             <artifactId>glimpse-jmx-client</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>br.com.tecsinapse.glimpse</groupId>
+            <artifactId>glimpse-http-client</artifactId>
             <scope>test</scope>
         </dependency>
     </dependencies>

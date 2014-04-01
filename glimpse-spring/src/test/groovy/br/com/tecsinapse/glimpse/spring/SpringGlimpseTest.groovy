@@ -1,5 +1,7 @@
 package br.com.tecsinapse.glimpse.spring
 
+import br.com.tecsinapse.glimpse.http.HttpClientHttpHandler
+import br.com.tecsinapse.glimpse.http.HttpGlimpse
 import br.com.tecsinapse.glimpse.jmx.GlimpseMXBean
 import br.com.tecsinapse.glimpse.jmx.GlimpseShellEvaluationMXBean
 import br.com.tecsinapse.glimpse.jmx.GlimpseShellMXBean
@@ -38,6 +40,24 @@ class SpringGlimpseTest extends Specification {
         mBeanServer.queryNames(glimpseObjectName, null).isEmpty()
         mBeanServer.queryNames(shellObjectName, null).isEmpty()
         mBeanServer.queryNames(evalObjectName, null).isEmpty()
+    }
+
+    def "http"() {
+        setup:
+        System.setProperty("br.com.tecsinapse.glimpse.http.port", "9000")
+        def applicationContext = new ClassPathXmlApplicationContext("glimpseApplicationContext.xml")
+        def glimpse = new HttpGlimpse(new HttpClientHttpHandler("http://localhost:9000", null, null), 100)
+        def shellId = glimpse.createShell()
+        def shell = glimpse.getShell(shellId)
+
+        when:
+        def result = shell.evaluate("testBean.hello", null).get()
+
+        then:
+        result == "hello"
+
+        cleanup:
+        applicationContext.destroy()
     }
 
 }
