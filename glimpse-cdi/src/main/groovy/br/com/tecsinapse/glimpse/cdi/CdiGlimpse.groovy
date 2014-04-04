@@ -1,12 +1,26 @@
 package br.com.tecsinapse.glimpse.cdi
 
-import javax.inject.Named
+import br.com.tecsinapse.glimpse.server.GlimpseServer
 
-@Named
+import javax.annotation.PostConstruct
+import javax.annotation.PreDestroy
+import javax.ejb.Startup
+
+@javax.ejb.Singleton
+@Startup
 class CdiGlimpse {
 
-    def hello() {
-        "hello"
+    def glimpseServer = new GlimpseServer(new CdiPropertyResolver())
+
+    @PostConstruct
+    void start() {
+        glimpseServer.start()
+    }
+
+    @PreDestroy
+    void stop() {
+        glimpseServer.stop()
+        println("glimpse stopped")
     }
 
 }

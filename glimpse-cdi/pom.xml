@@ -17,8 +17,17 @@
 			<artifactId>glimpse-groovy</artifactId>
 		</dependency>
 		<dependency>
+			<groupId>br.com.tecsinapse.glimpse</groupId>
+			<artifactId>glimpse-server</artifactId>
+		</dependency>
+		<dependency>
 			<groupId>javax.enterprise</groupId>
 			<artifactId>cdi-api</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.spec.javax.ejb</groupId>
+			<artifactId>jboss-ejb-api_3.1_spec</artifactId>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
