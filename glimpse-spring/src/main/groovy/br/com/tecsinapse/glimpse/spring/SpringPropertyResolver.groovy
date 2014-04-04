@@ -15,7 +15,7 @@ class SpringPropertyResolver implements PropertyResolver, ApplicationContextAwar
     }
 
     @Override
-    Object getProperty(String property) throws MissingPropertyException {
+    Object getProperty(String property) {
         return applicationContext.getBean(property)
     }
 
