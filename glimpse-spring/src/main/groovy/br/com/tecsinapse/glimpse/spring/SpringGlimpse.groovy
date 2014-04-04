@@ -7,11 +7,7 @@ import org.springframework.beans.factory.InitializingBean
 import org.springframework.context.ApplicationContext
 import org.springframework.context.ApplicationContextAware
 
-import javax.management.ObjectName
-
 class SpringGlimpse implements ApplicationContextAware, InitializingBean, DisposableBean {
-
-    static final def OBJECT_NAME = new ObjectName("br.com.tecsinapse.glimpse:type=Glimpse")
 
     private ApplicationContext applicationContext
 
