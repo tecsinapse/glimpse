@@ -16,6 +16,7 @@
 		<module>glimpse-jmx</module>
         <module>glimpse-spring</module>
 		<module>glimpse-cdi</module>
+		<module>glimpse-server</module>
 	</modules>
 	<packaging>pom</packaging>
 
@@ -49,6 +50,11 @@
 			<dependency>
 				<groupId>br.com.tecsinapse.glimpse</groupId>
 				<artifactId>glimpse-core</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>br.com.tecsinapse.glimpse</groupId>
+				<artifactId>glimpse-server</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
