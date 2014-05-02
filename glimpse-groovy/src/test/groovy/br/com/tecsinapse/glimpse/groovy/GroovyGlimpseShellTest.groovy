@@ -3,6 +3,8 @@ package br.com.tecsinapse.glimpse.groovy
 import br.com.tecsinapse.glimpse.Output
 import spock.lang.Specification
 
+import java.util.concurrent.ExecutionException
+
 class GroovyGlimpseShellTest extends Specification {
 
     def methodResolver = Mock(MethodResolver.class)
@@ -37,12 +39,12 @@ class GroovyGlimpseShellTest extends Specification {
     }
 
     def "exception"() {
-        setup:
-        def output = Mock(Output.class)
-        output.println(_)
+        when:
+        shell.evaluate("throw new UnsupportedOperationException()", null).get()
 
-        expect:
-        shell.evaluate("throw new UnsupportedOperationException", output).get() == null
+        then:
+        ExecutionException e = thrown()
+        e.cause instanceof UnsupportedOperationException
     }
 
     def "property resolver"() {

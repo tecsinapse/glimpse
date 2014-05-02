@@ -1,9 +1,11 @@
 package br.com.tecsinapse.glimpse.spring
 
-import br.com.tecsinapse.glimpse.Output
 import br.com.tecsinapse.glimpse.groovy.GroovyGlimpseShell
+import org.springframework.beans.factory.NoSuchBeanDefinitionException
 import org.springframework.context.support.ClassPathXmlApplicationContext
 import spock.lang.Specification
+
+import java.util.concurrent.ExecutionException
 
 class SpringPropertyResolverTest extends Specification {
 
@@ -21,27 +23,12 @@ class SpringPropertyResolverTest extends Specification {
     }
 
     def "missing bean"() {
-        setup:
-        def builder = new StringBuilder()
-        def output = [
-
-            print: { o ->
-                builder.append(o)
-            },
-
-            println: { o ->
-                builder.append(o)
-                builder.append("\n")
-            }
-
-        ] as Output
-
         when:
-        def result = shell.evaluate("noSuchBean.hello", output).get()
+        shell.evaluate("noSuchBean.hello", null).get()
 
         then:
-        builder.toString().contains("NoSuchBeanDefinitionException")
-        result == null
+        ExecutionException e = thrown()
+        e.cause instanceof NoSuchBeanDefinitionException
     }
 
 }

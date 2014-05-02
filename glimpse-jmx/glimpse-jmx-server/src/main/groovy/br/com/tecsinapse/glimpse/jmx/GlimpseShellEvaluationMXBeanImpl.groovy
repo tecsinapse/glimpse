@@ -6,6 +6,7 @@ import br.com.tecsinapse.glimpse.Output
 import javax.management.AttributeChangeNotification
 import javax.management.Notification
 import javax.management.NotificationBroadcasterSupport
+import java.util.concurrent.ExecutionException
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 import java.util.concurrent.Future
@@ -94,9 +95,13 @@ class GlimpseShellEvaluationMXBeanImpl extends NotificationBroadcasterSupport im
     }
 
     @Override
-    String getResult() {
+    String getResult() throws ScriptExecutionException {
         if (future == null || !future.isDone()) throw new IllegalStateException("not yet finished")
-        return future.get()
+        try {
+            return future.get()
+        } catch (ExecutionException e) {
+            throw new ScriptExecutionException(e.cause)
+        }
     }
 
     @Override
@@ -130,11 +135,13 @@ class GlimpseShellEvaluationMXBeanImpl extends NotificationBroadcasterSupport im
     @Override
     long getTotalSteps() {
         if (!progressEnabled) throw new IllegalStateException("progress is not enabled")
+        throw new UnsupportedOperationException()
     }
 
     @Override
     long getWorkedSteps() {
         if (!progressEnabled) throw new IllegalStateException("progress is not enabled")
+        throw new UnsupportedOperationException()
     }
 
     @Override

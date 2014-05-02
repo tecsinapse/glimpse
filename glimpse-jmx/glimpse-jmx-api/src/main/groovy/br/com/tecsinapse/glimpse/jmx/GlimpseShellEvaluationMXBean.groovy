@@ -22,6 +22,6 @@ interface GlimpseShellEvaluationMXBean {
 
     boolean isFinished()
 
-    String getResult()
+    String getResult() throws ScriptExecutionException
 
 }

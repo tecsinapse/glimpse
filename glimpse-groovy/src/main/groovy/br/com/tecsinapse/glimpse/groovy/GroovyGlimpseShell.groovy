@@ -36,18 +36,11 @@ class GroovyGlimpseShell implements GlimpseShell {
     @Override
     Future evaluate(String script, Output output) {
         return executor.submit({
-            try {
-                GlimpseScript s = (GlimpseScript) shell.parse(script)
-                s.setOutput(output)
-                s.setPropertyResolver(propertyResolver)
-                s.setMethodResolver(methodResolver)
-                return s.run()
-            } catch (e) {
-                def writer = new StringWriter()
-                e.printStackTrace(new PrintWriter(writer))
-                output.println(writer.toString())
-                return null
-            }
+            GlimpseScript s = (GlimpseScript) shell.parse(script)
+            s.setOutput(output)
+            s.setPropertyResolver(propertyResolver)
+            s.setMethodResolver(methodResolver)
+            return s.run()
         } as Callable)
     }
 }

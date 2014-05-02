@@ -111,7 +111,7 @@ return 1
         when:
         mBeanProxy.run()
         while (!mBeanProxy.finished) {
-            sleep(100)
+            Thread.yield()
         }
         if (mBeanProxy.outputChanged) {
             def o = mBeanProxy.getOutputSinceLastChange()
@@ -133,6 +133,31 @@ return 1
          ["outputChanged", false],
          ["running", false],
          ["finished", true]]
+    }
+
+    def "with exception"() {
+        setup:
+        def id = "345"
+        def script = "throw new IllegalStateException('teste')";
+        def mxBean = new GlimpseShellEvaluationMXBeanImpl(id, script, shell)
+        def objectName = new ObjectName("br.com.tecsinapse.glimpse:type=Evaluation,id=${id},shellId=${shellId}")
+        mBeanServer.registerMBean(mxBean, objectName)
+        def mBeanProxy = JMX.newMBeanProxy(mBeanServer, objectName, GlimpseShellEvaluationMXBean)
+
+        when:
+        mBeanProxy.run()
+        while (!mBeanProxy.finished) {
+            Thread.yield()
+        }
+        println mBeanProxy.getResult()
+
+        then:
+        ScriptExecutionException e = thrown()
+        e.causeTrace.contains("IllegalStateException")
+        e.causeTrace.contains("teste")
+
+        cleanup:
+        mBeanServer.unregisterMBean(objectName)
     }
 
 }

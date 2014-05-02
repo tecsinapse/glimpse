@@ -1,10 +1,11 @@
 package br.com.tecsinapse.glimpse.cdi
 
 import br.com.tecsinapse.glimpse.DefaultGlimpse
-import br.com.tecsinapse.glimpse.Output
 import br.com.tecsinapse.glimpse.groovy.GroovyGlimpseShellFactory
 import org.jboss.weld.environment.se.Weld
 import spock.lang.Specification
+
+import java.util.concurrent.ExecutionException
 
 class CdiPropertyResolverTest extends Specification {
 
@@ -26,27 +27,13 @@ class CdiPropertyResolverTest extends Specification {
     }
 
     def "missing property"() {
-        setup:
-        def builder = new StringBuilder()
-        def output = [
-
-                print: { o ->
-                    builder.append(o)
-                },
-
-                println: { o ->
-                    builder.append(o)
-                    builder.append("\n")
-                }
-
-        ] as Output
-
         when:
-        def result = shell.evaluate("missingBean.hello()", output).get()
+        shell.evaluate("missingBean.hello()", null).get()
 
         then:
-        builder.toString().contains("Could not find beans for Type=class java.lang.Object and name:missingBean")
-        result == null
+        ExecutionException e = thrown()
+        e.cause instanceof IllegalStateException
+        e.cause.message == 'Could not find beans for Type=class java.lang.Object and name:missingBean'
     }
 
 }
